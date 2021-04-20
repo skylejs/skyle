@@ -14,7 +14,7 @@ module.exports = {
       title: 'Skyle',
       logo: {
         alt: 'Skyle Logo',
-        src: './assets/logo.png',
+        src: 'img/logo.png',
       },
       items: [
         {
