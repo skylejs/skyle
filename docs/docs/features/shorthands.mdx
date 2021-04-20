@@ -1,0 +1,29 @@
+---
+id: shorthands
+title: Shorthands
+---
+
+:::note
+
+These are for improved styling but you can still use the old ways.
+
+:::
+
+For some reason, React Native doesn't support shorthands<span style={{ opacity: 0.6 }}>\*</span> like CSS. They make styling a lot easier.
+
+```ts
+/* Shorthand padding/margin */
+padding: [10, 20], // [vertical, horizontal]
+padding: '10% 10 20px 5em',
+margin: [5, 10, 2, 5], // [top, right, bottom, left]
+margin: '10px 3px',
+
+/* Shorthand border */
+border: [5, 'solid', 'red'], // [width, style, color]
+border: '5 solid red',
+border: '12px dotted #00ff00',
+```
+
+\* In case you aren't familiar with the word 'shorthand':
+
+> Shorthand properties are CSS properties that let you set the values of multiple other CSS properties simultaneously.

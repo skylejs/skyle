@@ -1,0 +1,101 @@
+---
+id: usage
+title: Usage
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+Styling with Skyle is extremely easy.
+
+<Tabs
+  defaultValue='class'
+  values={[
+    { label: 'Class Component', value: 'class' },
+    { label: 'Functional Component', value: 'function' },
+  ]}>
+  <TabItem value='class'>
+
+1. Add the `@styled` above the component.
+2. Add `styles = styles` at the top of the component.
+3. Import/create a `StyleSheet` from 'skyle'.
+4. Use `this.styles` to style your components!
+
+```ts
+import { styled, StyleSheet, View } from 'skyle';
+
+@styled
+class App extends Component {
+  styles = styles;
+
+  render() {
+    return <View style={this.styles.view} />;
+  }
+}
+
+// Same as StyleSheet but with more customization!
+const styles = StyleSheet.create((o) => ({
+  view: {
+    backgroundColor: o.theme.colors.primary,
+    transition: ['backgroundColor', 500],
+  },
+}));
+
+export default App;
+```
+
+If you don't have [decorators](/docs/get-started#enabling-decorators) enabled, you can also pass the component through a function:
+
+```ts {19}
+import { styled, StyleSheet, View } from 'skyle';
+
+class App extends Component {
+  styles = styles;
+
+  render() {
+    return <View style={this.styles.view} />;
+  }
+}
+
+// Same as StyleSheet but with more customization!
+const styles = StyleSheet.create((o) => ({
+  view: {
+    backgroundColor: o.theme.colors.primary,
+    transition: ['backgroundColor', 500],
+  },
+}));
+
+export default styled(App);
+```
+
+  </TabItem>
+  <TabItem value='function'>
+
+1. Use the `useStyles` hook to access computed styles.
+2. Import/create a `StyleSheet` from 'skyle'.
+3. Use the hook's return value to style your components!
+
+```ts
+import { useStyles, StyleSheet, View } from 'skyle';
+
+const App = (props) => {
+  const s = useStyles(styles);
+
+  return <View style={s.view} />;
+};
+
+// Same as StyleSheet but with more customization!
+const styles = StyleSheet.create((o) => ({
+  view: {
+    backgroundColor: o.theme.colors.primary,
+    transition: ['backgroundColor', 500],
+  },
+}));
+```
+
+  </TabItem>
+</Tabs>
+
+:::info
+Some features require the use of imports from 'skyle'. [Learn More](/docs/components)
+:::

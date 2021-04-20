@@ -1,0 +1,17 @@
+---
+id: components
+title: Skyle Components
+---
+
+In order for Skyle to work properly, the library replaces React-Native's components (View, Text, ScrollView, Image, etc.) with extended versions.
+Therefore, all component-specific features (Transitions, Pseudos, PointerEvents) are available internally with all React-Native components.
+
+Simply import them like you normally would (and use Skyle's StyleSheet) for the features to work:
+
+```ts
+import { View, Text, Image } from 'react-native';
+
+...
+
+<View style={this.styles.view} />
+```

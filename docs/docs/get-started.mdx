@@ -1,0 +1,78 @@
+---
+id: get-started
+title: Getting Started
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+## Installation
+
+<Tabs
+  defaultValue='yarn'
+  values={[
+    { label: 'npm', value: 'npm' },
+    { label: 'Yarn', value: 'yarn' },
+  ]}>
+  <TabItem value='npm'>
+
+```bash
+npm install skyle
+```
+
+  </TabItem>
+  <TabItem value='yarn'>
+
+```bash
+yarn add skyle
+```
+
+  </TabItem>
+</Tabs>
+
+- Latest version tested with React-Native versions **0.63+**
+
+<br />
+
+## Enabling Decorators
+
+### TypeScript
+
+Enable the compiler option `"experimentalDecorators": true` in your _tsconfig.json_.
+
+### Babel 7
+
+Install support for decorators:
+
+<Tabs
+  defaultValue='yarn'
+  values={[
+    { label: 'npm', value: 'npm' },
+    { label: 'Yarn', value: 'yarn' },
+  ]}>
+  <TabItem value='npm'>
+
+```bash
+npm install --save-dev @babel/plugin-proposal-class-properties @babel/plugin-proposal-decorators
+```
+
+  </TabItem>
+  <TabItem value='yarn'>
+
+```bash
+yarn add -D @babel/plugin-proposal-class-properties @babel/plugin-proposal-decorators
+```
+
+  </TabItem>
+</Tabs>
+
+And enable it in your _babel.config.js_ file (note that the order is important):
+
+```js
+{
+  "plugins": [
+    ["@babel/plugin-proposal-decorators", { "legacy": true }],
+    ["@babel/plugin-proposal-class-properties", { "loose": false }]
+  ]
+}
+```

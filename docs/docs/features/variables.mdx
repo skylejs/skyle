@@ -1,0 +1,86 @@
+---
+id: variables
+title: Variables, State & Props
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+Skyle automatically transfers the component's class properties to the underlying StyleSheet, allowing styling based on state, props and more! You can access them by using a function inside the sheet as shown below.
+
+<Tabs
+  defaultValue='class'
+  values={[
+    { label: 'Class Component', value: 'class' },
+    { label: 'Functional Component', value: 'function' },
+  ]}>
+  <TabItem value='class'>
+
+```ts
+...
+
+@styled
+class MyComponent extends Component {
+  styles = styles;
+  state = {
+    value: 0,
+  };
+  fontSize = 30;
+
+  render() {
+    const { value } = this.state;
+
+    return (
+      <>
+        <Button onPress={() => this.setState({ value: value + 1 })} title='Click me!' />
+        <Text style={this.styles.text}></Text>
+      </>
+    );
+  }
+}
+
+// Use Skyle's StyleSheet with a function to access class properties!
+const styles = StyleSheet.create((o) => {
+  text: {
+    fontSize: o.fontSize;
+    color: o.state.value > 10 ? 'red' : 'green',
+  }
+});
+```
+
+  </TabItem>
+  <TabItem value='function'>
+
+```ts
+...
+
+const MyComponent = (props) => {
+  const [value, setValue] = useState(0);
+  const fontSize = 30;
+
+  // Pass variables into the hook.
+  const s = useStyles(styles, {
+    props,
+    state: { value },
+    fontSize,
+  });
+
+  return (
+    <>
+      <Button onPress={() => setValue(value + 1)} title='Click me!' />
+      <Text style={s.text}></Text>
+    </>
+  );
+}
+
+// Use Skyle's StyleSheet with a function to access passed properties!
+const styles = StyleSheet.create((o) => {
+  text: {
+    fontSize: o.fontSize;
+    color: o.state.value > 10 ? 'red' : 'green',
+  }
+});
+```
+
+  </TabItem>
+</Tabs>

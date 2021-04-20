@@ -1,0 +1,65 @@
+---
+id: preprocessors
+title: Preprocessors
+---
+
+### 🧪 EXPERIMENTAL
+
+:::caution Advanced
+
+Using this could break functionality. Proceed with caution.
+
+:::
+
+Preprocessors allow you to create custom properties and syntax.
+
+You can define your own parsers like so:
+
+```ts
+Skyle.setPreprocessor({
+  property: preprocessorFunction,
+});
+
+preprocessorFunction: (key: string, value: any) => { [newProperty: string]: any };
+```
+
+**Note:** Prefix property with `_` to parse all properties. e.g.: `_colorPreprocessor`.
+
+<br />
+
+```ts
+// Example
+Skyle.setPreprocessor({
+  border: borderPreprocessor,
+});
+
+/**
+ * Transforms
+ *
+ * border: [5, 'solid', 'blue],
+ *
+ * to
+ *
+ * borderWidth: 5,
+ * borderStyle: 'solid',
+ * borderColor: 'blue,
+ *
+ * So React Native can process the styles.
+ **/
+const borderPreprocessor = (key: string, value: any) => {
+  const valuesArr = Array.isArray(value) ? value : [];
+
+  // If value is array, split it into the expanded styles.
+  if (valuesArr.length) {
+    return {
+      [`${key}`]: undefined, // Remove the original property to avoid it rendering.
+      [`${key}Width`]: valuesArr[0],
+      [`${key}Style`]: valuesArr[1],
+      [`${key}Color`]: valuesArr[2],
+    };
+  }
+
+  // Return null to indicate no change.
+  return null;
+};
+```

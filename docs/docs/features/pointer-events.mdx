@@ -1,0 +1,23 @@
+---
+id: pointer-events
+title: Pointer-Events
+---
+
+Pointer-Events exist in React Native but are passed down using a prop.
+If you are using <a href='/docs/components'>Skyle components</a>, You can also use them inside StyleSheets.
+
+```ts
+StyleSheet.create((o) => ({
+  view: {
+    pointerEvents: 'none',
+  },
+}));
+```
+
+Possible values (same as React Native): `auto`, `none`, `box-none`, `box-only`.
+
+> @see https://reactnative.dev/docs/view#pointerevents
+
+:::note
+You can still use the old way by passing the prop as usual.
+:::

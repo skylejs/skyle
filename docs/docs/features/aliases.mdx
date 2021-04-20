@@ -1,0 +1,39 @@
+---
+id: aliases
+title: Aliases
+---
+
+You can easily add/remove aliases using the `addAlias` and `removeAlias` functions.
+
+```ts
+Skyle.addAlias({
+  property1: 'alias1',
+  // Use array for multiple
+  property2: ['alias2', 'alias3'],
+  ...
+});
+
+Skyle.removeAlias({
+  property1: 'alias1',
+  ...
+});
+```
+
+```ts
+// Example
+Skyle.addAlias({
+  color: 'textColor'
+});
+
+/// Use in StyleSheet
+textColor: 'red',
+```
+
+### Default Aliases
+
+| Property          | Aliases  |
+| ----------------- | :------: |
+| paddingHorizontal | paddingX |
+| paddingVertical   | paddingY |
+| marginHorizontal  | marginX  |
+| marginVertical    | marginY  |

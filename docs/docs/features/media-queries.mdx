@@ -1,0 +1,27 @@
+---
+id: media-queries
+title: Media Queries
+---
+
+Media Queries work the same way as plain CSS. They allow you to define styles for different sizes, allowing responsive designs. You can also define platform-specific styles!
+
+> @seehttps://developer.mozilla.org/en-US/docs/Web/CSS/@media
+
+Syntax:
+
+```ts
+'@media not|only platform and (mediafeature and|or|not mediafeature)': {
+  styles,
+}
+
+// Example
+'@media ios,android and (max-width: 600) or (orientation: portrait)': {
+  backgroundColor: 'red',
+}
+```
+
+| Query        |                      Possible values                      |
+| ------------ | :-------------------------------------------------------: |
+| platform     | `all` `ios` `android` `web` `windows` `macos` `androidtv` |
+| mediafeature |  `width` `height` `max-width` `max-height` `orientation`  |
+|              | `device-width` `device-height` `aspect-ratio` `direction` |

@@ -1,0 +1,18 @@
+---
+id: use-styles
+title: useStyles
+---
+
+`useStyles` is a React hook for retrieving computed styles for use in any component. The first argument should pass a [StyleSheet](/docs/api/stylesheet) and the second argument is an object used for passing [variables, state & props](/docs/features/variables).
+
+```ts
+const s = useStyles(styles, { someVar: value });
+
+console.log(s);
+```
+
+Syntax:
+
+```ts
+function useStyles(styles: StyleSheet, variables?: object): StyleSheetStyles
+```

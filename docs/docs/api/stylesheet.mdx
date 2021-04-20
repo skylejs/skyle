@@ -1,0 +1,69 @@
+---
+id: stylesheet
+title: StyleSheet
+---
+
+Skyle's `StyleSheet` is extremely similar to React Native's `StyleSheet`. In fact, it's an extension of it.
+You can use both in the exact same way, but Skyle's includes more features.
+
+```ts
+import { StyleSheet } from 'skyle';
+```
+
+As it extends React Native's StyleSheet, all standard properties and methods are available.
+
+> @see https://reactnative.dev/docs/stylesheet
+
+## Methods
+
+### create()
+
+```ts
+static create(obj: object | Function): object | Function
+```
+
+An extended version of the standard create method. Creates a StyleSheet style reference from the given object or function. The function contains an object argument which contains variables from certain features.
+
+---
+
+### compose()
+
+> @see https://reactnative.dev/docs/stylesheet#compose
+
+---
+
+### flatten()
+
+> @see https://reactnative.dev/docs/stylesheet#flatten
+
+---
+
+## Properties
+
+### absoluteFill
+
+> @see https://reactnative.dev/docs/stylesheet#absolutefill
+
+### absoluteFillObject
+
+> @see https://reactnative.dev/docs/stylesheet#absolutefillobject
+
+### hairlineWidth
+
+> @see https://reactnative.dev/docs/stylesheet#hairlinewidth
+
+### fixedFill
+
+Same as `absoluteFill` but with position set to `fixed`.
+
+### flexCenter
+
+Sets `alignItems` and `justifyContent` to **'center'**. Useful for centering children.
+
+### flexStart
+
+Sets `alignItems` and `justifyContent` to **'flex-start'**. Useful for aligning children at the start.
+
+### flexEnd
+
+Sets `alignItems` and `justifyContent` to **'flex-end'**. Useful for aligning children at the end.

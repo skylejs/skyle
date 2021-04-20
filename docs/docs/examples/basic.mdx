@@ -1,0 +1,25 @@
+---
+id: basic
+title: Basic Example
+sidebar_label: Basic
+---
+
+```SnackPlayer name=Basic&description=Skyle%20Basic%20Example&dependencies=skyle
+import React from 'react';
+import { useStyles, StyleSheet, View } from 'skyle';
+
+const App = (props) => {
+  const s = useStyles(styles);
+
+  return <View style={s.view} />;
+};
+
+const styles = StyleSheet.create((o) => ({
+  view: {
+    backgroundColor: o.theme.colors.primary,
+    transition: ['backgroundColor', 500],
+  },
+}));
+
+export default App;
+```

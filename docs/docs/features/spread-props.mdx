@@ -1,0 +1,39 @@
+---
+id: spread-props
+title: Spread Props
+---
+
+Some components have multiple props used for styling. For example, `react-native-paper`'s Button component has a `style` prop, a `labelStyle` prop, a `color` prop, etc. This library allows you to style all of them at once as shown below.
+
+> @ref https://callstack.github.io/react-native-paper/button.html
+
+```ts
+...
+import { Button } from 'react-native-paper';
+
+@styled
+class MyComponent extends Component {
+  styles = styles;
+
+  render() {
+    return (
+      // Spread the style!
+      <Button {...this.styles.button} />
+    );
+  }
+}
+
+// Define props inside styles!
+const styles = StyleSheet((o) => {
+  button: {
+    style: {
+      backgroundColor: 'orange',
+    },
+    labelStyle: {
+      fontSize: 25,
+      fontWeight: 'bold',
+    },
+    color: 'white',
+  }
+});
+```

@@ -1,0 +1,66 @@
+---
+id: pseudos
+title: Pseudo Classes & Elements
+---
+
+Pseudo-classes work the same way as plain CSS. They allow you to style components based on their state. For example, when a user focuses a TextInput.
+
+> @see https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-classes
+
+Pseudo-elements are experimental. Currently only _::before_ and _::after_ are supported. They allow you to prepend or append text (Using the `content` property).
+
+> @see https://developer.mozilla.org/en-US/docs/Web/CSS/Pseudo-elements
+
+Syntax:
+
+```ts
+'&:pseudo-class': {
+  styles,
+}
+
+'&::pseudo-element': {
+  styles,
+}
+
+//Examples
+'&:hover': {
+  backgroundColor: 'red',
+}
+
+'&:first-child:hover': { // multiple pseudos
+  backgroundColor: 'red',
+}
+
+'&::after': {
+  content: 'Hello there!',
+  color: 'red',
+}
+
+'&::after': {
+  content: '',
+  width: 50,
+  height: 10,
+  backgroundColor: 'blue',
+}
+```
+
+| Pseudo Class  | Supported Components |
+| ------------- | :------------------: |
+| &:hover       |         any          |
+| &:active      |         any          |
+| &:focus       |         any          |
+| &:first-child |         any          |
+| &:last-child  |         any          |
+| &:nth-child   |         any          |
+| &:empty       |         any          |
+| &:optional    |      TextInput       |
+| &:required    |      TextInput       |
+| &:read-only   |      TextInput       |
+| &:read-write  |      TextInput       |
+
+| Pseudo Element | Supported Components |
+| -------------- | :------------------: |
+| &::after       |         any          |
+| &::before      |         any          |
+
+- You can use the `content` property and pass a string and style it accordingly.

@@ -1,0 +1,43 @@
+---
+id: breakpoints
+title: Breakpoints
+---
+
+Breakpoints extend Media Queries. THey are points where the app content responds according to the device width, allowing
+you to write cleaner code without repeatedly rewriting the same Media Query strings.
+
+```ts
+// Examples
+StyleSheet.create((o) => ({
+  [o.sm]: {
+    backgroundColor: 'blue';
+  },
+  [o.mdUp]: {
+    backgroundColor: 'pink';
+  }
+}))
+```
+
+Default Breakpoints: `576`, `768`, `1200` [Configure](#configure)
+
+| Breakpoint | Width (px) |
+| ---------- | :--------: |
+| sm         |    <576    |
+| md         | 577 - 768  |
+| lg         | 769 - 1200 |
+| xlg        |   >1201    |
+|            |            |
+| mdDown     |    <768    |
+| lgDown     |   <1200    |
+| mdUp       |    >576    |
+| lgUp       |    >768    |
+
+### Configure
+
+```ts
+import Skyle from 'skyle';
+
+Skyle.configure({
+  breakpoints: [576, 768, 1200], // Your own breakpoints
+});
+```

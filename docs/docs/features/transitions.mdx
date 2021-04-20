@@ -1,0 +1,49 @@
+---
+id: transitions
+title: Transitions
+---
+
+Transitions work exactly like in plain CSS. They use React Native's `Animated` under the hood to provide near-native performance. You can transition any number or color property seamlessly.
+
+> @see https://developer.mozilla.org/en-US/docs/Web/CSS/transition
+
+Syntax:
+
+```ts
+import { Easing } from 'skyle';
+
+// Shorthand
+transition: [ property|[]?, duration?, easing?, delay? ]|[],
+// CSS-style
+transition: 'width 500ms ease-in-out, height 1s linear',
+
+// Seperated
+transitionProperty: property|[],
+transitionDuration: number | { property: number },
+transitionTimingFunction: easing | { property: easing },
+transitionDelay: number | { property: number },
+
+// Examples
+transition: ['width', 500, Easing.linear],
+transition: [['opacity', 'scale'], 800, Easing.bounce],
+transition: [
+  [['opacity', 'scale'], 800, Easing.bounce],
+  ['width', 300, Easing.easeInOut]
+],
+
+transitionDuration: { 'width': 500, 'height': 800 },
+```
+
+## Properties
+
+| Property                 |                      Type                      | Default | Description                               |
+| ------------------------ | :--------------------------------------------: | :-----: | ----------------------------------------- |
+| transition               |                [See syntax](#)                 |   --    | Groups all the properties below           |
+| transitionProperty       |      `string` or `string[]` <sup>1</sup>       |   --    | Defines which style properties to animate |
+| transitionDuration       |       `number` or `{ property: number}`        | `1000`  | Duration of the animation in milliseconds |
+| transitionTimingFunction | `Easing` or `{ property: Easing}` <sup>2</sup> | `ease`  | Easing function of the animation          |
+| transitionDelay          |       `number` or `{ property: number}`        |   `0`   | Delay between animations in milliseconds  |
+
+<sup>1.</sup> You can also use transform keys. e.g. `scale`, `rotate`.
+<br />
+<sup>2.</sup> Skyle provides an extended `Easing` import (as shown above), but you can also use React Native's `Easing`.

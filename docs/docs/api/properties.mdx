@@ -1,0 +1,350 @@
+---
+id: properties
+title: Properties
+---
+
+:::note
+All standard React-Native properties still work.
+:::
+
+> @see https://reactnative.dev/docs/image-style-props#reference <br/>
+> @see https://reactnative.dev/docs/layout-props#reference <br/>
+> @see https://reactnative.dev/docs/shadow-props#reference <br/>
+> @see https://reactnative.dev/docs/text-style-props#reference <br/>
+> @see https://reactnative.dev/docs/view-style-props#reference
+
+import TOCInline from '@theme/TOCInline';
+
+<TOCInline toc={toc} />
+
+---
+
+## Size
+
+### display
+
+### width
+
+### height
+
+### minWidth
+
+### maxWidth
+
+### minHeight
+
+### maxHeight
+
+### aspectRatio
+
+---
+
+## Position
+
+### position
+
+### start
+
+### end
+
+### top
+
+### left
+
+### right
+
+### bottom
+
+### zIndex
+
+---
+
+## Flex
+
+### flex
+
+### flexDirection
+
+### flexWrap
+
+### justifyContent
+
+### alignItems
+
+### alignSelf
+
+### alignContent
+
+### flexGrow
+
+### flexShrink
+
+### flexBasis
+
+---
+
+## Spacing
+
+### margin
+
+```ts
+margin: string | number | (string | number)[];
+```
+
+### marginVertical / marginY <span class="badge change">Change</span>
+
+### marginHorizontal / marginX <span class="badge change">Change</span>
+
+### marginTop
+
+### marginBottom
+
+### marginLeft
+
+### marginRight
+
+### marginStart
+
+### marginEnd
+
+### padding <span class="badge change">Change</span>
+
+```ts
+padding: string | number | (string | number)[];
+```
+
+### paddingVertical / paddingY <span class="badge change">Change</span>
+
+### paddingHorizontal / paddingX <span class="badge change">Change</span>
+
+### paddingTop
+
+### paddingBottom
+
+### paddingLeft
+
+### paddingRight
+
+### paddingStart
+
+### paddingEnd
+
+---
+
+## Transform
+
+### transform
+
+### transformMatrix <span class="badge deprecated">Deprecated</span>
+
+### decomposedMatrix <span class="badge deprecated">Deprecated</span>
+
+### scaleX <span class="badge deprecated">Deprecated</span>
+
+### scaleY <span class="badge deprecated">Deprecated</span>
+
+### rotation <span class="badge deprecated">Deprecated</span>
+
+### translateX <span class="badge deprecated">Deprecated</span>
+
+### translateY <span class="badge deprecated">Deprecated</span>
+
+---
+
+## Transition
+
+### transition <span class="badge new">New</span>
+
+```ts
+transitionProperty: string | [string | string[], string | number, string | Easing, string | number][];
+```
+
+### transitionProperty <span class="badge new">New</span>
+
+```ts
+transitionProperty: string | string[];
+```
+
+### transitionDuration <span class="badge new">New</span>
+
+```ts
+transitionDuration: string | number | object;
+```
+
+### transitionTimingFunction <span class="badge new">New</span>
+
+```ts
+transitionTimingFunction: string | number | object;
+```
+
+### transitionDelay <span class="badge new">New</span>
+
+```ts
+transitionDelay: string | number | object;
+```
+
+---
+
+## Border
+
+### border <span class="badge new">New</span>
+
+```ts
+border: string | [string | number, string, string];
+```
+
+### borderWidth <span class="badge change">Change</span>
+
+```ts
+borderRadius: string | number | (string | number)[];
+```
+
+### borderTopWidth
+
+### borderStartWidth
+
+### borderEndWidth
+
+### borderRightWidth
+
+### borderBottomWidth
+
+### borderLeftWidth
+
+### borderColor
+
+### borderTopColor
+
+### borderRightColor
+
+### borderBottomColor
+
+### borderLeftColor
+
+### borderStartColor
+
+### borderEndColor
+
+### borderRadius <span class="badge change">Change</span>
+
+```ts
+borderRadius: string | number | (string | number)[];
+```
+
+### borderTopRadius <span class="badge new">New</span>
+
+```ts
+borderTopRadius: string | number;
+```
+
+### borderBottomRadius <span class="badge new">New</span>
+
+```ts
+borderBottomRadius: string | number;
+```
+
+### borderTopLeftRadius
+
+### borderTopRightRadius
+
+### borderTopStartRadius
+
+### borderTopEndRadius
+
+### borderBottomLeftRadius
+
+### borderBottomRightRadius
+
+### borderBottomStartRadius
+
+### borderBottomEndRadius
+
+### borderStyle
+
+---
+
+## Font
+
+### fontFamily
+
+### fontSize
+
+### fontStyle
+
+### fontWeight
+
+### fontVariant
+
+### includeFontPadding <span class="badge android">Android</span>
+
+---
+
+## Text
+
+### color
+
+### textShadowOffset
+
+### textShadowRadius
+
+### textShadowColor
+
+### letterSpacing
+
+### lineHeight
+
+### textAlign
+
+### textAlignVertical <span class="badge android">Android</span>
+
+### textDecorationLine
+
+### textDecorationStyle <span class="badge ios">iOS</span>
+
+### textDecorationColor <span class="badge ios">iOS</span>
+
+### textTransform
+
+### writingDirection <span class="badge ios">iOS</span>
+
+---
+
+## Image
+
+### tintColor
+
+### overlayColor <span class="badge android">Android</span>
+
+## Other
+
+### pointerEvents <span class="badge new">New</span>
+
+```ts
+pointerEvents: string;
+```
+
+### overflow
+
+### direction
+
+### shadowColor
+
+### shadowOffset <span class="badge ios">iOS</span>
+
+### shadowOpacity <span class="badge ios">iOS</span>
+
+### shadowRadius <span class="badge ios">iOS</span>
+
+### backfaceVisibility
+
+### backgroundColor
+
+### opacity
+
+### elevation <span class="badge android">Android</span>
+
+### content <span class="badge new">New</span>
+
+```ts
+content: string;
+```

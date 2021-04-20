@@ -1,0 +1,124 @@
+---
+id: theming
+title: Theming
+---
+
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+Skyle provides a theming system for extensive styling. You can customize the theme by passing it through the Provider.
+It automatically updates on change!
+
+## Style Provider
+
+```ts
+...
+import { Provider as StyleProvider } from 'skyle';
+
+const myTheme = {
+  colors: {
+    primary: 'red',
+    myCustomColor: 'blue',
+  }
+}
+
+// Your root component
+class App extends Component {
+  render() {
+    return (
+      <StyleProvider value={myTheme}>
+        // your app's content
+      </StyleProvider>
+    )
+  }
+}
+```
+
+## Using the Theme
+
+### Inside StyleSheets
+
+```ts
+// Theme is automatically passed down when using a function inside your StyleSheet.
+const styles = StyleSheet.create((o) => ({
+  view: {
+    backgroundColor: o.theme.colors.primary,
+  },
+}));
+```
+
+### Inside Components
+
+<Tabs
+  defaultValue='class'
+  values={[
+    { label: 'Class Component', value: 'class' },
+    { label: 'Functional Component', value: 'function' },
+    { label: 'Consumer (both)', value: 'consumer' },
+  ]}>
+  <TabItem value='class'>
+
+The theme is passed through the `theme` prop when using the `@styled` decorator.
+
+```ts
+...
+
+@styled
+class MyComponent extends Component {
+  styles = styles;
+
+  render() {
+    const { theme } = this.props;
+
+    return <Button title='Click me!' color={theme.colors.button} />;
+  }
+}
+```
+
+  </TabItem>
+  <TabItem value='function'>
+
+You can use the `useTheme` hook to access the theme.
+
+```ts
+...
+import { useStyles, useTheme, StyleSheet, View } from 'skyle';
+
+const MyComponent = (props) => {
+  const s = useStyles(styles);
+  const theme = useTheme();
+
+  return <Button title='Click me!' color={theme.colors.button} />;
+};
+```
+
+  </TabItem>
+  <TabItem value='consumer'>
+
+> @see https://reactjs.org/docs/context.html#contextconsumer
+
+```ts
+import { Consumer as StyleConsumer } from 'skyle';
+
+// Use it in your components.
+<StyleConsumer>{(theme) => <Button title='Click me!' color={theme.colors.button} />}</StyleConsumer>;
+```
+
+  </TabItem>
+</Tabs>
+
+## TypeScript
+
+You can define a theme type by extending skyle's type declarations with your own declarations file:
+
+```ts
+import 'skyle';
+
+declare module 'skyle' {
+  export interface Theme {
+    color: {
+      myCustomColor: string;
+    };
+  }
+}
+```

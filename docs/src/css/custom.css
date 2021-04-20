@@ -1,0 +1,64 @@
+/* stylelint-disable docusaurus/copyright-header */
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* You can override the default Infima variables here. */
+:root {
+  --ifm-color-primary: #4394f7;
+  --ifm-color-primary-dark: rgb(33, 175, 144);
+  --ifm-color-primary-darker: rgb(31, 165, 136);
+  --ifm-color-primary-darkest: rgb(26, 136, 112);
+  --ifm-color-primary-light: rgb(70, 203, 174);
+  --ifm-color-primary-lighter: rgb(102, 212, 189);
+  --ifm-color-primary-lightest: rgb(146, 224, 208);
+  --ifm-color-error: rgba(216, 89, 72, 0.897);
+  --ifm-code-font-size: 95%;
+}
+
+.badge {
+  padding: 3px 8px;
+}
+.badge.new {
+  margin-left: 5px;
+  background-color: var(--ifm-color-primary);
+}
+.badge.change {
+  margin-left: 5px;
+  background-color: var(--ifm-color-primary-dark);
+}
+.badge.deprecated {
+  transform: scale(0.9);
+  background-color: var(--ifm-color-error);
+}
+.badge.android {
+  transform: scale(0.9);
+  border-radius: 0;
+  border-left: 2px solid #777;
+  color: #111;
+  background-color: #a4c639;
+}
+.badge.ios {
+  transform: scale(0.9);
+  border-radius: 0;
+  border-left: 2px solid #444;
+  background-color: #000;
+}
+
+.docusaurus-highlight-code-line {
+  background-color: rgb(72, 77, 91);
+  display: block;
+  margin: 0 calc(-1 * var(--ifm-pre-padding));
+  padding: 0 var(--ifm-pre-padding);
+}
+
+.snack-player {
+  height: 600px;
+  width: 100%;
+  overflow: hidden;
+  margin-bottom: 24px;
+  border: 1px solid var(--ifm-table-border-color);
+  border-radius: var(--ifm-global-radius);
+}
