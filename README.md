@@ -3,7 +3,7 @@
 </p>
 
 <p align='center'>
-  A <em>universal</em>, customizable styling and animation <br />
+  An experimental <em>universal</em>, customizable styling and animation <br />
   library for <strong>React Native</strong>.
 </p>
 <br/>
@@ -15,13 +15,12 @@
   <a href='#documentation'><strong>Documentation</strong></a> ⎯ 
   <a href='#get-started'><strong>Get Started</strong></a> ⎯ 
   <a href='https://skyle.js.org/docs'><strong>Examples/Demos</strong></a> ⎯ 
-  <a href='https://skyle.js.org/docs/changelog'><strong>Changelog</strong></a> ⎯ 
   <a href='#contributing'><strong>Contributing!</strong></a>
 </p>
 <br/>
 
 <p align="center">
-  <a href="./packages/skyle/package.json">
+  <a href="https://www.npmjs.com/package/skyle">
     <img src="https://img.shields.io/npm/v/skyle.svg?maxAge=3600&label=version&colorB=007ec6">
   </a>
 </p>
