@@ -66,7 +66,7 @@ export default function Home() {
   return (
     <Layout
       title={siteConfig.title}
-      description="Styling, but the sky\'s the limit! A universal, customizable styling and animation <br />
+      description="Styling, but the sky\'s the limit! An experimental universal, customizable styling and animation <br />
     library for React Native.">
       <header className={clsx('hero hero--primary', styles.heroBanner)}>
         <div className='container'>
