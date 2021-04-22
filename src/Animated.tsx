@@ -86,7 +86,7 @@ export function createComponent<T extends NativeComponents>(WrappedComponent: T)
             ?.every((pseudo) => {
               const ownerChildCount = internal?._debugOwner?._debugOwner?.memoizedState?.last + 1;
               const index =
-                internal._debugOwner.type.name === 'CellRenderer' ? internal._debugOwner.index : internal.index;
+                internal._debugOwner?.type?.name === 'CellRenderer' ? internal._debugOwner?.index : internal.index;
               const pseudoName = pseudo.split('(')[0] || pseudo;
               const pseudoValue = pseudo.split('(').pop()?.split(')')[0] || '';
               switch (pseudoName) {
