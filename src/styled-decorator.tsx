@@ -6,7 +6,7 @@ import { useTheme } from './hooks/useTheme';
 import { computeStyles } from './hooks/useStyles';
 
 type Constructor = { new (...args: any[]): Component<any, any> };
-type StyleConstructor = (styles?: StylesProps) => StyleSheetStyles;
+type StyleConstructor = ((styles?: StylesProps) => StyleSheetStyles) | StyleSheetStyles;
 
 /** @see https://skyle.js.org/docs/api/styled */
 export function styled<T extends Constructor>(WrappedComponent: T): T {
