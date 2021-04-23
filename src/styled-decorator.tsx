@@ -25,7 +25,7 @@ export function styled<T extends Constructor>(WrappedComponent: T): T {
     constructor(...args: any[]) {
       super(...args);
 
-      this.__styleSheet = this.styles;
+      this.__styleSheet = this.styles || {};
       this.__styles = computeStyles(this);
 
       // Override `styles` with computed object styles in order to allow passing it to children.
