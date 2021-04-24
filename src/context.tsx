@@ -30,8 +30,8 @@ export const defaultTheme = {
 export let setTheme: (theme: RecursivePartial<Theme>, merge?: boolean) => void = () => {};
 
 export interface ContextProps {
-  theme: RecursivePartial<Theme>;
-  setTheme: (theme: Theme) => void;
+  theme?: RecursivePartial<Theme>;
+  setTheme?: (theme: Theme) => void;
 }
 
 export const Context = React.createContext<ContextProps>({
