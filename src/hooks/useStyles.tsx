@@ -110,7 +110,7 @@ function getMediaQueryProps() {
     sm: `@media (max-width: ${Skyle.breakpoints[0]})`,
     md: `@media (min-width: ${Skyle.breakpoints[0] + 1}) and (max-width: ${Skyle.breakpoints[1]})`,
     lg: `@media (min-width: ${Skyle.breakpoints[1] + 1}) and (max-width: ${Skyle.breakpoints[2]})`,
-    xlg: `@media (min-width: ${Skyle.breakpoints[2] + 1})`,
+    xl: `@media (min-width: ${Skyle.breakpoints[2] + 1})`,
 
     mdDown: `@media (max-width: ${Skyle.breakpoints[1]})`,
     lgDown: `@media (max-width: ${Skyle.breakpoints[2]})`,

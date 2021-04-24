@@ -7,7 +7,7 @@ export interface BaseOptions {
   breakpoints?: [number, number, number];
 }
 
-export type BreakpointKeys = 'sm' | 'md' | 'lg' | 'xlg' | 'mdDown' | 'lgDown' | 'mdUp' | 'lgUp';
+export type BreakpointKeys = 'sm' | 'md' | 'lg' | 'xl' | 'mdDown' | 'lgDown' | 'mdUp' | 'lgUp';
 
 export type NativeStyles = RN.ViewStyle & RN.TextStyle & RN.ImageStyle;
 
