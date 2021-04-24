@@ -88,3 +88,7 @@ Please see [CHANGELOG.md](CHANGELOG.md)
 - [react-native-animatable](https://github.com/oblador/react-native-animatable) by **oblador**
 - [moti](https://github.com/nandorojo/moti) by **nandorojo**
 - [react-native-stylex](https://github.com/retyui/react-native-stylex) by **retyui**
+
+## License
+
+[MIT](LICENSE)
