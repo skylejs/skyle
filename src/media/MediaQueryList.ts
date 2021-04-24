@@ -1,4 +1,4 @@
-import { Platform, Dimensions, I18nManager } from 'react-native';
+import { Platform, Dimensions, I18nManager, Appearance } from 'react-native';
 import mediaQuery from './parser';
 
 type Listener = (context: MediaQueryList) => any;
@@ -23,6 +23,7 @@ class MediaQueryList {
       'device-height': deviceDims.height,
       'aspect-ratio': dims.width / dims.height,
       direction: I18nManager.isRTL ? 'rtl' : 'ltr',
+      'prefers-color-scheme': Appearance.getColorScheme() || 'light',
     });
   }
 

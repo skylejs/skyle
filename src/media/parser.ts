@@ -44,6 +44,7 @@ function matchQuery(mediaQuery: string, values: { [key: string]: string | number
         case 'orientation':
         case 'direction':
         case 'scan':
+        case 'prefers-color-scheme':
           return `${value}`.toLowerCase() === `${expValue}`.toLowerCase();
 
         case 'width':
