@@ -11,7 +11,6 @@ type StyleConstructor = ((styles?: StylesProps) => StyleSheetStyles) | StyleShee
 /** @see https://skyle.js.org/docs/api/styled */
 export function styled<T extends Constructor>(WrappedComponent: T): T {
   class StyledComponent extends WrappedComponent {
-    declare styles?: StyleConstructor;
     __styleSheet?: StyleConstructor;
     private __styles: StyleSheetStyles = {};
 
@@ -25,6 +24,7 @@ export function styled<T extends Constructor>(WrappedComponent: T): T {
     constructor(...args: any[]) {
       super(...args);
 
+      // @ts-ignore
       this.__styleSheet = this.styles || {};
       this.__styles = computeStyles(this);
 
