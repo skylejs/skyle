@@ -72,6 +72,10 @@ View the official [Documentation](https://skyle.js.org/docs/get-started) on our 
 
 ---
 
+## Changelog
+
+Please see [CHANGELOG.md](CHANGELOG.md)
+
 ## Contributing
 
 ```
