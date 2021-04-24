@@ -1,3 +1,16 @@
+# [0.1.0](https://github.com/skylejs/skyle/compare/v0.0.3...v0.1.0) (2021-04-24)
+
+
+### Bug Fixes
+
+* special prop `ref` ([36a18a8](https://github.com/skylejs/skyle/commit/36a18a88371f81f62de69fee5c2e210c89130a7d))
+* **types:** make context options optional ([2553d7c](https://github.com/skylejs/skyle/commit/2553d7cdaab76ae0cd2ca6a7a2060d4ca70b7936))
+
+
+### Features
+
+* color scheme ([12336d9](https://github.com/skylejs/skyle/commit/12336d9de73a9a00f61e5ed36ba142b1f7e26fe5))
+
 ## [0.0.3](https://github.com/skylejs/skyle/compare/v0.0.2...v0.0.3) (2021-04-24)
 
 
