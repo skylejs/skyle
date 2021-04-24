@@ -319,9 +319,9 @@ export function createComponent<T extends NativeComponents>(WrappedComponent: T)
       const styleKeys = Object.keys(style ?? {});
 
       // @ts-ignore
-      const before = style?.['&::before'] || {};
+      const before = (style?.['&::before'] || {}) as RN.TextStyle;
       // @ts-ignore
-      const after = style?.['&::after'] || {};
+      const after = (style?.['&::after'] || {}) as RN.TextStyle;
 
       const beforeContent = before?.content;
       const afterContent = after?.content;
