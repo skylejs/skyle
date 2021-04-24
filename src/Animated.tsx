@@ -314,7 +314,8 @@ export function createComponent<T extends NativeComponents>(WrappedComponent: T)
     }
 
     render() {
-      const { ref, style, as, onFocus, onBlur, ...otherProps } = this.props;
+      let { ref, style, as, onFocus, onBlur, ...otherProps } = this.props;
+      style = StyleSheet.flatten(style);
       const styleKeys = Object.keys(style ?? {});
 
       // @ts-ignore
