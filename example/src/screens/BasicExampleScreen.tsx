@@ -1,23 +1,23 @@
 import React from 'react';
 import { useStyles, StyleSheet, View } from 'skyle';
 
-const App = () => {
+const BasicExampleScreen = () => {
   const s = useStyles(styles);
 
   return <View style={s.view} />;
 };
 
-const styles = StyleSheet.create((o) => ({
+const styles = StyleSheet.create(() => ({
   view: {
-    width: 100,
-    height: 100,
-    backgroundColor: o.theme.colors.primary,
-    transition: ['backgroundColor', 500],
+    width: 300,
+    height: 300,
+    backgroundColor: 'red',
+    transition: [['width', 'backgroundColor'], 500],
 
     '&:active': {
-      backgroundColor: 'red',
+      backgroundColor: 'blue',
     },
   },
 }));
 
-export default App;
+export default BasicExampleScreen;
