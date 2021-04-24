@@ -32,7 +32,7 @@ function overrideNative(nativeComp: any) {
     if (!JSON.stringify(props.style)?.includes('&:') && !JSON.stringify(props.style)?.includes('transition')) {
       return <NativeComp ref={ref} {...props} />;
     }
-    return <AnimatedComp ref={ref} {...props} />;
+    return <AnimatedComp forwardRef={ref} {...props} />;
   };
 }
 
@@ -59,7 +59,7 @@ type PlatformViewProps = Omit<DOMAttributes<RN.View>, keyof AdjustedStyles> &
   };
 
 interface AnimatableComponentProps extends PlatformViewProps {
-  ref?: Function;
+  forwardRef?: Function;
   style?: RN.StyleProp<NativeStyles>;
   as?: ComponentType<any>;
 }
@@ -314,7 +314,7 @@ export function createComponent<T extends NativeComponents>(WrappedComponent: T)
     }
 
     render() {
-      let { ref, style, as, onFocus, onBlur, ...otherProps } = this.props;
+      let { forwardRef, style, as, onFocus, onBlur, ...otherProps } = this.props;
       style = StyleSheet.flatten(style);
       const styleKeys = Object.keys(style ?? {});
 
@@ -337,7 +337,7 @@ export function createComponent<T extends NativeComponents>(WrappedComponent: T)
           {!!BeforeComponent && <BeforeComponent style={before}>{beforeContent}</BeforeComponent>}
           <AnimatedComponent
             ref={(r: NativeComponents) => {
-              ref?.(r);
+              forwardRef?.(r);
               this._ref = r;
             }}
             {...this.getPseudoProps()}
