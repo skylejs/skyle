@@ -77,3 +77,10 @@ View the official [Documentation](https://skyle.js.org/docs/get-started) on our 
 ```
 
 ```
+
+## ❤️ Inspiration
+
+- [react-native-extended-stylesheet](https://github.com/vitalets/react-native-extended-stylesheet) by **vitalets**
+- [react-native-animatable](https://github.com/oblador/react-native-animatable) by **oblador**
+- [moti](https://github.com/nandorojo/moti) by **nandorojo**
+- [react-native-stylex](https://github.com/retyui/react-native-stylex) by **retyui**
