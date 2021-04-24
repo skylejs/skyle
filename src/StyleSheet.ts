@@ -53,7 +53,7 @@ class StyleSheet {
   public static create(
     styles: ((props: StylesProps) => StyleSheetStyles) | StyleSheetStyles,
   ): { [key: string]: NativeStyles } {
-    return styles as any;
+    return styles as { [key: string]: NativeStyles };
   }
 }
 

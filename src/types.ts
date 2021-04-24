@@ -7,6 +7,8 @@ export interface BaseOptions {
   breakpoints?: [number, number, number];
 }
 
+export type BreakpointKeys = 'sm' | 'md' | 'lg' | 'xlg' | 'mdDown' | 'lgDown' | 'mdUp' | 'lgUp';
+
 export type NativeStyles = RN.ViewStyle & RN.TextStyle & RN.ImageStyle;
 
 export type RecursivePartial<T> = {
@@ -70,7 +72,8 @@ export type StylesProps = {
   theme: Theme;
   screen: RN.ScaledSize;
   window: RN.ScaledSize;
-} & Component<any, any>;
+} & { [bp in BreakpointKeys]: Styles } &
+  Component<any, any>;
 
 type TransformKeys =
   | 'perspective'

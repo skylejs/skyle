@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 
 import Skyle from '../base';
 import { Dimensions } from 'react-native';
-import type { Styles, StyleSheetStyles } from '../types';
+import type { NativeStyles, Styles, StyleSheetStyles } from '../types';
 import { useTheme } from './useTheme';
 import { deepEquals } from '../utils/values';
 import { matchMedia } from '../media';
@@ -18,7 +18,7 @@ export const useStyles = (styles: any = {}, ...args: any[]) => {
     }
   }, [builtStyles, styles, theme, args]);
 
-  return builtStyles;
+  return builtStyles as { [key: string]: NativeStyles };
 };
 
 export function computeStyles(comp: any) {
