@@ -21,6 +21,7 @@
     "!**/__fixtures__",
     "!**/__mocks__"
   ],
+  "sideEffects": false,
   "scripts": {
     "test": "jest",
     "typescript": "tsc --noEmit",
