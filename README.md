@@ -24,7 +24,7 @@
 [![Base UI](https://img.shields.io/npm/v/skyle?style=flat-square)](https://www.npmjs.com/package/skyle)
 [![npm](https://img.shields.io/npm/l/skyle?style=flat-square)](https://www.npmjs.com/package/skyle)
 [![npm](https://img.shields.io/badge/types-included-blue?style=flat-square)](https://www.npmjs.com/package/skyle)
-[![runs with expo](https://img.shields.io/badge/Runs%20with%20Expo-4630EB.svg?style=flat-square&logo=EXPO&labelColor=f3f3f3&logoColor=000)](https://snack.expo.io/skylejs/skyle-example)
+[![runs with expo](https://img.shields.io/badge/Runs%20with%20Expo-4630EB.svg?style=flat-square&logo=EXPO&labelColor=f3f3f3&logoColor=000)](https://expo.io/@skylejs/skyle-example)
 
 </p>
 <br/>
