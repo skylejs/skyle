@@ -1,5 +1,6 @@
 import { borderPreprocessor } from './preprocessors/border';
 import { borderSideRadiusPreprocessor } from './preprocessors/border-side-radius';
+import { boxShadowPreprocessor } from './preprocessors/box-shadow';
 import { colorPreprocessor } from './preprocessors/color';
 import { distancePreprocessor } from './preprocessors/distance';
 import { numeralPreprocessor } from './preprocessors/numeral';
@@ -17,6 +18,8 @@ const defaultPreprocessors = {
   borderRadius: distancePreprocessor,
   borderTopRadius: borderSideRadiusPreprocessor,
   borderBottomRadius: borderSideRadiusPreprocessor,
+
+  boxShadow: boxShadowPreprocessor,
 };
 
 const defaultAliases: Alias = {
