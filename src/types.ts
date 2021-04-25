@@ -277,6 +277,8 @@ export type AdjustedStyles = {
   borderTopRadius?: number | string;
   borderBottomRadius?: number | string;
 
+  boxShadow: [number | string, number | string, number | string];
+
   pointerEvents?: 'auto' | 'none' | 'box-only' | 'box-none';
 
   color?: string;
