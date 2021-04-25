@@ -1,0 +1,31 @@
+name: Expo Publish
+on:
+  push:
+    branches:
+      - main
+jobs:
+  publish:
+    name: Install and publish
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+
+      - name: Setup Expo
+        uses: expo/expo-github-action@v5
+        with:
+          expo-version: 4.x
+          expo-token: ${{ secrets.EXPO_TOKEN }}
+          expo-cache: true
+
+      - name: Install dependencies
+        run: yarn
+
+      - name: Publish Expo app
+        working-directory: ./example
+        run: expo publish

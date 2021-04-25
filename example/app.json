@@ -4,6 +4,7 @@
   "expo": {
     "name": "skyle-example",
     "slug": "skyle-example",
+    "owner": "skylejs",
     "description": "Example app for skyle",
     "privacy": "public",
     "version": "1.0.0",
