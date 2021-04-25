@@ -1,23 +1,15 @@
 {
-  "name": "skyle-example",
-  "displayName": "Skyle Example",
   "expo": {
-    "name": "skyle-example",
+    "name": "Skyle Example",
     "slug": "skyle-example",
     "owner": "skylejs",
     "description": "Example app for skyle",
     "privacy": "public",
     "version": "1.0.0",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
+    "platforms": ["ios", "android", "web"],
     "ios": {
       "supportsTablet": true
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ]
+    "assetBundlePatterns": ["**/*"]
   }
 }
