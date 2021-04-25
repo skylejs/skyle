@@ -24,7 +24,7 @@ jobs:
           expo-cache: true
 
       - name: Install dependencies
-        run: yarn
+        run: yarn install
 
       - name: Publish Expo app
         working-directory: ./example
