@@ -4,6 +4,7 @@ import { boxShadowPreprocessor } from './preprocessors/box-shadow';
 import { colorPreprocessor } from './preprocessors/color';
 import { distancePreprocessor } from './preprocessors/distance';
 import { numeralPreprocessor } from './preprocessors/numeral';
+import { placeContentPreprocessor } from './preprocessors/place-content';
 import type { BaseOptions, Preprocessor, Alias } from './types';
 
 const defaultBreakpoints = [576, 768, 1200];
@@ -20,6 +21,8 @@ const defaultPreprocessors = {
   borderBottomRadius: borderSideRadiusPreprocessor,
 
   boxShadow: boxShadowPreprocessor,
+
+  placeContent: placeContentPreprocessor,
 };
 
 const defaultAliases: Alias = {
