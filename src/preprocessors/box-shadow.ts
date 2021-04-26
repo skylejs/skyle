@@ -1,4 +1,4 @@
-import validateColor from 'src/utils/validate-color';
+import validateColor from '../utils/validate-color';
 
 export const boxShadowPreprocessor = (key: string, value: any) => {
   const valuesArr = typeof value === 'string' ? value.split(' ') : Array.isArray(value) ? value : [];
