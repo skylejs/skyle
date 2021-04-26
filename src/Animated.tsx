@@ -271,7 +271,15 @@ export function createComponent<T extends NativeComponents>(WrappedComponent: T)
               return;
             }
 
-            const combinedStyles: Styles = Object.assign({}, style, this.getAnimatedStyle(style, e));
+            let combinedStyles: Styles = Object.assign({}, style, this.getAnimatedStyle(style, e));
+
+            // filter invalid styles
+            (Object.keys(combinedStyles) as (keyof Styles)[]).map((s) => {
+              if (!validStyles.includes(s)) {
+                delete combinedStyles[s];
+              }
+            });
+
             return combinedStyles;
           });
 
@@ -337,7 +345,7 @@ export function createComponent<T extends NativeComponents>(WrappedComponent: T)
           {!!BeforeComponent && <BeforeComponent style={before}>{beforeContent}</BeforeComponent>}
           <AnimatedComponent
             ref={(r: NativeComponents) => {
-              forwardRef?.(r);
+              typeof forwardRef === 'function' && forwardRef(r);
               this._ref = r;
             }}
             {...this.getPseudoProps()}
