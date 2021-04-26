@@ -22,7 +22,8 @@ Styling with Skyle is extremely easy.
 4. Use `this.styles` to style your components!
 
 ```ts
-import { styled, StyleSheet, View } from 'skyle';
+import { View } from 'react-native';
+import { styled, StyleSheet } from 'skyle';
 
 @styled
 class App extends Component {
@@ -46,8 +47,9 @@ export default App;
 
 If you don't have [decorators](/docs/get-started#enabling-decorators) enabled, you can also pass the component through a function:
 
-```ts {19}
-import { styled, StyleSheet, View } from 'skyle';
+```ts {20}
+import { View } from 'react-native';
+import { styled, StyleSheet } from 'skyle';
 
 class App extends Component {
   styles = styles;
@@ -76,7 +78,8 @@ export default styled(App);
 3. Use the hook's return value to style your components!
 
 ```ts
-import { useStyles, StyleSheet, View } from 'skyle';
+import { View } from 'react-native';
+import { useStyles, StyleSheet } from 'skyle';
 
 const App = (props) => {
   const s = useStyles(styles);
@@ -95,7 +98,3 @@ const styles = StyleSheet.create((o) => ({
 
   </TabItem>
 </Tabs>
-
-:::info
-Some features require the use of imports from 'skyle'. [Learn More](/docs/components)
-:::
