@@ -27,6 +27,7 @@ module.exports = {
       type: 'category',
       label: 'Examples',
       items: [
+        'examples/snack',
         'examples/basic',
         'examples/transitions',
         'examples/touchable',
