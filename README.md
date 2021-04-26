@@ -17,16 +17,24 @@
   <a href='https://skyle.js.org/docs'><strong>Examples/Demos</strong></a> ⎯ 
   <a href='#contributing'><strong>Contributing!</strong></a>
 </p>
+
 <br/>
 
 <p align="center">
-
-[![Base UI](https://img.shields.io/npm/v/skyle?style=flat-square)](https://www.npmjs.com/package/skyle)
-[![npm](https://img.shields.io/npm/l/skyle?style=flat-square)](https://www.npmjs.com/package/skyle)
-[![npm](https://img.shields.io/badge/types-included-blue?style=flat-square)](https://www.npmjs.com/package/skyle)
-[![runs with expo](https://img.shields.io/badge/Runs%20with%20Expo-4630EB.svg?style=flat-square&logo=EXPO&labelColor=f3f3f3&logoColor=000)](https://expo.io/@skylejs/skyle-example)
-
+  <a href="https://www.npmjs.com/package/skyle">
+    <img src="https://img.shields.io/npm/v/skyle?style=flat-square" alt="npm" />
+  </a>
+  <a href="https://www.npmjs.com/package/skyle">
+    <img src="https://img.shields.io/npm/l/skyle?style=flat-square" alt="license" />
+  </a>
+  <a href="https://www.npmjs.com/package/skyle">
+    <img src="https://img.shields.io/badge/types-included-blue?style=flat-square" alt="types" />
+  </a>
+  <a href="https://expo.io/@skylejs/skyle-example">
+    <img src="https://img.shields.io/badge/Runs%20with%20Expo-4630EB.svg?style=flat-square&logo=EXPO&labelColor=f3f3f3&logoColor=000" alt="runs with expo" />
+  </a>
 </p>
+
 <br/>
 
 - 💡 Beautiful & Easy Syntax
