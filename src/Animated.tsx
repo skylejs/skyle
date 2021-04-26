@@ -282,7 +282,7 @@ export function createComponent<T extends NativeComponents>(WrappedComponent: T)
         };
       });
 
-      return RN.StyleSheet.create(Object.assign({}, ...styles));
+      return Object.assign({}, ...styles);
     }
 
     getPseudoProps() {
