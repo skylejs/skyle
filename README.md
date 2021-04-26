@@ -14,7 +14,7 @@
   <a href='https://skyle.js.org'><strong>Website</strong></a> ⎯ 
   <a href='#documentation'><strong>Documentation</strong></a> ⎯ 
   <a href='#get-started'><strong>Get Started</strong></a> ⎯ 
-  <a href='https://skyle.js.org/docs'><strong>Examples/Demos</strong></a> ⎯ 
+  <a href='https://skyle.js.org/docs/examples/snack'><strong>Examples/Demos</strong></a> ⎯ 
   <a href='#contributing'><strong>Contributing!</strong></a>
 </p>
 
@@ -45,6 +45,10 @@
 - 🌟 Supports **Media Queries**, **Theming**, **Transitions** and more!
 - ☑️ Written in TypeScript
 
+## Why?
+
+_Skyle_ aims to provide styling utilities and to fill in the missing features that are available in CSS but not in React-Native. When switching between the two, the missing APIs become prominent. This is the main reason why this project was developed: Making styling a heck of a lot easier.
+
 ## Features
 
 - ✔️ [Shorthands](#documentation)
@@ -61,7 +65,7 @@
 
 and more!
 
-### [View all available properties!](https://skyle.js.org/docs/api/properties)
+#### [View all available properties](https://skyle.js.org/docs/api/properties)
 
 ---
 
@@ -89,11 +93,13 @@ View the official [Documentation](https://skyle.js.org/docs/get-started) on our 
 
 Please see [CHANGELOG.md](CHANGELOG.md)
 
+---
+
 ## Contributing
 
-```
+Please read [CONTRIBUTING.md](CONTRIBUTING.md)
 
-```
+---
 
 ## ❤️ Inspiration
 
