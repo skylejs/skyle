@@ -1,0 +1,23 @@
+---
+id: match-media
+title: matchMedia
+---
+
+`matchMedia` method returns a new [MediaQueryList](https://developer.mozilla.org/en-US/docs/Web/API/MediaQueryList) object that can then be used to determine if the document matches the [media query](features/media-queries.mdx) string
+
+> @see https://developer.mozilla.org/en-US/docs/Web/API/Window/matchMedia
+
+```ts
+import { matchMedia } from 'skyle';
+
+// Example
+const query = matchMedia('(max-width: 600px)');
+
+const isTrue = query.matches;
+```
+
+## Properties
+
+### matches
+
+### media

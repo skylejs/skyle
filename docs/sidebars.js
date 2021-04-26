@@ -44,6 +44,7 @@ module.exports = {
         'api/stylesheet',
         'api/properties',
         'api/easing',
+        'api/match-media',
         'api/use-styles',
         'api/use-theme',
       ],

@@ -27,6 +27,10 @@ class MediaQueryList {
     });
   }
 
+  get media() {
+    return this._query;
+  }
+
   _handleDimensionsChange = () => {
     this._notifyListeners();
   };
