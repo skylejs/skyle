@@ -1,5 +1,6 @@
 import React from 'react';
-import { useStyles, StyleSheet, View } from 'skyle';
+import { View } from 'react-native';
+import { useStyles, StyleSheet } from 'skyle';
 
 const BasicExampleScreen = () => {
   const s = useStyles(styles);

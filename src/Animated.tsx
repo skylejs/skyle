@@ -29,7 +29,10 @@ function overrideNative(nativeComp: any) {
   const AnimatedComp = createComponent(NativeComp);
   nativeComp.render = (props: any, ref: any) => {
     nativeComp.render.displayName = nativeComp.displayName;
-    if (!JSON.stringify(props.style)?.includes('&:') && !JSON.stringify(props.style)?.includes('transition')) {
+    if (
+      !JSON.stringify(props.style)?.includes('&:') &&
+      Object.keys(Object.values(props.style || {}))?.every((k) => validStyles.includes(k))
+    ) {
       return <NativeComp ref={ref} {...props} />;
     }
     return <AnimatedComp forwardRef={ref} {...props} />;

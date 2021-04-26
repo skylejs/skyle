@@ -9,7 +9,9 @@ export default class TouchableExampleScreen extends PureComponent {
   render() {
     return (
       <ScrollView contentContainerStyle={this.styles.root}>
-        <Image source={{ uri: 'https://picsum.photos/id/237/200/300' }} style={this.styles.transitionView} />
+        <View style={this.styles.transitionView}>
+          <Image source={{ uri: 'https://picsum.photos/id/237/200/300' }} style={this.styles.image} />
+        </View>
         <View style={this.styles.transitionView} />
         <View style={this.styles.transitionView} />
       </ScrollView>
@@ -31,6 +33,7 @@ const styles = StyleSheet.create(() => ({
     margin: 20,
     border: [6, 'solid', 'green'],
     borderRadius: [20, '5vw'],
+    overflow: 'hidden',
     transition: [['backgroundColor', 'scale', 'borderRadius'], 800, Easing.elastic(1.2)],
 
     '&:hover': {
@@ -41,5 +44,9 @@ const styles = StyleSheet.create(() => ({
       transform: [{ scale: 0.7 }],
       borderRadius: 200,
     },
+  },
+  image: {
+    width: '100%',
+    height: '100%',
   },
 }));
