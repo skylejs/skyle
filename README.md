@@ -53,7 +53,9 @@
 
 and more!
 
-<br />
+### [View all available properties!](https://skyle.js.org/docs/api/properties)
+
+---
 
 ## Get Started
 
