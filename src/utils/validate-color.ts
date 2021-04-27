@@ -1,6 +1,6 @@
 import Color from 'color';
 
-export function validateColor(str: string) {
+export default function validateColor(str: string) {
   try {
     Color(str);
     return true;

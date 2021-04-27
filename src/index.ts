@@ -10,4 +10,6 @@ export { default as StyleSheet } from './StyleSheet';
 export * from './hooks/useStyles';
 export * from './hooks/useTheme';
 
+export * from './utils/validate-color';
+
 export { default } from './base';
