@@ -11,7 +11,7 @@ import type {
   TransitionTimingFunction,
 } from './types';
 import { Easing } from '.';
-import { flattenStyle, getDefaultStyleValue, wrapTransforms } from './utils/styles';
+import { flattenStyle, getDefaultStyleValue, wrapStyles } from './utils/styles';
 import { calc, toCamelCase, toDuration, toEasing } from './utils/values';
 import StyleSheet from './StyleSheet';
 import { validStyles } from './utils/valid-styles';
@@ -255,7 +255,7 @@ export function createComponent<T extends NativeComponents>(WrappedComponent: T)
           });
         });
 
-      return wrapTransforms(Object.assign({}, finish, styles));
+      return wrapStyles(Object.assign({}, finish, styles));
     }
 
     getStyleProps(e: StateCallbackType) {

@@ -2,22 +2,33 @@ import { StyleSheet } from 'react-native';
 import type { StyleKeys, Styles } from '../types';
 
 export const flattenStyle = (style: Styles) => {
-  const flatStyle = Object.assign({}, StyleSheet.flatten(style));
-  if (flatStyle.transform) {
-    flatStyle.transform.forEach((transform) => {
-      const key = Object.keys(transform)[0] as keyof typeof transform;
-      flatStyle[key] = transform[key];
-    });
-    delete flatStyle.transform;
-  }
-  if (flatStyle.textShadowOffset) {
-    // @ts-ignore
-    flatStyle.textShadowOffsetWidth = flatStyle.textShadowOffset.width;
-    // @ts-ignore
-    flatStyle.textShadowOffsetHeight = flatStyle.textShadowOffset.height;
-    delete flatStyle.textShadowOffset;
-  }
+  let flatStyle = Object.assign({}, StyleSheet.flatten(style));
+  flatStyle = flattenTransforms(flatStyle);
+  flatStyle = flattenShadowOffsets(flatStyle);
   return flatStyle;
+};
+
+const flattenTransforms = (style: Styles) => {
+  if (style.transform) {
+    style.transform.forEach((transform) => {
+      const key = Object.keys(transform)[0] as keyof typeof transform;
+      style[key] = transform[key];
+    });
+    delete style.transform;
+  }
+  return style;
+};
+
+const flattenShadowOffsets = (style: any): Styles => {
+  const keys = ['shadowOffset', 'textShadowOffset'] as (keyof Styles)[];
+  keys.map((key) => {
+    if (style[key]) {
+      style[`${key}Width`] = style[key].width;
+      style[`${key}Height`] = style[key].height;
+      delete style[key];
+    }
+  });
+  return style;
 };
 
 const DIRECTIONAL_FALLBACKS = {
@@ -92,8 +103,14 @@ const TRANSFORM_STYLE_PROPERTIES = [
   'translateY',
 ];
 
+export const wrapStyles = (styles: Styles) => {
+  let wrappedStyles = wrapTransforms(styles);
+  wrappedStyles = wrapShadowOffsets(styles);
+  return wrappedStyles;
+};
+
 // Transforms { translateX: 1 } to { transform: [{ translateX: 1 }]}
-export const wrapTransforms = (style: Styles) => {
+const wrapTransforms = (style: Styles) => {
   let wrapped: any = {};
   const styleKeys = Object.keys(style) as (keyof typeof style)[];
   styleKeys.forEach((key) => {
@@ -108,11 +125,27 @@ export const wrapTransforms = (style: Styles) => {
       wrapped[key] = style[key];
     }
   });
-  wrapped.textShadowOffset = {
-    // @ts-ignore
+  return wrapped;
+};
+
+const wrapShadowOffsets = (style: any): Styles => {
+  style.textShadowOffset = {
     width: style.textShadowOffsetWidth,
-    // @ts-ignore
     height: style.textShadowOffsetHeight,
   };
-  return wrapped;
+  style.shadowOffset = {
+    width: style.shadowOffsetWidth,
+    height: style.shadowOffsetHeight,
+  };
+  const keys = ['shadowOffset', 'textShadowOffset'] as (keyof Styles)[];
+  keys.map((key) => {
+    if (style[key]) {
+      style[key].width = style[`${key}Width`];
+      style[key].height = style[`${key}Height`];
+
+      delete style[`${key}Width`];
+      delete style[`${key}Height`];
+    }
+  });
+  return style;
 };
