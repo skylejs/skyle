@@ -3,7 +3,7 @@ import { Button } from 'react-native-paper';
 import { StyleSheet, styled, View, TextInput } from 'skyle';
 
 @styled
-export default class FormExampleScreen extends PureComponent {
+class FormExampleScreen extends PureComponent {
   styles = styles;
 
   render() {
@@ -48,3 +48,5 @@ const styles = StyleSheet.create(() => ({
     },
   },
 }));
+
+export default FormExampleScreen;

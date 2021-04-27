@@ -4,7 +4,7 @@ import { Button, TextInput } from 'react-native-paper';
 import { StyleSheet, styled, Easing } from 'skyle';
 
 @styled
-export default class TransitionsExampleScreen extends PureComponent {
+class TransitionsExampleScreen extends PureComponent {
   styles = styles;
   state = {
     color: '#FF0000',
@@ -128,3 +128,5 @@ const styles = StyleSheet.create((o) => ({
     width: 300,
   },
 }));
+
+export default TransitionsExampleScreen;

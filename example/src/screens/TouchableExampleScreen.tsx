@@ -3,7 +3,7 @@ import { ScrollView, View, Image } from 'react-native';
 import { StyleSheet, styled, Easing } from 'skyle';
 
 @styled
-export default class TouchableExampleScreen extends PureComponent {
+class TouchableExampleScreen extends PureComponent {
   styles = styles;
 
   render() {
@@ -50,3 +50,5 @@ const styles = StyleSheet.create(() => ({
     height: '100%',
   },
 }));
+
+export default TouchableExampleScreen;
