@@ -77,6 +77,12 @@ export function toPx(length: number | string, defaultRaw = false) {
   }
 }
 
+export function toLength(value: string | number) {
+  const parsedValue = toPx(toDecimal(functionalNotation(`${value}`) || value, true), true);
+  const rawValue = (`${parsedValue}`.endsWith('%') ? parsedValue : parseFloat(`${parsedValue}`)) || undefined;
+  return rawValue;
+}
+
 export function toDuration(duration?: number | string) {
   if (typeof duration === 'string') {
     const value = parseFloat(duration);
