@@ -14,7 +14,7 @@ import { Easing } from '.';
 import { flattenStyle, getDefaultStyleValue, wrapStyles } from './utils/styles';
 import { calc, toCamelCase, toDuration, toEasing } from './utils/values';
 import StyleSheet from './StyleSheet';
-import { validStyles } from './utils/valid-styles';
+import { removeInvalidStyles, validStyles } from './utils/valid-styles';
 
 overrideNative(RN.View);
 overrideNative(RN.Text);
@@ -275,13 +275,7 @@ export function createComponent<T extends NativeComponents>(WrappedComponent: T)
             }
 
             let combinedStyles: Styles = Object.assign({}, style, this.getAnimatedStyle(style, e));
-
-            // filter invalid styles
-            (Object.keys(combinedStyles) as (keyof Styles)[]).map((s) => {
-              if (!validStyles.includes(s)) {
-                delete combinedStyles[s];
-              }
-            });
+            combinedStyles = removeInvalidStyles(combinedStyles);
 
             return combinedStyles;
           });
