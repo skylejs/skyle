@@ -192,72 +192,23 @@ export type TransitionStyles = {
 type NthChild = `&:nth-child(${string})`;
 
 export type PseudoClassesStyles = {
-  /**
-   * #### ☁️ Skyle
-   */
   '&:hover'?: Styles;
-
-  /**
-   * #### ☁️ Skyle
-   */
   '&:active'?: Styles;
-
-  /**
-   * #### ☁️ Skyle
-   */
   '&:focus'?: Styles;
-
-  /**
-   * #### ☁️ Skyle
-   */
   '&:empty'?: Styles;
-
-  /**
-   * #### ☁️ Skyle
-   */
   '&:optional'?: Styles;
-
-  /**
-   * #### ☁️ Skyle
-   */
   '&:required'?: Styles;
-
-  /**
-   * #### ☁️ Skyle
-   */
   '&:read-only'?: Styles;
-
-  /**
-   * #### ☁️ Skyle
-   */
   '&:read-write'?: Styles;
-
-  /**
-   * #### ☁️ Skyle
-   */
   '&:first-child'?: Styles;
-
-  /**
-   * #### ☁️ Skyle
-   */
   '&:last-child'?: Styles;
 
-  /**
-   * #### ☁️ Skyle
-   */
   // TODO: add template string literal (TS 4.3)
   '&:nth-child'?: Styles;
 };
 
 export type PseudoElementsStyles = {
-  /**
-   * #### ☁️ Skyle
-   */
   '&::before'?: Styles;
-
-  /**
-   * #### ☁️ Skyle
-   */
   '&::after'?: Styles;
 };
 

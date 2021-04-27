@@ -8,7 +8,7 @@ import { computeStyles } from './hooks/useStyles';
 type Constructor = { new (...args: any[]): Component<any, any> };
 type StyleConstructor = ((styles?: StylesProps) => StyleSheetStyles) | StyleSheetStyles;
 
-/** @see https://skyle.js.org/docs/api/styled */
+/** @see https://skyle.js.org/docs/api/decorator */
 export function styled<T extends Constructor>(WrappedComponent: T): T {
   class StyledComponent extends WrappedComponent {
     __styleSheet?: StyleConstructor;
