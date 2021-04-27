@@ -23,7 +23,11 @@ jobs:
           expo-token: ${{ secrets.EXPO_TOKEN }}
           expo-cache: true
 
-      - name: Install dependencies
+      - name: Install root dependencies
+        run: yarn install
+
+      - name: Install example dependencies
+        working-directory: ./example
         run: yarn install
 
       - name: Publish Expo app
