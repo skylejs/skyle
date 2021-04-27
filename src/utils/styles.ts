@@ -10,6 +10,13 @@ export const flattenStyle = (style: Styles) => {
     });
     delete flatStyle.transform;
   }
+  if (flatStyle.textShadowOffset) {
+    // @ts-ignore
+    flatStyle.textShadowOffsetWidth = flatStyle.textShadowOffset.width;
+    // @ts-ignore
+    flatStyle.textShadowOffsetHeight = flatStyle.textShadowOffset.height;
+    delete flatStyle.textShadowOffset;
+  }
   return flatStyle;
 };
 
@@ -26,12 +33,15 @@ type FallbackKeys = keyof typeof DIRECTIONAL_FALLBACKS;
 
 const DIRECTIONAL_SUFFICES = Object.keys(DIRECTIONAL_FALLBACKS) as FallbackKeys[];
 
-export const getDefaultStyleValue = (key: StyleKeys, flatStyle: Styles): string | number => {
+export const getDefaultStyleValue = (key: StyleKeys, flatStyle: Styles): string | number | object => {
   if (key === 'backgroundColor') {
     return 'rgba(0,0,0,0)';
   }
   if (key === 'color' || key.indexOf('Color') !== -1) {
     return 'rgba(0,0,0,1)';
+  }
+  if (key === 'shadowColor' || key === 'textShadowColor') {
+    return 'rgba(0,0,0,0)';
   }
   if (key.indexOf('rotate') === 0 || key.indexOf('skew') === 0) {
     return '0deg';
@@ -41,6 +51,9 @@ export const getDefaultStyleValue = (key: StyleKeys, flatStyle: Styles): string 
   }
   if (key === 'fontSize') {
     return 14;
+  }
+  if (key === 'shadowOffset' || key === 'textShadowOffset') {
+    return { height: 0, width: 0 };
   }
   if (key.indexOf('margin') === 0 || key.indexOf('padding') === 0) {
     let suffix: FallbackKeys;
@@ -95,5 +108,11 @@ export const wrapTransforms = (style: Styles) => {
       wrapped[key] = style[key];
     }
   });
+  wrapped.textShadowOffset = {
+    // @ts-ignore
+    width: style.textShadowOffsetWidth,
+    // @ts-ignore
+    height: style.textShadowOffsetHeight,
+  };
   return wrapped;
 };

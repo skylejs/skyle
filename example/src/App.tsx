@@ -9,7 +9,8 @@ import BasicExampleScreen from './screens/BasicExampleScreen';
 import TransitionsExampleScreen from './screens/TransitionsExampleScreen';
 import FormExampleScreen from './screens/FormExampleScreen';
 import TouchableExampleScreen from './screens/TouchableExampleScreen';
-import ThemeExampleScreen from './screens/ThemeExample';
+import ThemeExampleScreen from './screens/ThemeExampleScreen';
+import ShadowsExampleScreen from './screens/ShadowsExampleScreen';
 
 export const linking = {
   prefixes: [],
@@ -20,6 +21,7 @@ export const linking = {
       TouchableExample: 'example/touchable',
       TransitionsExample: 'example/transitions',
       ThemeExample: 'example/theme',
+      ShadowsExample: 'example/shadows',
       FormExample: 'example/form',
     },
   },
@@ -39,6 +41,7 @@ export default function App() {
           <Stack.Screen name='TouchableExample' component={TouchableExampleScreen} />
           <Stack.Screen name='TransitionsExample' component={TransitionsExampleScreen} />
           <Stack.Screen name='ThemeExample' component={ThemeExampleScreen} />
+          <Stack.Screen name='ShadowsExample' component={ShadowsExampleScreen} />
           <Stack.Screen name='FormExample' component={FormExampleScreen} />
         </Stack.Navigator>
       </NavigationContainer>
