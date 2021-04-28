@@ -1,3 +1,4 @@
+import { aliasPreprocessor } from './preprocessors/alias';
 import { borderPreprocessor } from './preprocessors/border';
 import { borderSideRadiusPreprocessor } from './preprocessors/border-side-radius';
 import { boxShadowPreprocessor } from './preprocessors/box-shadow';
@@ -10,6 +11,7 @@ import type { BaseOptions, Preprocessor, Alias } from './types';
 
 const defaultBreakpoints = [576, 768, 1200];
 const defaultPreprocessors = {
+  _alias: aliasPreprocessor,
   _numeral: numeralPreprocessor,
   _color: colorPreprocessor,
 
@@ -28,10 +30,10 @@ const defaultPreprocessors = {
 };
 
 const defaultAliases: Alias = {
-  paddingX: ['paddingHorizontal'],
-  paddingY: ['paddingVertical'],
-  marginX: ['marginHorizontal'],
-  marginY: ['marginVertical'],
+  paddingHorizontal: ['paddingX'],
+  paddingVertical: ['paddingY'],
+  marginHorizontal: ['marginX'],
+  marginVertical: ['marginY'],
 };
 
 class Base {
@@ -54,6 +56,7 @@ class Base {
   // Aliases
 
   public static addAlias(aliases: Alias) {
+    // TODO: add unique validation.
     Object.keys(aliases).map((alias) => {
       this.aliases[alias] = this.aliases[alias].concat([aliases[alias]].flat());
     });
