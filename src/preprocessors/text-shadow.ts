@@ -11,7 +11,7 @@ export const textShadowPreprocessor = (key: string, value: any) => {
     return {
       [key]: undefined,
       textShadowOffset: { width, height },
-      textShadowRadius: validateColor(valuesArr[2]) ? 0 : toLength(valuesArr[2]),
+      textShadowRadius: validateColor(valuesArr[2]) ? 0 : toLength(valuesArr[2]) || 0,
       textShadowColor: validateColor(valuesArr[2]) ? valuesArr[2] : valuesArr[3] || 'transparent',
     };
   }

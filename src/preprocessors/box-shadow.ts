@@ -11,7 +11,7 @@ export const boxShadowPreprocessor = (key: string, value: any) => {
     return {
       [key]: undefined,
       shadowOffset: { width, height },
-      shadowRadius: validateColor(valuesArr[2]) ? 0 : toLength(valuesArr[2]),
+      shadowRadius: validateColor(valuesArr[2]) ? 0 : toLength(valuesArr[2]) || 0,
       shadowColor: validateColor(valuesArr[2]) ? valuesArr[2] : valuesArr[3] || 'transparent',
       shadowOpacity: 1,
     };

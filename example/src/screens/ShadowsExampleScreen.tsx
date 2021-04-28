@@ -30,7 +30,7 @@ const styles = StyleSheet.create(() => ({
     border: [15, 'solid', 'green'],
     backgroundColor: '#ff0000',
     boxShadow: '10px 10px 20px blue',
-    transition: [['shadowRadius', 'shadowColor', 'shadowOffsetWidth', 'shadowOffsetHeight'], 800],
+    transition: [['boxShadow'], 800],
 
     '&:active': {
       boxShadow: '12px 12px 30px blue',
@@ -44,6 +44,7 @@ const styles = StyleSheet.create(() => ({
     border: [15, 'solid', 'lime'],
     backgroundColor: 'yellow',
     boxShadow: '30px 30px 0px #00cc00',
+    transition: [['boxShadow'], 800, Easing.elastic(2)],
 
     '&:active': {
       boxShadow: '20px 20px 0px #01af01',
@@ -64,7 +65,7 @@ const styles = StyleSheet.create(() => ({
     height: 100,
     color: 'blue',
     fontSize: 25,
-    transition: [['textShadowColor', 'textShadowRadius', 'textShadowOffsetWidth', 'textShadowOffsetHeight'], 1000],
+    transition: [['textShadow'], 1000],
     textShadow: '0px 2px 10px #ff0000',
 
     '&:active': {
@@ -78,11 +79,7 @@ const styles = StyleSheet.create(() => ({
     height: 100,
     color: 'blue',
     fontSize: 35,
-    transition: [
-      ['textShadowColor', 'textShadowRadius', 'textShadowOffsetWidth', 'textShadowOffsetHeight'],
-      800,
-      Easing.easeInOut,
-    ],
+    transition: [['textShadow'], 800, Easing.easeInOut],
     textShadow: '0px 0px 5px #8400ff',
 
     '&:active': {

@@ -6,6 +6,7 @@ import type {
   AdjustedStyles,
   NativeStyles,
   Styles,
+  StyleSheetStyles,
   TransitionDuration,
   TransitionShorthand,
   TransitionTimingFunction,
@@ -15,6 +16,7 @@ import { flattenStyle, getDefaultStyleValue, wrapStyles } from './utils/styles';
 import { calc, toCamelCase, toDuration, toEasing } from './utils/values';
 import StyleSheet from './StyleSheet';
 import { removeInvalidStyles, validStyles } from './utils/valid-styles';
+import { preprocessStyles } from './hooks/useStyles';
 import BoxShadow, { NATIVELY_SUPPORTED_PLATFORMS } from './components/BoxShadow';
 
 overrideNative(RN.View);
@@ -207,23 +209,9 @@ export function createComponent<T extends NativeComponents>(WrappedComponent: T)
             .flat()
             .map((x) => toCamelCase(x)) as (keyof Styles)[];
 
-          transitionProperties.map((key) => {
-            const keyWords = key.split(/(?=[A-Z])/);
-            const prefix = keyWords?.slice(0, -1).join('') || key;
-            const suffix = keyWords.length > 1 ? keyWords?.slice(-1)[0] || '' : '';
+          transitionProperties = getTransitionProperties(transitionProperties);
 
-            if (validStyles.includes(`${prefix}TopLeft${suffix}`)) {
-              transitionProperties = transitionProperties.filter((v) => v !== key);
-              transitionProperties.push(
-                ...([
-                  `${prefix}TopLeft${suffix}`,
-                  `${prefix}TopRight${suffix}`,
-                  `${prefix}BottomLeft${suffix}`,
-                  `${prefix}BottomRight${suffix}`,
-                ] as (keyof Styles)[]),
-              );
-            }
-          });
+          console.log(transitionProperties);
 
           const duration = (trans?.[1] || finish?.transitionDuration) as TransitionDuration;
           const easing = (trans?.[2] || finish?.transitionTimingFunction) as TransitionTimingFunction;
@@ -421,6 +409,15 @@ export function createComponent<T extends NativeComponents>(WrappedComponent: T)
     }
   };
 }
+
+const getTransitionProperties = (transitionProperties: string[]) => {
+  const blankTransitionStyles: any = { r: {} };
+  transitionProperties.forEach((key) => (blankTransitionStyles.r[key] = '0'));
+
+  const transitionStyles = preprocessStyles(blankTransitionStyles);
+
+  return Object.keys(flattenStyle(transitionStyles.r)) as (keyof Styles)[];
+};
 
 export const View = RN.View;
 export const Text = RN.Text;
