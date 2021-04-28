@@ -3,6 +3,7 @@ import { ImageBackground, Platform, View, ViewProps, ViewStyle } from 'react-nat
 import ViewShot from 'react-native-view-shot';
 import StyleSheet from '../StyleSheet';
 import { styled } from '../styled-decorator';
+import { deepEquals } from '../utils/values';
 
 export const NATIVELY_SUPPORTED_PLATFORMS = ['ios', 'web'];
 
@@ -26,20 +27,20 @@ class BoxShadow extends Component<BoxShadowProps> {
     shadowStyle: {} as ViewStyle,
   };
   private _viewRef = createRef<ViewShot>();
+  private _isCapturing = false;
 
   componentDidMount() {
     this._recalculate();
   }
 
   componentDidUpdate(prevProps: BoxShadowProps) {
-    if (prevProps !== this.props) {
+    if (!deepEquals(prevProps.style || {}, this.props.style || {}) && !this._isCapturing) {
       this._recalculate();
     }
   }
 
   private _recalculate() {
-    this.setState({ bgUri: '' });
-
+    const { bgUri } = this.state;
     let { style = {} } = this.props;
     style = StyleSheet.flatten(style);
 
@@ -126,14 +127,18 @@ class BoxShadow extends Component<BoxShadowProps> {
         opacity,
         borderRadius,
         zIndex: style.zIndex || 0,
+        bgUri: radius > 0 ? '' : bgUri,
       },
-      () => setTimeout(this._capture, 1),
+      () => requestAnimationFrame(this._capture),
     );
   }
 
   private _capture = async () => {
+    this._isCapturing = true;
     const dataUri = await this._viewRef.current?.capture?.();
-    this.setState({ bgUri: dataUri || '' });
+    this.setState({ bgUri: dataUri || '' }, () => {
+      this._isCapturing = false;
+    });
   };
 
   render() {
@@ -160,6 +165,7 @@ class BoxShadow extends Component<BoxShadowProps> {
             source={{ uri: bgUri }}
             blurRadius={1}
             style={this.styles.shadow}
+            fadeDuration={0}
             // @ts-ignore tintColor missing type?
             tintColor={color}
             resizeMode='stretch'

@@ -1,21 +1,28 @@
 import React from 'react';
-import { Text, View } from 'react-native';
-import { useStyles, StyleSheet } from 'skyle';
+import { ScrollView, Text, View } from 'react-native';
+import { useStyles, StyleSheet, Easing } from 'skyle';
 
 const ShadowsExampleScreen = () => {
   const s = useStyles(styles);
 
   return (
-    <View>
-      <View style={s.view} />
+    <ScrollView contentContainerStyle={s.scrollView}>
+      <View style={s.view1} />
+      <View style={s.view2} />
+      <View style={s.view3} />
 
-      <Text style={s.text}>The quick brown fox</Text>
-    </View>
+      <Text style={s.text1}>The quick brown fox</Text>
+
+      <Text style={s.text2}>The quick brown fox</Text>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create(() => ({
-  view: {
+  scrollView: {
+    flexGrow: 1,
+  },
+  view1: {
     width: 200,
     height: 200,
     alignSelf: 'center',
@@ -23,10 +30,35 @@ const styles = StyleSheet.create(() => ({
     border: [15, 'solid', 'green'],
     backgroundColor: '#ff0000',
     boxShadow: '10px 10px 20px blue',
-    transition: ['shadowColor', 3000],
+    transition: [['shadowRadius', 'shadowColor', 'shadowOffsetWidth', 'shadowOffsetHeight'], 800],
+
+    '&:active': {
+      boxShadow: '12px 12px 30px blue',
+    },
   },
-  text: {
-    marginTop: 50,
+  view2: {
+    width: 100,
+    height: 100,
+    alignSelf: 'center',
+    marginTop: 100,
+    border: [15, 'solid', 'lime'],
+    backgroundColor: 'yellow',
+    boxShadow: '30px 30px 0px #00cc00',
+
+    '&:active': {
+      boxShadow: '20px 20px 0px #01af01',
+    },
+  },
+  view3: {
+    width: 200,
+    height: 200,
+    alignSelf: 'center',
+    marginTop: 100,
+    backgroundColor: 'white',
+    boxShadow: '1px 1px 15px gray',
+  },
+  text1: {
+    margin: [100, 0, 5, 0],
     textAlign: 'center',
     width: '100%',
     height: 100,
@@ -37,6 +69,24 @@ const styles = StyleSheet.create(() => ({
 
     '&:active': {
       textShadow: '15px 15px 30px #0044ff',
+    },
+  },
+  text2: {
+    margin: [5, 0, 100, 0],
+    textAlign: 'center',
+    width: '100%',
+    height: 100,
+    color: 'blue',
+    fontSize: 35,
+    transition: [
+      ['textShadowColor', 'textShadowRadius', 'textShadowOffsetWidth', 'textShadowOffsetHeight'],
+      800,
+      Easing.easeInOut,
+    ],
+    textShadow: '0px 0px 5px #8400ff',
+
+    '&:active': {
+      textShadow: '0px 0px 10px #00fff2',
     },
   },
 }));
