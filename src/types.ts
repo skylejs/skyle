@@ -72,8 +72,7 @@ export type StylesProps = {
   theme: Theme;
   screen: RN.ScaledSize;
   window: RN.ScaledSize;
-} & { [bp in BreakpointKeys]: Styles } &
-  Component<any, any>;
+} & { [bp in BreakpointKeys]: Styles } & { [key: string]: any } & Component<any, any>;
 
 type TransformKeys =
   | 'perspective'
@@ -230,6 +229,29 @@ export type AdjustedStyles = {
 
   boxShadow?: [number | string, number | string, number | string];
 
+  /**
+   *
+   * In the absence of auto property, none is much like CSS's none value. box-none is as if you had applied the CSS class:
+   *
+   * .box-none {
+   *   pointer-events: none;
+   * }
+   * .box-none * {
+   *   pointer-events: all;
+   * }
+   *
+   * box-only is the equivalent of
+   *
+   * .box-only {
+   *   pointer-events: all;
+   * }
+   * .box-only * {
+   *   pointer-events: none;
+   * }
+   *
+   * But since pointerEvents does not affect layout/appearance, and we are already deviating from the spec by adding additional modes,
+   * we opt to not include pointerEvents on style. On some platforms, we would need to implement it as a className anyways. Using style or not is an implementation detail of the platform.
+   */
   pointerEvents?: 'auto' | 'none' | 'box-only' | 'box-none';
 
   color?: string;

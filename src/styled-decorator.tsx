@@ -14,11 +14,14 @@ export function styled<T extends Constructor>(WrappedComponent: T): T {
     __styleSheet?: StyleConstructor;
     private __styles: StyleSheetStyles = {};
 
-    componentDidUpdate(prevProps: any, prevState: any) {
-      if (!deepEquals(prevProps, this.props) || !deepEquals(prevState, this.state)) {
-        this.__styles = computeStyles(this);
+    componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>, snapshot?: any) {
+      const prevStyles = Object.assign({}, this.__styles);
+      const newStyles = computeStyles(this);
+      if (!deepEquals(prevStyles, newStyles)) {
+        this.__styles = newStyles;
         this.forceUpdate();
       }
+      super.componentDidUpdate?.(prevProps, prevState, snapshot);
     }
 
     constructor(...args: any[]) {

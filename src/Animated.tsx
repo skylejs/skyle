@@ -15,6 +15,7 @@ import { flattenStyle, getDefaultStyleValue, wrapStyles } from './utils/styles';
 import { calc, toCamelCase, toDuration, toEasing } from './utils/values';
 import StyleSheet from './StyleSheet';
 import { removeInvalidStyles, validStyles } from './utils/valid-styles';
+import BoxShadow, { NATIVELY_SUPPORTED_PLATFORMS } from './components/BoxShadow';
 
 overrideNative(RN.View);
 overrideNative(RN.Text);
@@ -30,8 +31,12 @@ function overrideNative(nativeComp: any) {
   nativeComp.render = (props: any, ref: any) => {
     nativeComp.render.displayName = nativeComp.displayName;
     if (
-      !JSON.stringify(props.style)?.includes('&:') &&
-      Object.keys(Object.values(props.style || {}))?.every((k) => validStyles.includes(k))
+      Object.keys(Object.values(StyleSheet.flatten(props.style) || {}))?.every(
+        (k) =>
+          validStyles.includes(k) &&
+          !k.includes('&:') &&
+          !(k.includes('shadow') && !NATIVELY_SUPPORTED_PLATFORMS.includes(RN.Platform.OS)),
+      )
     ) {
       return <NativeComp ref={ref} {...props} />;
     }
@@ -258,7 +263,7 @@ export function createComponent<T extends NativeComponents>(WrappedComponent: T)
       return wrapStyles(Object.assign({}, finish, styles));
     }
 
-    getStyleProps(e: StateCallbackType) {
+    getStyleProps(e: StateCallbackType, mockShadow = false) {
       const props = this.props;
       const propKeys = Object.keys(this.props) as (keyof typeof props)[];
       const stylePropKeys = propKeys.filter((key) => key.toLowerCase().startsWith('style'));
@@ -268,10 +273,38 @@ export function createComponent<T extends NativeComponents>(WrappedComponent: T)
         const styleArr = [props[key]].flat() as Styles[];
         const st = styleArr
           .map((c) => (Array.isArray(c) ? RN.StyleSheet.flatten(c) : c))
-          .map((style) => {
+          .map((style: Styles) => {
             if (Number.isInteger(style)) {
               numberStyles.push(style);
               return;
+            }
+
+            if (mockShadow) {
+              const {
+                /* eslint-disable @typescript-eslint/no-unused-vars */
+                margin,
+                marginHorizontal,
+                marginVertical,
+                marginTop,
+                marginRight,
+                marginBottom,
+                marginLeft,
+
+                position,
+                left,
+                right,
+                bottom,
+                top,
+
+                flex,
+                alignSelf,
+                flexBasis,
+                flexGrow,
+                flexShrink,
+                /* eslint-enable */
+                ...remainingStyle
+              } = style;
+              style = remainingStyle;
             }
 
             let combinedStyles: Styles = Object.assign({}, style, this.getAnimatedStyle(style, e));
@@ -319,13 +352,11 @@ export function createComponent<T extends NativeComponents>(WrappedComponent: T)
     }
 
     render() {
-      let { forwardRef, style, as, onFocus, onBlur, ...otherProps } = this.props;
-      style = StyleSheet.flatten(style);
+      const { forwardRef, style: rawStyle, as, onFocus, onBlur, ...otherProps } = this.props;
+      const style = StyleSheet.flatten(rawStyle);
       const styleKeys = Object.keys(style ?? {});
 
-      // @ts-ignore
       const before = (style?.['&::before'] || {}) as RN.TextStyle;
-      // @ts-ignore
       const after = (style?.['&::after'] || {}) as RN.TextStyle;
 
       const beforeContent = before?.content;
@@ -337,43 +368,55 @@ export function createComponent<T extends NativeComponents>(WrappedComponent: T)
       const AnimatedComponent = this.AnimatedComponent || RN.Animated.createAnimatedComponent(as || WrappedComponent);
       this.AnimatedComponent = AnimatedComponent;
 
-      const content = (e: StateCallbackType) => (
-        <>
-          {!!BeforeComponent && <BeforeComponent style={before}>{beforeContent}</BeforeComponent>}
-          <AnimatedComponent
-            ref={(r: NativeComponents) => {
-              typeof forwardRef === 'function' && forwardRef(r);
-              this._ref = r;
-            }}
-            {...this.getPseudoProps()}
-            {...this.getStyleProps(e)}
-            pointerEvents={StyleSheet.flatten(style)?.pointerEvents}
-            onFocus={(ev: FocusEvent) => {
-              if (typeof this._ref?.isFocused === 'function') {
-                this.forceUpdate();
-              }
-              onFocus?.(ev);
-            }}
-            onBlur={(ev: FocusEvent) => {
-              if (typeof this._ref?.isFocused === 'function') {
-                this.forceUpdate();
-              }
-              onBlur?.(ev);
-            }}
-            {...otherProps}
-          />
-          {!!AfterComponent && <AfterComponent style={after}>{afterContent}</AfterComponent>}
-        </>
-      );
-
       const needsPressable = styleKeys.some(
         (k) => k.includes(':hover') || k.includes(':active') || k.includes(':focus'),
       );
 
+      const mockShadow =
+        !NATIVELY_SUPPORTED_PLATFORMS.includes(RN.Platform.OS) &&
+        (style.elevation || 0) <= 0 &&
+        styleKeys.some((k) => k.includes('shadowColor'));
+
+      const renderComponent = (e: StateCallbackType) => (
+        <AnimatedComponent
+          ref={(r: NativeComponents) => {
+            typeof forwardRef === 'function' && forwardRef(r);
+            this._ref = r;
+          }}
+          {...this.getPseudoProps()}
+          {...this.getStyleProps(e, mockShadow)}
+          pointerEvents={StyleSheet.flatten(style)?.pointerEvents}
+          onFocus={(ev: FocusEvent) => {
+            if (typeof this._ref?.isFocused === 'function') {
+              this.forceUpdate();
+            }
+            onFocus?.(ev);
+          }}
+          onBlur={(ev: FocusEvent) => {
+            if (typeof this._ref?.isFocused === 'function') {
+              this.forceUpdate();
+            }
+            onBlur?.(ev);
+          }}
+          {...otherProps}
+        />
+      );
+
+      const renderContent = (e: StateCallbackType) => (
+        <>
+          {!!BeforeComponent && <BeforeComponent style={before}>{beforeContent}</BeforeComponent>}
+
+          {!mockShadow && renderComponent(e)}
+          {mockShadow && <BoxShadow style={this.getStyleProps(e).style}>{renderComponent(e)}</BoxShadow>}
+
+          {!!AfterComponent && <AfterComponent style={after}>{afterContent}</AfterComponent>}
+        </>
+      );
+
       return needsPressable ? (
-        <RN.Pressable>{(e: StateCallbackType) => content(e)}</RN.Pressable>
+        <RN.Pressable>{(e: StateCallbackType) => renderContent(e)}</RN.Pressable>
       ) : (
-        content({ hovered: false, pressed: false, focused: false })
+        renderContent({ hovered: false, pressed: false, focused: false })
       );
     }
   };

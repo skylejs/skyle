@@ -16,18 +16,14 @@ const ShadowsExampleScreen = () => {
 
 const styles = StyleSheet.create(() => ({
   view: {
-    width: 300,
-    height: 300,
-    marginTop: 100,
+    width: 200,
+    height: 200,
     alignSelf: 'center',
-    backgroundColor: 'red',
-    boxShadow: '5px 5px 5px orange',
-    transition: [['boxShadow', 'backgroundColor'], 500],
-
-    '&:active': {
-      backgroundColor: 'blue',
-      boxShadow: '10px 10px 10px yellow',
-    },
+    marginTop: 100,
+    border: [15, 'solid', 'green'],
+    backgroundColor: '#ff0000',
+    boxShadow: '10px 10px 20px blue',
+    transition: ['shadowColor', 3000],
   },
   text: {
     marginTop: 50,
@@ -37,7 +33,7 @@ const styles = StyleSheet.create(() => ({
     color: 'blue',
     fontSize: 25,
     transition: [['textShadowColor', 'textShadowRadius', 'textShadowOffsetWidth', 'textShadowOffsetHeight'], 1000],
-    textShadow: '0px 2px 5px #ff0000',
+    textShadow: '0px 2px 10px #ff0000',
 
     '&:active': {
       textShadow: '15px 15px 30px #0044ff',

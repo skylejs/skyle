@@ -10373,6 +10373,16 @@ fsevents@^2.1.2:
   languageName: node
   linkType: hard
 
+"react-native-view-shot@npm:^3.1.2":
+  version: 3.1.2
+  resolution: "react-native-view-shot@npm:3.1.2"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 3a6523eacca6f82477fefe624d7f485689214bd347dae0767853d61029d457905a11b2bc6990750b3ef25b05310d119eecc34021e41649100ddadeff4558347a
+  languageName: node
+  linkType: hard
+
 "react-native@npm:^0.64.0":
   version: 0.64.0
   resolution: "react-native@npm:0.64.0"
@@ -11370,6 +11380,7 @@ resolve@^2.0.0-next.3:
     react-native: ^0.64.0
     react-native-builder-bob: ^0.18.1
     react-native-svg: ^12.1.1
+    react-native-view-shot: ^3.1.2
     release-it: ^14.6.1
     typescript: ^4.2.4
   peerDependencies:

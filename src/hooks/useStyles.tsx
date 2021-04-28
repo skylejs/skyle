@@ -7,7 +7,7 @@ import { useTheme } from './useTheme';
 import { deepEquals } from '../utils/values';
 import { matchMedia } from '../media';
 
-export const useStyles = (styles: any = {}, ...args: any[]) => {
+export const useStyles = (styles: any = {}, args?: any) => {
   const [builtStyles, setBuiltStyles] = useState<StyleSheetStyles>({});
   const theme = useTheme();
 

@@ -34,7 +34,8 @@ export default function App() {
     <StyleProvider>
       <StatusBar backgroundColor='#fff' style='dark' />
       <NavigationContainer linking={linking}>
-        <Stack.Navigator screenOptions={{ animationEnabled: true, ...TransitionPresets.SlideFromRightIOS }}>
+        <Stack.Navigator
+          screenOptions={{ animationEnabled: true, gestureEnabled: true, ...TransitionPresets.SlideFromRightIOS }}>
           <Stack.Screen name='Home' component={HomeScreen} />
 
           <Stack.Screen name='BasicExample' component={BasicExampleScreen} />
