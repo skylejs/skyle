@@ -6,7 +6,6 @@ import type {
   AdjustedStyles,
   NativeStyles,
   Styles,
-  StyleSheetStyles,
   TransitionDuration,
   TransitionShorthand,
   TransitionTimingFunction,
