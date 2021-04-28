@@ -211,8 +211,6 @@ export function createComponent<T extends NativeComponents>(WrappedComponent: T)
 
           transitionProperties = getTransitionProperties(transitionProperties);
 
-          console.log(transitionProperties);
-
           const duration = (trans?.[1] || finish?.transitionDuration) as TransitionDuration;
           const easing = (trans?.[2] || finish?.transitionTimingFunction) as TransitionTimingFunction;
           const delay = (trans?.[3] || finish?.transitionDelay) as TransitionDuration;
