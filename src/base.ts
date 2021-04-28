@@ -7,9 +7,16 @@ import { distancePreprocessor } from './preprocessors/distance';
 import { numeralPreprocessor } from './preprocessors/numeral';
 import { placeContentPreprocessor } from './preprocessors/place-content';
 import { textShadowPreprocessor } from './preprocessors/text-shadow';
-import type { BaseOptions, Preprocessor, Alias } from './types';
+import type { BaseOptions, Preprocessor, Alias, BreakpointsKeyValue } from './types';
 
-const defaultBreakpoints = [576, 768, 1200];
+const defaultBreakpoints: BreakpointsKeyValue = {
+  xs: 360,
+  sm: 576,
+  md: 768,
+  lg: 1280,
+  xl: 1920,
+};
+
 const defaultPreprocessors = {
   _alias: aliasPreprocessor,
   _numeral: numeralPreprocessor,
@@ -42,7 +49,7 @@ class Base {
   static aliases = defaultAliases;
 
   public static configure(options?: BaseOptions) {
-    Base.breakpoints = options?.breakpoints || defaultBreakpoints;
+    Base.breakpoints = Object.assign({}, defaultBreakpoints, options?.breakpoints);
   }
 
   // Preprocessors

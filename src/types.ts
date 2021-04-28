@@ -2,12 +2,14 @@ import type { Component, CSSProperties } from 'react';
 
 import type * as RN from 'react-native';
 import type { easingFunctions } from './easing';
+import type { breakpoints } from './hooks/useBreakpoint';
+
+export type BreakpointKeys = typeof breakpoints[number];
+export type BreakpointsKeyValue = { [key in BreakpointKeys]: number };
 
 export interface BaseOptions {
-  breakpoints?: [number, number, number];
+  breakpoints?: BreakpointsKeyValue;
 }
-
-export type BreakpointKeys = 'sm' | 'md' | 'lg' | 'xl' | 'mdDown' | 'lgDown' | 'mdUp' | 'lgUp';
 
 export type NativeStyles = RN.ViewStyle & RN.TextStyle & RN.ImageStyle;
 

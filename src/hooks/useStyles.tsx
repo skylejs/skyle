@@ -101,21 +101,24 @@ export function preprocessStyles(styles: StyleSheetStyles) {
  * Get Media Query-specific props to be passed down to StyleSheet.
  * This function gets called on every rerender of the StyleSheet in order to pass updated values.
  */
-function getMediaQueryProps() {
+export function getMediaQueryProps() {
   return {
     screen: Dimensions.get('screen'),
     window: Dimensions.get('window'),
 
     // Convert breakpoints to media queries.
-    sm: `@media (max-width: ${Skyle.breakpoints[0]})`,
-    md: `@media (min-width: ${Skyle.breakpoints[0] + 1}) and (max-width: ${Skyle.breakpoints[1]})`,
-    lg: `@media (min-width: ${Skyle.breakpoints[1] + 1}) and (max-width: ${Skyle.breakpoints[2]})`,
-    xl: `@media (min-width: ${Skyle.breakpoints[2] + 1})`,
+    xs: `@media (max-width: ${Skyle.breakpoints.xs})`,
+    sm: `@media (min-width: ${Skyle.breakpoints.xs + 1}) and (max-width: ${Skyle.breakpoints.sm})`,
+    md: `@media (min-width: ${Skyle.breakpoints.sm + 1}) and (max-width: ${Skyle.breakpoints.md})`,
+    lg: `@media (min-width: ${Skyle.breakpoints.md + 1}) and (max-width: ${Skyle.breakpoints.lg})`,
+    xl: `@media (min-width: ${Skyle.breakpoints.lg + 1})`,
 
-    mdDown: `@media (max-width: ${Skyle.breakpoints[1]})`,
-    lgDown: `@media (max-width: ${Skyle.breakpoints[2]})`,
+    smDown: `@media (max-width: ${Skyle.breakpoints.md})`,
+    mdDown: `@media (max-width: ${Skyle.breakpoints.md})`,
+    lgDown: `@media (max-width: ${Skyle.breakpoints.lg})`,
 
-    mdUp: `@media (min-width: ${Skyle.breakpoints[0]})`,
-    lgUp: `@media (min-width: ${Skyle.breakpoints[1]})`,
+    smUp: `@media (max-width: ${Skyle.breakpoints.md})`,
+    mdUp: `@media (min-width: ${Skyle.breakpoints.sm})`,
+    lgUp: `@media (min-width: ${Skyle.breakpoints.md})`,
   };
 }
