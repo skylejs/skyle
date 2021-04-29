@@ -1,3 +1,14 @@
+# [0.3.0](https://github.com/skylejs/skyle/compare/v0.2.0...v0.3.0) (2021-04-29)
+
+
+### Features
+
+* aliases ([3266363](https://github.com/skylejs/skyle/commit/3266363b2524b05b1a1fa212145b59e334b6e108))
+* allow transitions by aliases and shorthands ([444bfac](https://github.com/skylejs/skyle/commit/444bfac2925198020e018413ee8231bb03c9b875))
+* box-shadow (android, windows) ([e8b19df](https://github.com/skylejs/skyle/commit/e8b19df5ca14746c0a73a634edb7b012fec7f6e4))
+* breakpoint hook and getter ([11147b9](https://github.com/skylejs/skyle/commit/11147b9f17d12ac67adabef4c56f561119ec8475))
+* text-shadow ([c5938c6](https://github.com/skylejs/skyle/commit/c5938c664f3ca9520d26fa7de27409a873fd3378))
+
 # [0.2.0](https://github.com/skylejs/skyle/compare/v0.1.1...v0.2.0) (2021-04-26)
 
 
