@@ -4,10 +4,13 @@ import type * as RN from 'react-native';
 import type { easingFunctions } from './easing';
 import type { breakpoints } from './hooks/useBreakpoint';
 
+export type EnvVariables = { [key: string]: string | number };
+
 export type BreakpointKeys = typeof breakpoints[number];
 export type BreakpointsKeyValue = { [key in BreakpointKeys]: number };
 
 export interface BaseOptions {
+  env?: Partial<EnvVariables>;
   breakpoints?: BreakpointsKeyValue;
 }
 

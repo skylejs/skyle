@@ -2,6 +2,7 @@ import { Dimensions } from 'react-native';
 import { numeralPreprocessor } from '../preprocessors/numeral';
 import type { EasingNameCamel, EasingNameDashed } from '../types';
 import { Easing } from '..';
+import Base from '../base';
 
 const RE_LENGTH_UNIT = /(cm|mm|Q|in|pt|pc|px|em|ex|ch|rem|lh|vw|vh|vmin|vmax)?\s*$/;
 const RE_RESOLUTION_UNIT = /(dpi|dpcm|dppx)?\s*$/;
@@ -130,6 +131,10 @@ export function clamp(val: number, min = 0, max = Number.MAX_VALUE) {
   return Math.min(Math.max(val, min), max);
 }
 
+export function env(v: string, fallback: string | number) {
+  return Base.envVariables[v.toLowerCase()] || fallback;
+}
+
 //
 type FunctionalNotation = (...args: any) => string | number;
 
@@ -138,6 +143,7 @@ const functions: { [key: string]: FunctionalNotation } = {
   min: Math.min,
   max: Math.max,
   clamp: (min: number, val: number, max: number) => clamp(val, min, max),
+  env: (v: string, fallback: string | number) => env(v, fallback),
 };
 
 export function functionalNotation(value: string) {

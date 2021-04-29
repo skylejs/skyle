@@ -1,3 +1,4 @@
+import { StatusBar } from 'react-native';
 import { aliasPreprocessor } from './preprocessors/alias';
 import { borderPreprocessor } from './preprocessors/border';
 import { borderSideRadiusPreprocessor } from './preprocessors/border-side-radius';
@@ -7,7 +8,14 @@ import { distancePreprocessor } from './preprocessors/distance';
 import { numeralPreprocessor } from './preprocessors/numeral';
 import { placeContentPreprocessor } from './preprocessors/place-content';
 import { textShadowPreprocessor } from './preprocessors/text-shadow';
-import type { BaseOptions, Preprocessor, Alias, BreakpointsKeyValue } from './types';
+import type { BaseOptions, Preprocessor, Alias, EnvVariables, BreakpointsKeyValue } from './types';
+
+const defaultEnvVariables: EnvVariables = {
+  'safe-area-inset-top': StatusBar.currentHeight || 0,
+  'safe-area-inset-right': 0,
+  'safe-area-inset-bottom': 0,
+  'safe-area-inset-left': 0,
+};
 
 const defaultBreakpoints: BreakpointsKeyValue = {
   xs: 360,
@@ -44,12 +52,14 @@ const defaultAliases: Alias = {
 };
 
 class Base {
+  static envVariables = defaultEnvVariables;
   static breakpoints = defaultBreakpoints;
   static preprocessors: Preprocessor = defaultPreprocessors;
   static aliases = defaultAliases;
 
   public static configure(options?: BaseOptions) {
-    Base.breakpoints = Object.assign({}, defaultBreakpoints, options?.breakpoints);
+    Base.envVariables = Object.assign({}, this.envVariables, options?.env);
+    Base.breakpoints = Object.assign({}, this.breakpoints, options?.breakpoints);
   }
 
   // Preprocessors
