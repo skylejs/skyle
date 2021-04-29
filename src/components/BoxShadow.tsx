@@ -1,5 +1,5 @@
 import React, { createRef, Component } from 'react';
-import { ImageBackground, Platform, View, ViewProps, ViewStyle } from 'react-native';
+import { Animated, Image, Platform, View, ViewProps, ViewStyle } from 'react-native';
 import ViewShot from 'react-native-view-shot';
 import StyleSheet from '../StyleSheet';
 import { styled } from '../styled-decorator';
@@ -27,6 +27,7 @@ class BoxShadow extends Component<BoxShadowProps> {
     shadowStyle: {} as ViewStyle,
   };
   private _viewRef = createRef<ViewShot>();
+  private _timeout?: NodeJS.Timeout;
   private _isCapturing = false;
 
   componentDidMount() {
@@ -39,10 +40,15 @@ class BoxShadow extends Component<BoxShadowProps> {
     }
   }
 
+  componentWillUnmount() {
+    if (this._timeout) {
+      clearTimeout(this._timeout);
+    }
+  }
+
   private _recalculate() {
-    const { bgUri } = this.state;
-    let { style = {} } = this.props;
-    style = StyleSheet.flatten(style);
+    const { style: rawStyle = {} } = this.props;
+    const style = StyleSheet.flatten(rawStyle);
 
     const {
       marginTop,
@@ -104,16 +110,24 @@ class BoxShadow extends Component<BoxShadowProps> {
       borderBottomEndRadius,
     };
 
-    const width = +(style.width || 0);
-    const height = +(style.height || 0);
-    const radius = +(style.shadowRadius || 0) * 8;
+    const width = style.width || 0;
+    const height = style.height || 0;
+
+    const shadowRadius = style.shadowRadius as any;
+    let radius = shadowRadius / 20;
+    if (typeof shadowRadius._value !== 'undefined') {
+      (shadowRadius as Animated.Value).addListener(({ value }) => this.setState({ radius: value / 20 }));
+    } else {
+      this.setState({ radius });
+    }
+
+    let color = style.shadowColor;
     const offset = {
       top: style.shadowOffset?.height || 0,
       left: style.shadowOffset?.width || 0,
     };
-    const color = style.shadowColor;
     const opacity = style.shadowOpacity || 1;
-    const borderRadius = (radius || 1) / 30;
+    const borderRadius = radius;
 
     this.setState(
       {
@@ -121,49 +135,54 @@ class BoxShadow extends Component<BoxShadowProps> {
         shadowStyle,
         width,
         height,
-        radius,
         offset,
         color,
         opacity,
         borderRadius,
         zIndex: style.zIndex || 0,
-        bgUri: radius > 0 ? '' : bgUri,
       },
-      () => requestAnimationFrame(this._capture),
+      () => {
+        this._timeout && clearTimeout(this._timeout);
+        this._timeout = setTimeout(this._capture, 0);
+      },
     );
   }
 
   private _capture = async () => {
-    this._isCapturing = true;
-    const dataUri = await this._viewRef.current?.capture?.();
-    this.setState({ bgUri: dataUri || '' }, () => {
-      this._isCapturing = false;
-    });
+    try {
+      this._isCapturing = true;
+      const dataUri = await this._viewRef.current?.capture?.();
+      this.setState({ bgUri: dataUri || '' }, () => {
+        this._isCapturing = false;
+      });
+    } catch (err) {}
   };
 
   render() {
-    const { bgUri, color } = this.state;
+    const { bgUri, radius, color } = this.state;
     const { children } = this.props;
 
     return (
       <View style={this.styles.wrapper}>
-        <ViewShot
-          ref={this._viewRef}
-          style={this.styles.shotView}
-          options={{
-            format: Platform.select({ android: 'webm', default: 'png' }),
-            result: 'data-uri',
-            width: 50,
-            height: 50,
-            quality: 0.01,
-          }}>
-          <View style={this.styles.border} />
-        </ViewShot>
+        {!bgUri && (
+          <ViewShot
+            ref={this._viewRef}
+            style={this.styles.shotView}
+            options={{
+              format: Platform.select({ android: 'webm', default: 'png' }),
+              result: 'data-uri',
+              width: 100,
+              height: 100,
+              quality: 0.01,
+            }}>
+            {<View style={this.styles.border} />}
+          </ViewShot>
+        )}
         {children}
         {!!bgUri && (
-          <ImageBackground
+          <Image
             source={{ uri: bgUri }}
-            blurRadius={1}
+            blurRadius={radius}
             style={this.styles.shadow}
             fadeDuration={0}
             // @ts-ignore tintColor missing type?
@@ -192,18 +211,19 @@ const styles = StyleSheet.create((o) => ({
     width: o.state.width,
     height: o.state.height,
     backgroundColor: '#fff',
-    margin: o.state.radius,
+    transform: [{ scale: 0.2 }],
     ...o.state.shadowStyle,
   },
   shadow: {
     position: 'absolute',
-    top: -o.state.radius,
-    left: -o.state.radius,
-    width: o.state.width + o.state.radius * 2,
-    height: o.state.height + o.state.radius * 2,
+    width: o.state.width,
+    height: o.state.height,
     opacity: o.state.opacity,
-    margin: [o.state.offset.top, o.state.offset.left],
-    zIndex: o.state.zIndex - 1,
+    marginTop: o.state.offset.top,
+    marginLeft: o.state.offset.left,
+    tintColor: o.state.color,
+    zIndex: -1,
+    transform: [{ scale: 5 }],
     pointerEvents: 'none',
   },
 }));

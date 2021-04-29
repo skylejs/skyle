@@ -411,7 +411,8 @@ const getTransitionProperties = (transitionProperties: string[]) => {
   const blankTransitionStyles: any = { r: {} };
   transitionProperties.forEach((key) => (blankTransitionStyles.r[key] = '0'));
 
-  const transitionStyles = preprocessStyles(blankTransitionStyles);
+  let transitionStyles = preprocessStyles(blankTransitionStyles);
+  transitionStyles = preprocessStyles(blankTransitionStyles);
 
   return Object.keys(flattenStyle(transitionStyles.r)) as (keyof Styles)[];
 };

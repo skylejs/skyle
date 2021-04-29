@@ -54,7 +54,7 @@ export function preprocessStyles(styles: StyleSheetStyles) {
   let processedStyles = styles;
   const processedStyleKeys = Object.keys(processedStyles) as (keyof typeof processedStyles)[];
   processedStyleKeys.map((name) =>
-    (Object.keys(processedStyles[name]) as (keyof Styles)[]).map((key) => {
+    (Object.keys(processedStyles[name] || {}) as (keyof Styles)[]).map((key) => {
       if (!Array.isArray(processedStyles[name][key]) && typeof processedStyles[name][key] === 'object') {
         // @ts-ignore
         processedStyles[name][key] = preprocessStyles({ r: processedStyles[name][key] as StyleSheetStyles }).r;
