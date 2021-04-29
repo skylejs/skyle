@@ -48,6 +48,8 @@ module.exports = {
         'api/match-media',
         'api/use-styles',
         'api/use-theme',
+        'api/use-breakpoint',
+        'api/get-breakpoint',
       ],
     },
   ],

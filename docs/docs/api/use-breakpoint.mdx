@@ -1,0 +1,16 @@
+---
+id: use-breakpoint
+title: useBreakpoint
+---
+
+`useBreakpoint` is a React hook for checking if a [breakpoint](features/breakpoints.mdx) is matched. It automatically changes on resize.
+
+```ts
+const isLarge = useBreakpoint('lg');
+```
+
+Syntax:
+
+```ts
+function useBreakpoint(bp: Breakpoint): boolean;
+```
