@@ -270,7 +270,7 @@ borderBottomRadius: string | number;
 ### boxShadow <span class="badge new">New</span>
 
 ```ts
-boxShadow: [string | number, string | number, string | number];
+boxShadow: [number | string, number | string, number | string, (number | string)?, string?] | string;
 ```
 
 ### shadowColor
@@ -304,6 +304,12 @@ boxShadow: [string | number, string | number, string | number];
 ## Text
 
 ### color
+
+### textShadow <span class="badge new">New</span>
+
+```ts
+textShadow: [number | string, number | string, (number | string)?, string?] | string;
+```
 
 ### textShadowOffset
 

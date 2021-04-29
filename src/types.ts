@@ -232,8 +232,8 @@ export type AdjustedStyles = {
   borderTopRadius?: number | string;
   borderBottomRadius?: number | string;
 
-  boxShadow?: [number | string, number | string, (number | string)?, string?] | string;
-  textShadow?: [number | string, number | string, number | string, (number | string)?, string?] | string;
+  boxShadow?: [number | string, number | string, number | string, (number | string)?, string?] | string;
+  textShadow?: [number | string, number | string, (number | string)?, string?] | string;
 
   /**
    *
