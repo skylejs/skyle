@@ -11,7 +11,6 @@ interface BoxShadowProps extends ViewProps {
   children?: React.ReactNode;
 }
 
-@styled
 class BoxShadow extends Component<BoxShadowProps> {
   styles = styles;
   state = {
@@ -228,4 +227,4 @@ const styles = StyleSheet.create((o) => ({
   },
 }));
 
-export default BoxShadow;
+export default styled(BoxShadow);

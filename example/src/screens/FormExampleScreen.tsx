@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Alert, Image, ScrollView } from 'react-native';
+import { Image, ScrollView } from 'react-native';
 import { Button } from 'react-native-paper';
 import { StyleSheet, styled, TextInput } from 'skyle';
 
