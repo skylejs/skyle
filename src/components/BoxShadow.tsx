@@ -114,7 +114,7 @@ class BoxShadow extends Component<BoxShadowProps> {
 
     const shadowRadius = style.shadowRadius as any;
     let radius = shadowRadius / 20;
-    if (typeof shadowRadius._value !== 'undefined') {
+    if (typeof shadowRadius?._value !== 'undefined') {
       (shadowRadius as Animated.Value).addListener(({ value }) => this.setState({ radius: value / 20 }));
     } else {
       this.setState({ radius });
