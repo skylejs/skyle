@@ -392,7 +392,7 @@ export function createComponent<T extends NativeComponents>(WrappedComponent: T)
           {!!BeforeComponent && <BeforeComponent style={before}>{beforeContent}</BeforeComponent>}
 
           {!mockShadow && renderComponent(e)}
-          {mockShadow && <BoxShadow style={this.getStyleProps(e).style}>{renderComponent(e)}</BoxShadow>}
+          {mockShadow && <BoxShadow {...this.getStyleProps(e)}>{renderComponent(e)}</BoxShadow>}
 
           {!!AfterComponent && <AfterComponent style={after}>{afterContent}</AfterComponent>}
         </>

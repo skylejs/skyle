@@ -56,6 +56,11 @@ const styles = StyleSheet.create(() => ({
     margin: [100, 0],
     backgroundColor: 'white',
     boxShadow: '1px 1px 15px gray',
+    transition: [['boxShadow', 'borderRadius'], 800],
+
+    '&:active': {
+      borderRadius: 100,
+    },
   },
   text1: {
     margin: [50, 0, 5, 0],

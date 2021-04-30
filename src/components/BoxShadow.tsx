@@ -113,9 +113,9 @@ class BoxShadow extends Component<BoxShadowProps> {
     const height = style.height || 0;
 
     const shadowRadius = style.shadowRadius as any;
-    let radius = shadowRadius / 20;
+    let radius = Math.max(shadowRadius / 6, 1);
     if (typeof shadowRadius?._value !== 'undefined') {
-      (shadowRadius as Animated.Value).addListener(({ value }) => this.setState({ radius: value / 20 }));
+      (shadowRadius as Animated.Value).addListener(({ value }) => this.setState({ radius: Math.max(value / 6, 1) }));
     } else {
       this.setState({ radius });
     }
@@ -209,8 +209,8 @@ const styles = StyleSheet.create((o) => ({
   border: {
     width: o.state.width,
     height: o.state.height,
+    transform: [{ scale: 0.7 }],
     backgroundColor: '#fff',
-    transform: [{ scale: 0.2 }],
     ...o.state.shadowStyle,
   },
   shadow: {
@@ -218,11 +218,11 @@ const styles = StyleSheet.create((o) => ({
     width: o.state.width,
     height: o.state.height,
     opacity: o.state.opacity,
-    marginTop: o.state.offset.top,
-    marginLeft: o.state.offset.left,
+    top: o.state.offset.top,
+    left: o.state.offset.left,
     tintColor: o.state.color,
     zIndex: -1,
-    transform: [{ scale: 5 }],
+    transform: [{ scale: 1 / 0.7 }],
     pointerEvents: 'none',
   },
 }));
