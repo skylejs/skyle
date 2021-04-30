@@ -1,3 +1,10 @@
+## [0.3.1](https://github.com/skylejs/skyle/compare/v0.3.0...v0.3.1) (2021-04-30)
+
+
+### Bug Fixes
+
+* undefined shadowRadius ([460ce3d](https://github.com/skylejs/skyle/commit/460ce3dba8158605c524c5837bc5dbeacc8b89ec))
+
 # [0.3.0](https://github.com/skylejs/skyle/compare/v0.2.0...v0.3.0) (2021-04-29)
 
 
