@@ -286,6 +286,8 @@ export function createComponent<T extends NativeComponents>(WrappedComponent: T)
                 flexBasis,
                 flexGrow,
                 flexShrink,
+
+                zIndex,
                 /* eslint-enable */
                 ...remainingStyle
               } = style;

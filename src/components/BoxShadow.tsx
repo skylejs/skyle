@@ -67,6 +67,8 @@ class BoxShadow extends Component<BoxShadowProps> {
       flexGrow,
       flexShrink,
 
+      zIndex,
+
       borderTopLeftRadius,
       borderTopRightRadius,
       borderBottomLeftRadius,
@@ -95,6 +97,8 @@ class BoxShadow extends Component<BoxShadowProps> {
       flexBasis,
       flexGrow,
       flexShrink,
+
+      zIndex,
     };
 
     const shadowStyle = {
@@ -138,7 +142,6 @@ class BoxShadow extends Component<BoxShadowProps> {
         color,
         opacity,
         borderRadius,
-        zIndex: style.zIndex || 0,
       },
       () => {
         this._timeout && clearTimeout(this._timeout);
@@ -177,7 +180,6 @@ class BoxShadow extends Component<BoxShadowProps> {
             {<View style={this.styles.border} />}
           </ViewShot>
         )}
-        {children}
         {!!bgUri && (
           <Image
             source={{ uri: bgUri }}
@@ -189,6 +191,7 @@ class BoxShadow extends Component<BoxShadowProps> {
             resizeMode='stretch'
           />
         )}
+        {children}
       </View>
     );
   }
@@ -221,7 +224,6 @@ const styles = StyleSheet.create((o) => ({
     top: o.state.offset.top,
     left: o.state.offset.left,
     tintColor: o.state.color,
-    zIndex: -1,
     transform: [{ scale: 1 / 0.7 }],
     pointerEvents: 'none',
   },
