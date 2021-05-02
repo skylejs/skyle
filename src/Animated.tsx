@@ -264,6 +264,9 @@ export function createComponent<T extends NativeComponents>(WrappedComponent: T)
               return;
             }
 
+            let combinedStyles: Styles = Object.assign({}, style, this.getAnimatedStyle(style, e));
+            combinedStyles = removeInvalidStyles(combinedStyles);
+
             if (mockShadow) {
               const {
                 /* eslint-disable @typescript-eslint/no-unused-vars */
@@ -290,12 +293,9 @@ export function createComponent<T extends NativeComponents>(WrappedComponent: T)
                 zIndex,
                 /* eslint-enable */
                 ...remainingStyle
-              } = style;
-              style = remainingStyle;
+              } = combinedStyles;
+              combinedStyles = remainingStyle;
             }
-
-            let combinedStyles: Styles = Object.assign({}, style, this.getAnimatedStyle(style, e));
-            combinedStyles = removeInvalidStyles(combinedStyles);
 
             return combinedStyles;
           });

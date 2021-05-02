@@ -11,6 +11,9 @@ import FormExampleScreen from './screens/FormExampleScreen';
 import TouchableExampleScreen from './screens/TouchableExampleScreen';
 import ThemeExampleScreen from './screens/ThemeExampleScreen';
 import ShadowsExampleScreen from './screens/ShadowsExampleScreen';
+import { LogBox } from 'react-native';
+
+LogBox.ignoreAllLogs();
 
 export const linking = {
   prefixes: [],

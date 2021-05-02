@@ -55,10 +55,11 @@ const styles = StyleSheet.create(() => ({
     alignSelf: 'center',
     margin: [100, 0],
     backgroundColor: 'white',
-    boxShadow: '1px 1px 15px gray',
-    transition: [['boxShadow', 'borderRadius'], 800],
+    boxShadow: '0px 0px 15px gray',
+    transition: [['width', 'boxShadow', 'borderRadius'], 800],
 
     '&:active': {
+      width: 205,
       borderRadius: 100,
     },
   },
