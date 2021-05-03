@@ -12,6 +12,7 @@ import TouchableExampleScreen from './screens/TouchableExampleScreen';
 import ThemeExampleScreen from './screens/ThemeExampleScreen';
 import ShadowsExampleScreen from './screens/ShadowsExampleScreen';
 import { LogBox } from 'react-native';
+import BackgroundsExampleScreen from './screens/BackgroundsExampleScreen';
 
 LogBox.ignoreAllLogs();
 
@@ -25,6 +26,7 @@ export const linking = {
       TransitionsExample: 'example/transitions',
       ThemeExample: 'example/theme',
       ShadowsExample: 'example/shadows',
+      BackgroundsExample: 'example/backgrounds',
       FormExample: 'example/form',
     },
   },
@@ -41,12 +43,25 @@ export default function App() {
           screenOptions={{ animationEnabled: true, gestureEnabled: true, ...TransitionPresets.SlideFromRightIOS }}>
           <Stack.Screen name='Home' component={HomeScreen} />
 
-          <Stack.Screen name='BasicExample' component={BasicExampleScreen} />
-          <Stack.Screen name='TouchableExample' component={TouchableExampleScreen} />
-          <Stack.Screen name='TransitionsExample' component={TransitionsExampleScreen} />
-          <Stack.Screen name='ThemeExample' component={ThemeExampleScreen} />
-          <Stack.Screen name='ShadowsExample' component={ShadowsExampleScreen} />
-          <Stack.Screen name='FormExample' component={FormExampleScreen} />
+          <Stack.Screen name='BasicExample' component={BasicExampleScreen} options={{ title: 'Basic Example' }} />
+          <Stack.Screen
+            name='TouchableExample'
+            component={TouchableExampleScreen}
+            options={{ title: 'Touchable Example' }}
+          />
+          <Stack.Screen
+            name='TransitionsExample'
+            component={TransitionsExampleScreen}
+            options={{ title: 'Transitions Example' }}
+          />
+          <Stack.Screen name='ThemeExample' component={ThemeExampleScreen} options={{ title: 'Theme Example' }} />
+          <Stack.Screen name='ShadowsExample' component={ShadowsExampleScreen} options={{ title: 'Shadows Example' }} />
+          <Stack.Screen
+            name='BackgroundsExample'
+            component={BackgroundsExampleScreen}
+            options={{ title: 'Backgrounds Example' }}
+          />
+          <Stack.Screen name='FormExample' component={FormExampleScreen} options={{ title: 'Form Example' }} />
         </Stack.Navigator>
       </NavigationContainer>
     </StyleProvider>
