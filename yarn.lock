@@ -2475,6 +2475,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/gradient-parser@npm:^0.1.0":
+  version: 0.1.0
+  resolution: "@types/gradient-parser@npm:0.1.0"
+  checksum: 49c87f7850f8b877aa7368b75c2cb63e3ef753c08988cc57e3a641d80222d454b7ccaefabb8bb3f8ab77b81819f438cc4b9d4d3c1489987d1a19734ec508f33b
+  languageName: node
+  linkType: hard
+
 "@types/http-cache-semantics@npm:*":
   version: 4.0.0
   resolution: "@types/http-cache-semantics@npm:4.0.0"
@@ -6299,6 +6306,13 @@ fsevents@^2.1.2:
   version: 4.2.6
   resolution: "graceful-fs@npm:4.2.6"
   checksum: 84d39c7756892553da990a9db7e45f844b3309b37b5a00174cbb4748476f2250c54f24594d4d252f64f085c65c2fdac7c809419bf6d55f0e6e42eb07ac0f5bf2
+  languageName: node
+  linkType: hard
+
+"gradient-parser@npm:^1.0.2":
+  version: 1.0.2
+  resolution: "gradient-parser@npm:1.0.2"
+  checksum: 6649d77ec306c97d4ff11aea8659f984b637189596ab153a8c1e8a17e47031a6755762c601ee7eff3012ac914016d8812facb264caf363bed3dba9d8ec3cfa9a
   languageName: node
   linkType: hard
 
@@ -11364,6 +11378,7 @@ resolve@^2.0.0-next.3:
     "@react-native-community/eslint-config": ^2.0.0
     "@release-it/conventional-changelog": ^2.0.1
     "@types/color": ^3.0.1
+    "@types/gradient-parser": ^0.1.0
     "@types/jest": ^26.0.22
     "@types/react": ^17.0.3
     "@types/react-native": ^0.64.4
@@ -11372,6 +11387,7 @@ resolve@^2.0.0-next.3:
     eslint: ^7.24.0
     eslint-config-prettier: ^8.2.0
     eslint-plugin-prettier: ^3.4.0
+    gradient-parser: ^1.0.2
     husky: ^6.0.0
     jest: ^26.6.3
     pod-install: ^0.1.21

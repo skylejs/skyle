@@ -17,6 +17,8 @@ import StyleSheet from './StyleSheet';
 import { removeInvalidStyles, validStyles } from './utils/valid-styles';
 import { preprocessStyles } from './hooks/useStyles';
 import BoxShadow, { NATIVELY_SUPPORTED_PLATFORMS } from './components/BoxShadow';
+import RelativeWrapper from './components/RelativeWrapper';
+import BackgroundImage from './components/BackgroundImage';
 
 overrideNative(RN.View);
 overrideNative(RN.Text);
@@ -32,7 +34,8 @@ function overrideNative(nativeComp: any) {
   nativeComp.render = (props: any, ref: any) => {
     nativeComp.render.displayName = nativeComp.displayName;
     if (
-      Object.keys(Object.values(StyleSheet.flatten(props.style) || {}))?.every(
+      props?.suppressHydrationWarning ||
+      Object.keys(StyleSheet.flatten(props.style) || {})?.every(
         (k) =>
           validStyles.includes(k) &&
           !k.includes('&:') &&
@@ -248,7 +251,7 @@ export function createComponent<T extends NativeComponents>(WrappedComponent: T)
       return wrapStyles(Object.assign({}, finish, styles));
     }
 
-    getStyleProps(e: StateCallbackType, mockShadow = false) {
+    getStyleProps(e: StateCallbackType, hasWrapper = false, hasBackgroundImage = false) {
       const props = this.props;
       const propKeys = Object.keys(this.props) as (keyof typeof props)[];
       const stylePropKeys = propKeys.filter((key) => key.toLowerCase().startsWith('style'));
@@ -265,9 +268,9 @@ export function createComponent<T extends NativeComponents>(WrappedComponent: T)
             }
 
             let combinedStyles: Styles = Object.assign({}, style, this.getAnimatedStyle(style, e));
-            combinedStyles = removeInvalidStyles(combinedStyles);
 
-            if (mockShadow) {
+            if (hasWrapper) {
+              combinedStyles = removeInvalidStyles(combinedStyles);
               const {
                 /* eslint-disable @typescript-eslint/no-unused-vars */
                 margin,
@@ -291,9 +294,22 @@ export function createComponent<T extends NativeComponents>(WrappedComponent: T)
                 flexShrink,
 
                 zIndex,
+                transform,
+
+                backgroundImage,
+                backgroundPosition,
+                backgroundSize,
+                backgroundRepeat,
+                backgroundAttachment,
+                backgroundClip,
+                backgroundOrigin,
                 /* eslint-enable */
                 ...remainingStyle
               } = combinedStyles;
+
+              if (hasBackgroundImage) {
+                delete remainingStyle.backgroundColor;
+              }
               combinedStyles = remainingStyle;
             }
 
@@ -360,9 +376,11 @@ export function createComponent<T extends NativeComponents>(WrappedComponent: T)
       );
 
       const mockShadow =
-        !NATIVELY_SUPPORTED_PLATFORMS.includes(RN.Platform.OS) &&
-        (style.elevation || 0) <= 0 &&
-        styleKeys.some((k) => k.includes('shadowColor'));
+        !NATIVELY_SUPPORTED_PLATFORMS.includes(RN.Platform.OS) && (style.elevation || 0) <= 0 && !!style.shadowColor;
+
+      const hasBackgroundImage = !!style.backgroundImage;
+
+      const needsWrapper = mockShadow || hasBackgroundImage;
 
       const renderComponent = (e: StateCallbackType) => (
         <AnimatedComponent
@@ -371,8 +389,8 @@ export function createComponent<T extends NativeComponents>(WrappedComponent: T)
             this._ref = r;
           }}
           {...this.getPseudoProps()}
-          {...this.getStyleProps(e, mockShadow)}
-          pointerEvents={StyleSheet.flatten(style)?.pointerEvents}
+          {...this.getStyleProps(e, needsWrapper, hasBackgroundImage)}
+          pointerEvents={style.pointerEvents}
           onFocus={(ev: FocusEvent) => {
             if (typeof this._ref?.isFocused === 'function') {
               this.forceUpdate();
@@ -389,16 +407,26 @@ export function createComponent<T extends NativeComponents>(WrappedComponent: T)
         />
       );
 
-      const renderContent = (e: StateCallbackType) => (
-        <>
-          {!!BeforeComponent && <BeforeComponent style={before}>{beforeContent}</BeforeComponent>}
+      const renderContent = (e: StateCallbackType) => {
+        return (
+          <>
+            {!!BeforeComponent && <BeforeComponent style={before}>{beforeContent}</BeforeComponent>}
 
-          {!mockShadow && renderComponent(e)}
-          {mockShadow && <BoxShadow {...this.getStyleProps(e)}>{renderComponent(e)}</BoxShadow>}
+            {needsWrapper ? (
+              <RelativeWrapper {...this.getStyleProps(e)}>
+                {hasBackgroundImage && <BackgroundImage {...this.getStyleProps(e)} />}
+                {mockShadow && <BoxShadow {...this.getStyleProps(e)} />}
 
-          {!!AfterComponent && <AfterComponent style={after}>{afterContent}</AfterComponent>}
-        </>
-      );
+                {renderComponent(e)}
+              </RelativeWrapper>
+            ) : (
+              renderComponent(e)
+            )}
+
+            {!!AfterComponent && <AfterComponent style={after}>{afterContent}</AfterComponent>}
+          </>
+        );
+      };
 
       return needsPressable ? (
         <RN.Pressable>{(e: StateCallbackType) => renderContent(e)}</RN.Pressable>

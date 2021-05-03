@@ -78,6 +78,13 @@ export function toPx(length: number | string, defaultRaw = false) {
   }
 }
 
+const LENGTH = /^(\+|-)?([0-9]*\.)?[0-9]+(em|ex|ch|rem|vh|vw|vmin|vmax|px|mm|cm|in|pt|pc|%)$/i;
+const ZERO = /^(\+|-)?(0*\.)?0+$/;
+
+export function isLength(value: string | number) {
+  return LENGTH.test(`${value}`) || ZERO.test(`${value}`);
+}
+
 export function toLength(value: string | number) {
   const parsedValue = toPx(toDecimal(functionalNotation(`${value}`) || value, true), true);
   const rawValue = (`${parsedValue}`.endsWith('%') ? parsedValue : parseFloat(`${parsedValue}`)) || undefined;

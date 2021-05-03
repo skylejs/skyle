@@ -1,10 +1,12 @@
 import { StatusBar } from 'react-native';
 import { aliasPreprocessor } from './preprocessors/alias';
+import { backgroundPreprocessor } from './preprocessors/background';
 import { borderPreprocessor } from './preprocessors/border';
 import { borderSideRadiusPreprocessor } from './preprocessors/border-side-radius';
 import { boxShadowPreprocessor } from './preprocessors/box-shadow';
 import { colorPreprocessor } from './preprocessors/color';
 import { distancePreprocessor } from './preprocessors/distance';
+import { keywordPreprocessor } from './preprocessors/keyword';
 import { numeralPreprocessor } from './preprocessors/numeral';
 import { placeContentPreprocessor } from './preprocessors/place-content';
 import { textShadowPreprocessor } from './preprocessors/text-shadow';
@@ -27,6 +29,7 @@ const defaultBreakpoints: BreakpointsKeyValue = {
 
 const defaultPreprocessors = {
   _alias: aliasPreprocessor,
+  _keyword: keywordPreprocessor,
   _numeral: numeralPreprocessor,
   _color: colorPreprocessor,
 
@@ -40,6 +43,8 @@ const defaultPreprocessors = {
 
   boxShadow: boxShadowPreprocessor,
   textShadow: textShadowPreprocessor,
+
+  background: backgroundPreprocessor,
 
   placeContent: placeContentPreprocessor,
 };
