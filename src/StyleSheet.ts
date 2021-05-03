@@ -1,5 +1,5 @@
 import * as RN from 'react-native';
-import type { NativeStyles, Styles, StyleSheetStyles, StylesProps } from './types';
+import type { Styles, StyleSheetStyles, StyleSheetValues, StylesProps } from './types';
 
 /** @see https://skyle.js.org/docs/api/StyleSheet */
 class StyleSheet {
@@ -50,10 +50,8 @@ class StyleSheet {
   /**
    * Creates an extended StyleSheet style reference from the given object.
    */
-  public static create(
-    styles: ((props: StylesProps) => StyleSheetStyles) | StyleSheetStyles,
-  ): { [key: string]: NativeStyles } {
-    return styles as { [key: string]: NativeStyles };
+  public static create<T extends StyleSheetStyles>(styles: ((props: StylesProps) => T) | T): StyleSheetValues<T> {
+    return styles as T;
   }
 }
 

@@ -4,7 +4,7 @@ import type * as RN from 'react-native';
 import type { easingFunctions } from './easing';
 import type { breakpoints } from './hooks/useBreakpoint';
 
-export type EnvVariables = { [key: string]: string | number };
+export type EnvVariables = { [key: string]: CSSProperty };
 
 export type BreakpointKeys = typeof breakpoints[number];
 export type BreakpointsKeyValue = { [key in BreakpointKeys]: number };
@@ -95,10 +95,10 @@ type TransformKeys =
   | 'translateY';
 
 export type ExtendedStyles = {
-  paddingX?: number | string;
-  paddingY?: number | string;
-  marginX?: number | string;
-  marginY?: number | string;
+  paddingX?: CSSProperty;
+  paddingY?: CSSProperty;
+  marginX?: CSSProperty;
+  marginY?: CSSProperty;
 };
 
 export type StyleKeys = keyof NativeStyles | keyof CSSProperties | keyof ExtendedStyles | TransformKeys;
@@ -107,7 +107,7 @@ type TransitionKeyValue<T> = { [key in StyleKeys]: T };
 
 type TransitionPropertyKeys = StyleKeys | string;
 
-export type TransitionDuration = number | string | TransitionKeyValue<number | string>;
+export type TransitionDuration = CSSProperty | TransitionKeyValue<CSSProperty>;
 export type TransitionDelay = TransitionDuration;
 export type TransitionProperty = TransitionPropertyKeys | TransitionPropertyKeys[];
 export type TransitionTimingFunction =
@@ -118,7 +118,7 @@ export type TransitionTimingFunction =
   | {};
 
 export type TransitionShorthand =
-  | [TransitionProperty?, (number | string)?, TransitionTimingFunction?, (number | string)?]
+  | [TransitionProperty?, CSSProperty?, TransitionTimingFunction?, CSSProperty?]
   | string
   | undefined;
 
@@ -216,24 +216,43 @@ export type PseudoElementsStyles = {
   '&::after'?: Styles;
 };
 
+export type GlobalKeyword = 'inherit' | 'initial' | 'unset' | 'auto';
+export type CSSProperty = number | string | GlobalKeyword | undefined;
+
+export type Position = 'relative' | 'absolute' | 'fixed' | CSSProperty;
+
 export type EasingType = RN.EasingFunction | EasingNameDashed;
+
+export type Distance = CSSProperty | [CSSProperty, CSSProperty, CSSProperty?, CSSProperty?];
+
+export type Border = CSSProperty | [CSSProperty, BorderStyle?, RN.ColorValue?];
 export type BorderStyle = 'solid' | 'dotted' | 'dashed';
-type Distance = number | string | [number | string, number | string, (number | string)?, (number | string)?];
-type Border = number | string | [number | string, BorderStyle?, RN.ColorValue?];
+
+export type BackgroundRepeat = 'repeat-x' | 'repeat-y' | 'repeat' | 'space' | 'round' | 'no-repeat' | CSSProperty;
+export type BackgroundPosition = 'top' | 'bottom' | 'left' | 'right' | 'center' | CSSProperty | CSSProperty[];
+export type BackgroundSize = 'cover' | 'contain' | CSSProperty | [CSSProperty, CSSProperty];
+export type BackgroundAttachment = 'scroll' | 'fixed' | 'local' | CSSProperty;
+export type BackgroundOrigin = 'border-box' | 'padding-box' | 'content-box' | CSSProperty;
+export type BackgroundClip = 'text' | BackgroundOrigin | CSSProperty;
+
+export type PointerEvents = 'auto' | 'none' | 'box-only' | 'box-none' | CSSProperty;
+
+export type BoxShadow = [CSSProperty, CSSProperty, CSSProperty, CSSProperty?, CSSProperty?] | CSSProperty;
+export type TextShadow = [CSSProperty, CSSProperty, CSSProperty?, CSSProperty?] | CSSProperty;
 
 export type AdjustedStyles = {
-  position?: 'relative' | 'absolute' | 'fixed';
+  position?: Position;
   padding?: Distance;
   margin?: Distance;
 
   border?: Border;
   borderRadius?: Distance;
   borderWidth?: Distance;
-  borderTopRadius?: number | string;
-  borderBottomRadius?: number | string;
+  borderTopRadius?: CSSProperty;
+  borderBottomRadius?: CSSProperty;
 
-  boxShadow?: [number | string, number | string, number | string, (number | string)?, string?] | string;
-  textShadow?: [number | string, number | string, (number | string)?, string?] | string;
+  boxShadow?: BoxShadow;
+  textShadow?: TextShadow;
 
   /**
    *
@@ -258,9 +277,20 @@ export type AdjustedStyles = {
    * But since pointerEvents does not affect layout/appearance, and we are already deviating from the spec by adding additional modes,
    * we opt to not include pointerEvents on style. On some platforms, we would need to implement it as a className anyways. Using style or not is an implementation detail of the platform.
    */
-  pointerEvents?: 'auto' | 'none' | 'box-only' | 'box-none';
+  pointerEvents?: PointerEvents;
 
-  color?: string;
+  color?: CSSProperty;
+
+  background?: CSSProperty | CSSProperty[];
+  backgroundImage?: CSSProperty | CSSProperty[];
+  backgroundRepeat?:
+    | BackgroundRepeat
+    | (BackgroundRepeat | [BackgroundRepeat, BackgroundRepeat] | Omit<CSSProperty, number>)[];
+  backgroundPosition?: BackgroundPosition;
+  backgroundSize?: BackgroundSize | (BackgroundSize | [BackgroundSize, BackgroundSize])[];
+  backgroundAttachment?: BackgroundAttachment;
+  backgroundOrigin?: BackgroundOrigin;
+  backgroundClip?: BackgroundClip;
 };
 export type NonePseudoStyles = Omit<TransitionStyles & { content?: string }, keyof AdjustedStyles> & AdjustedStyles;
 export type PseudoStyles = NonePseudoStyles & PseudoClassesStyles & PseudoElementsStyles;
@@ -269,6 +299,9 @@ export type Styles = NoOverlapNativeStyles & ExtendedStyles & PseudoStyles;
 
 export type StyleSheetStyles = {
   [key: string]: Styles | StyleSheetStyles;
+};
+export type StyleSheetValues<T extends StyleSheetStyles> = {
+  [K in keyof T]: Pick<T[K], keyof RN.StyleProp<RN.ViewStyle>>;
 };
 
 export type PreprocessorReturnType = { [key: string]: any } | null;

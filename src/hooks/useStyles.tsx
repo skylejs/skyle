@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 
 import Skyle from '../base';
 import { Dimensions } from 'react-native';
-import type { NativeStyles, Styles, StyleSheetStyles } from '../types';
+import type { Styles, StyleSheetStyles } from '../types';
 import { useTheme } from './useTheme';
 import { deepEquals } from '../utils/values';
 import { matchMedia } from '../media';
 
-export const useStyles = (styles: any = {}, args?: any) => {
+export const useStyles = <T,>(styles: T, args?: any): T => {
   const [builtStyles, setBuiltStyles] = useState<StyleSheetStyles>({});
   const theme = useTheme();
 
@@ -18,7 +18,7 @@ export const useStyles = (styles: any = {}, args?: any) => {
     }
   }, [builtStyles, styles, theme, args]);
 
-  return builtStyles as { [key: string]: NativeStyles };
+  return builtStyles as any;
 };
 
 export function computeStyles(comp: any) {
@@ -76,13 +76,13 @@ export function preprocessStyles(styles: StyleSheetStyles) {
       // Apply all preprocessors for the current property.
       processedStyles[name] = Object.assign(
         processedStyles[name],
-        processor?.(key, value),
         ...Object.keys(Skyle.preprocessors).map((pName) => {
           if (pName.startsWith('_')) {
             return Skyle.preprocessors[pName]?.(key, value);
           }
           return undefined;
         }),
+        processor?.(key, value),
       );
 
       // Filter undefined styles.
