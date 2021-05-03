@@ -1,9 +1,9 @@
-import React, { createRef, Component } from 'react';
+import React, { createRef, PureComponent } from 'react';
 import { Animated, Image, Platform, View, ViewProps, ViewStyle } from 'react-native';
-import ViewShot from 'react-native-view-shot';
 import StyleSheet from '../StyleSheet';
 import { styled } from '../styled-decorator';
 import { deepEquals } from '../utils/values';
+import ViewShot from 'react-native-view-shot';
 
 export const NATIVELY_SUPPORTED_PLATFORMS = ['ios', 'web'];
 
@@ -11,7 +11,7 @@ interface BoxShadowProps extends ViewProps {
   children?: React.ReactNode;
 }
 
-class BoxShadow extends Component<BoxShadowProps> {
+class BoxShadow extends PureComponent<BoxShadowProps> {
   styles = styles;
   state = {
     bgUri: '',
@@ -23,7 +23,7 @@ class BoxShadow extends Component<BoxShadowProps> {
     color: '',
     opacity: 1,
     borderWidth: 3,
-    outerStyle: {} as ViewStyle,
+    shadowStyle: {} as ViewStyle,
   };
   private _viewRef = createRef<ViewShot>();
   private _timeout?: number;
@@ -50,57 +50,12 @@ class BoxShadow extends Component<BoxShadowProps> {
     const style = StyleSheet.flatten(rawStyle);
 
     const {
-      marginTop,
-      marginRight,
-      marginBottom,
-      marginLeft,
-
-      position,
-      left,
-      right,
-      bottom,
-      top,
-
-      flex,
-      alignSelf,
-      flexBasis,
-      flexGrow,
-      flexShrink,
-
-      zIndex,
-
       borderWidth,
       borderTopLeftRadius,
       borderTopRightRadius,
       borderBottomLeftRadius,
       borderBottomRightRadius,
     } = style;
-
-    const outerStyle = {
-      marginTop,
-      marginRight,
-      marginBottom,
-      marginLeft,
-
-      position,
-      left,
-      right,
-      bottom,
-      top,
-
-      flex,
-      alignSelf,
-      flexBasis,
-      flexGrow,
-      flexShrink,
-
-      zIndex,
-
-      borderTopLeftRadius,
-      borderTopRightRadius,
-      borderBottomLeftRadius,
-      borderBottomRightRadius,
-    };
 
     const shadowStyle = {
       borderTopLeftRadius,
@@ -135,7 +90,6 @@ class BoxShadow extends Component<BoxShadowProps> {
 
     this.setState(
       {
-        outerStyle,
         shadowStyle,
         width,
         height,
@@ -166,7 +120,7 @@ class BoxShadow extends Component<BoxShadowProps> {
     const { children } = this.props;
 
     return (
-      <View style={this.styles.wrapper}>
+      <>
         <ViewShot
           ref={this._viewRef}
           style={this.styles.shotView}
@@ -194,18 +148,12 @@ class BoxShadow extends Component<BoxShadowProps> {
         )}
 
         {children}
-      </View>
+      </>
     );
   }
 }
 
 const styles = StyleSheet.create((o) => ({
-  wrapper: {
-    position: 'relative',
-    overflow: 'visible',
-    pointerEvents: 'box-none',
-    ...o.state.outerStyle,
-  },
   shotView: {
     position: 'absolute',
     opacity: 0,
