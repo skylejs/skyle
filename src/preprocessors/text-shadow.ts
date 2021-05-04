@@ -1,5 +1,5 @@
 import { toLength } from '../utils/values';
-import validateColor from '../utils/validate-color';
+import isColor from '../utils/is-color';
 
 export const textShadowPreprocessor = (key: string, value: any) => {
   const valuesArr = typeof value === 'string' ? value.split(' ') : Array.isArray(value) ? value : [];
@@ -11,8 +11,8 @@ export const textShadowPreprocessor = (key: string, value: any) => {
     return {
       [key]: undefined,
       textShadowOffset: { width, height },
-      textShadowRadius: validateColor(valuesArr[2]) ? 0 : toLength(valuesArr[2]) || 0,
-      textShadowColor: validateColor(valuesArr[2]) ? valuesArr[2] : valuesArr[3] || 'transparent',
+      textShadowRadius: isColor(valuesArr[2]) ? 0 : toLength(valuesArr[2]) || 0,
+      textShadowColor: isColor(valuesArr[2]) ? valuesArr[2] : valuesArr[3] || 'transparent',
     };
   }
 

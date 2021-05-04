@@ -7,7 +7,7 @@ import type {
   BackgroundPosition,
   CSSProperty,
 } from '../types';
-import validateColor from '../utils/validate-color';
+import isColor from '../utils/is-color';
 
 // https://developer.mozilla.org/en-US/docs/Web/CSS/background#formal_definition
 const INITIAL_PROPERTIES = {
@@ -75,7 +75,7 @@ export const backgroundPreprocessor = (key: string, value: any) => {
 
     bgProps.forEach((val = '', i) => {
       val = val.replace(/\^/g, ' ').replace(/\*/g, ',').replace(/\|/g, ',').replace(/\[/g, '(').replace(/\]/g, ')');
-      if (validateColor(val)) {
+      if (isColor(val)) {
         backgroundColor = val;
         bgProps[i] = undefined;
         return;

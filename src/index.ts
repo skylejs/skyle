@@ -11,6 +11,6 @@ export * from './hooks/useStyles';
 export * from './hooks/useTheme';
 export * from './hooks/useBreakpoint';
 
-export * from './utils/validate-color';
+export * from './utils/is-color';
 
-export { default } from './base';
+export { default as Skyle } from './base';

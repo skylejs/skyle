@@ -5,13 +5,17 @@ import { styled } from '../styled-decorator';
 import { deepEquals } from '../utils/values';
 import ViewShot from 'react-native-view-shot';
 
-export const NATIVELY_SUPPORTED_PLATFORMS = ['ios', 'web'];
+const NATIVELY_SUPPORTED_PLATFORMS = ['ios', 'web'];
 
 interface BoxShadowProps extends ViewProps {
   children?: React.ReactNode;
 }
 
 class BoxShadow extends PureComponent<BoxShadowProps> {
+  static isNativelySupported() {
+    return NATIVELY_SUPPORTED_PLATFORMS.includes(Platform.OS);
+  }
+
   styles = styles;
   state = {
     bgUri: '',

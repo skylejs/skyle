@@ -6,19 +6,22 @@ import type {
   AdjustedStyles,
   NativeStyles,
   Styles,
+  StyleSheetStyles,
   TransitionDuration,
   TransitionShorthand,
   TransitionTimingFunction,
 } from './types';
 import { Easing } from '.';
 import { flattenStyle, getDefaultStyleValue, wrapStyles } from './utils/styles';
-import { calc, toCamelCase, toDuration, toEasing } from './utils/values';
+import { toCamelCase, toDuration, toEasing } from './utils/values';
 import StyleSheet from './StyleSheet';
-import { removeInvalidStyles, validStyles } from './utils/valid-styles';
+import { removeInvalidStyles } from './utils/valid-styles';
 import { preprocessStyles } from './hooks/useStyles';
-import BoxShadow, { NATIVELY_SUPPORTED_PLATFORMS } from './components/BoxShadow';
+import BoxShadow from './components/BoxShadow';
 import RelativeWrapper from './components/RelativeWrapper';
 import BackgroundImage from './components/BackgroundImage';
+import { overrideNative } from './override-native';
+import { isValidPseudoClass } from './utils/valid-pseudo-class';
 
 overrideNative(RN.View);
 overrideNative(RN.Text);
@@ -28,27 +31,7 @@ overrideNative(RN.FlatList);
 overrideNative(RN.SectionList);
 overrideNative(RN.TextInput);
 
-function overrideNative(nativeComp: any) {
-  const NativeComp = Object.assign({}, nativeComp);
-  const AnimatedComp = createComponent(NativeComp);
-  nativeComp.render = (props: any, ref: any) => {
-    nativeComp.render.displayName = nativeComp.displayName;
-    if (
-      props?.suppressHydrationWarning ||
-      Object.keys(StyleSheet.flatten(props.style) || {})?.every(
-        (k) =>
-          validStyles.includes(k) &&
-          !k.includes('&:') &&
-          !(k.includes('shadow') && !NATIVELY_SUPPORTED_PLATFORMS.includes(RN.Platform.OS)),
-      )
-    ) {
-      return <NativeComp ref={ref} {...props} />;
-    }
-    return <AnimatedComp forwardRef={ref} {...props} />;
-  };
-}
-
-type NativeComponents = RN.View &
+export type NativeComponents = RN.View &
   RN.Text &
   RN.Image &
   RN.ScrollView &
@@ -70,7 +53,7 @@ type PlatformViewProps = Omit<DOMAttributes<RN.View>, keyof AdjustedStyles> &
     required?: boolean;
   };
 
-interface AnimatableComponentProps extends PlatformViewProps {
+export interface AnimatableComponentProps extends PlatformViewProps {
   forwardRef?: Function;
   style?: RN.StyleProp<NativeStyles>;
   as?: ComponentType<any>;
@@ -89,105 +72,20 @@ export function createComponent<T extends NativeComponents>(WrappedComponent: T)
       const internal = this._reactInternals || this._reactInternalFiber;
       let pseudoStyles: Styles[] = [];
       const pseudoKeys = Object.keys(style || {}) as (keyof Styles)[];
-      pseudoKeys
-        .filter((s) => s.startsWith('&:'))
-        .map((selector) => {
-          const isValid = selector
-            .split(':')
-            .slice(1)
-            ?.every((pseudo) => {
-              const ownerChildCount = internal?._debugOwner?._debugOwner?.memoizedState?.last + 1;
-              const index =
-                internal._debugOwner?.type?.name === 'CellRenderer' ? internal._debugOwner?.index : internal.index;
-              const pseudoName = pseudo.split('(')[0] || pseudo;
-              const pseudoValue = pseudo.split('(').pop()?.split(')')[0] || '';
-              switch (pseudoName) {
-                case 'focus':
-                case 'focus-visible':
-                case 'focus-within':
-                  return e.focused || this._ref?.isFocused?.();
-                case 'hover':
-                  return e.hovered;
-                case 'active':
-                  return e.pressed;
-                case 'empty':
-                  return !this.props.children && !this.props.value && !this.props.defaultValue;
-                case 'optional':
-                  return typeof this.props.required === undefined ? false : !this.props.required;
-                case 'required':
-                  return typeof this.props.required === undefined ? false : !this.props.required;
-                case 'disabled':
-                case 'read-only':
-                  return typeof this.props.editable === undefined ? false : !this.props.editable;
-                case 'enabled':
-                case 'read-write':
-                  return typeof this.props.editable === undefined ? true : this.props.editable;
-                case 'placeholder-shown':
-                  return (
-                    !!this._ref?.props.placeholder &&
-                    !this.props.children &&
-                    !this.props.value &&
-                    !this.props.defaultValue
-                  );
-                case 'first-child':
-                  return index === 0;
-                case 'last-child':
-                  return index !== 0 && !internal.sibling;
-                case 'nth-child':
-                  if (pseudoValue === 'odd') {
-                    return index !== 0 && index % 2 !== 0;
-                  }
-                  if (pseudoValue === 'even') {
-                    return index % 2 === 0;
-                  }
-                  if (pseudoValue.includes('n')) {
-                    const vals = pseudoValue.split('+');
-                    const m = vals[0]
-                      .replace(/ /g, '')
-                      .replace(/-n/g, '-1')
-                      .replace(/\+n/g, '+1')
-                      .replace(/^n/g, '1')
-                      .replace(/n/g, '*1');
-                    const b = +(vals[1] || 0);
-                    const num = (index + 1 - b) / calc(m);
-                    return Number.isInteger(num) && num >= 0;
-                  }
-                  return index === +pseudoValue - 1;
-                case 'nth-last-child':
-                  const rIndex = ownerChildCount - index - 1;
-                  if (pseudoValue === 'odd') {
-                    return rIndex !== 0 && rIndex % 2 !== 0;
-                  }
-                  if (pseudoValue === 'even') {
-                    return rIndex % 2 === 0;
-                  }
-                  if (pseudoValue.includes('n')) {
-                    const vals = pseudoValue.split('+');
-                    const m = vals[0]
-                      .replace(/ /g, '')
-                      .replace(/-n/g, '-1')
-                      .replace(/\+n/g, '+1')
-                      .replace(/^n/g, '1')
-                      .replace(/n/g, '*1');
-                    const b = +(vals[1] || 0);
-                    const num = (rIndex + 1 - b) / calc(m);
-                    return Number.isInteger(num) && num >= 0;
-                  }
-                  return rIndex === +pseudoValue - 1;
-                case 'only-child':
-                  return ownerChildCount === 1;
-                default:
-                  return false;
-              }
-            });
+      const pseudoClassKeys = pseudoKeys.filter((s) => s.startsWith('&:'));
+      pseudoClassKeys.map((selector) => {
+        const isValid = selector
+          .split(':')
+          .slice(1)
+          ?.every((pseudo) => isValidPseudoClass(pseudo, this._ref, this.props, internal, e));
 
-          if (isValid) {
-            const pseudoStyle = style?.[selector];
-            if (typeof pseudoStyle === 'object') {
-              pseudoStyles.push(pseudoStyle as Styles);
-            }
+        if (isValid) {
+          const pseudoStyle = style?.[selector];
+          if (typeof pseudoStyle === 'object') {
+            pseudoStyles.push(pseudoStyle as Styles);
           }
-        });
+        }
+      });
 
       const currStyle = Object.assign({}, style, ...pseudoStyles);
       const finish = flattenStyle(currStyle) as Styles;
@@ -327,13 +225,12 @@ export function createComponent<T extends NativeComponents>(WrappedComponent: T)
     }
 
     getPseudoProps() {
-      const { style } = this.props;
+      const { style: rawStyle = {} } = this.props;
+      const style = StyleSheet.flatten(rawStyle) as StyleSheetStyles;
 
-      // @ts-ignore
       const selectionStyle = style?.['&::selection'] || {};
       const selectionColor = selectionStyle.backgroundColor;
 
-      // @ts-ignore
       const placeholderStyle = style?.['&::placeholder'] || {};
       const placeholderTextColor = placeholderStyle.color;
       const placeholder = placeholderStyle.content;
@@ -375,8 +272,7 @@ export function createComponent<T extends NativeComponents>(WrappedComponent: T)
         (k) => k.includes(':hover') || k.includes(':active') || k.includes(':focus'),
       );
 
-      const mockShadow =
-        !NATIVELY_SUPPORTED_PLATFORMS.includes(RN.Platform.OS) && (style.elevation || 0) <= 0 && !!style.shadowColor;
+      const mockShadow = !BoxShadow.isNativelySupported() && (style.elevation || 0) <= 0 && !!style.shadowColor;
 
       const hasBackgroundImage = !!style.backgroundImage;
 
