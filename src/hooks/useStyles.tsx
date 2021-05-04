@@ -25,7 +25,7 @@ export function computeStyles(comp: any) {
   const createStyle = comp.__styleSheet;
   let computedStyle =
     typeof createStyle === 'function'
-      ? createStyle?.(Object.assign(comp, { theme: comp.props.theme }, getMediaQueryProps()))
+      ? createStyle?.(Object.assign(comp, { theme: comp.__theme }, getMediaQueryProps()))
       : createStyle;
 
   // Merge every media-queried style if valid.

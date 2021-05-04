@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 
 import { deepEquals } from './utils/values';
-import type { StyleSheetStyles, StylesProps } from './types';
-import { useTheme } from './hooks/useTheme';
+import type { RecursivePartial, StyleSheetStyles, StylesProps, Theme } from './types';
 import { computeStyles } from './hooks/useStyles';
+import { Context, defaultTheme } from './context';
 
 type Constructor = { new (...args: any[]): Component<any, any> };
 type StyleConstructor = ((styles?: StylesProps) => StyleSheetStyles) | StyleSheetStyles;
@@ -12,6 +12,7 @@ type StyleConstructor = ((styles?: StylesProps) => StyleSheetStyles) | StyleShee
 export function styled<T extends Constructor>(WrappedComponent: T): T {
   class StyledComponent extends WrappedComponent {
     __styleSheet?: StyleConstructor;
+    __theme?: RecursivePartial<Theme> = defaultTheme;
     private __styles: StyleSheetStyles = {};
 
     componentDidUpdate(prevProps: Readonly<any>, prevState: Readonly<any>, snapshot?: any) {
@@ -36,11 +37,19 @@ export function styled<T extends Constructor>(WrappedComponent: T): T {
         get: () => this.__styles,
       });
     }
+
+    render() {
+      return (
+        <Context.Consumer>
+          {({ theme }) => {
+            this.__theme = theme;
+            return super.render();
+          }}
+        </Context.Consumer>
+      );
+    }
   }
 
   // Return themed HOC.
-  return (((props: any) => {
-    const theme = useTheme();
-    return <StyledComponent theme={theme} {...props} />;
-  }) as unknown) as T;
+  return StyledComponent;
 }
