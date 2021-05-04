@@ -82,7 +82,7 @@ class BackgroundImage extends PureComponent<BackgroundImageProps> {
           height: style.height,
           backgroundColor: style.backgroundColor,
           pointerEvents: 'none',
-          zIndex: images.length - i,
+          zIndex: -i,
         },
       };
     });
