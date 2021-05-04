@@ -1,11 +1,12 @@
 import React, { createRef, PureComponent } from 'react';
-import { Animated, Image, Platform, View, ViewProps, ViewStyle } from 'react-native';
+import { Animated, Platform, View, ViewProps, ViewStyle } from 'react-native';
 import StyleSheet from '../StyleSheet';
 import { styled } from '../styled-decorator';
 import { deepEquals } from '../utils/values';
 import ViewShot from 'react-native-view-shot';
+import NoFlickerImage from './NoFlickerImage';
 
-const NATIVELY_SUPPORTED_PLATFORMS = ['ios', 'web'];
+const NATIVELY_SUPPORTED_PLATFORMS = ['ios', 'web'] as typeof Platform.OS[];
 
 interface BoxShadowProps extends ViewProps {
   children?: React.ReactNode;
@@ -30,7 +31,6 @@ class BoxShadow extends PureComponent<BoxShadowProps> {
     shadowStyle: {} as ViewStyle,
   };
   private _viewRef = createRef<ViewShot>();
-  private _timeout?: number;
   private _isCapturing = false;
 
   componentDidMount() {
@@ -40,12 +40,6 @@ class BoxShadow extends PureComponent<BoxShadowProps> {
   componentDidUpdate(prevProps: BoxShadowProps) {
     if (!deepEquals(prevProps.style || {}, this.props.style || {}) && !this._isCapturing) {
       this._recalculate();
-    }
-  }
-
-  componentWillUnmount() {
-    if (this._timeout) {
-      clearTimeout(this._timeout);
     }
   }
 
@@ -74,18 +68,14 @@ class BoxShadow extends PureComponent<BoxShadowProps> {
     const shadowRadius = style.shadowRadius as any;
     let radius = Math.max(shadowRadius / 6, 1);
     if (typeof shadowRadius?._value !== 'undefined') {
-      (shadowRadius as Animated.Value).addListener(({ value }) => this.setState({ radius: Math.max(value / 6, 1) }));
+      (shadowRadius as Animated.Value).addListener(({ value }) => {
+        this.setState({ radius: Math.max(value / 6, 1) });
+      });
     } else {
       this.setState({ radius });
     }
 
-    let color = style.shadowColor as any;
-    if (typeof color?._value !== 'undefined') {
-      (color as Animated.Value).addListener(({ value }) => this.setState({ color: value }));
-    } else {
-      this.setState({ color });
-    }
-
+    const color = style.shadowColor;
     const offset = {
       top: style.shadowOffset?.height || 0,
       left: style.shadowOffset?.width || 0,
@@ -97,13 +87,12 @@ class BoxShadow extends PureComponent<BoxShadowProps> {
         shadowStyle,
         width,
         height,
+        color,
         offset,
         opacity,
         borderWidth: borderWidth || this.state.borderWidth,
       },
-      () => {
-        setImmediate(this._capture);
-      },
+      () => setImmediate(this._capture),
     );
   }
 
@@ -120,7 +109,7 @@ class BoxShadow extends PureComponent<BoxShadowProps> {
   };
 
   render() {
-    const { bgUri, radius, color } = this.state;
+    const { bgUri, radius } = this.state;
     const { children } = this.props;
 
     return (
@@ -134,20 +123,16 @@ class BoxShadow extends PureComponent<BoxShadowProps> {
             width: 100,
             height: 100,
           }}>
-          {<View style={this.styles.border} />}
+          <View style={this.styles.border} />
         </ViewShot>
 
         {!!bgUri && (
-          <Image
+          <NoFlickerImage
             source={{ uri: bgUri }}
             blurRadius={radius}
             style={this.styles.shadow}
             onLayout={this._capture}
             fadeDuration={0}
-            // @ts-ignore tintColor missing type?
-            tintColor={color}
-            resizeMode='stretch'
-            renderToHardwareTextureAndroid
           />
         )}
 
@@ -164,15 +149,16 @@ const styles = StyleSheet.create((o) => ({
     pointerEvents: 'none',
   },
   border: {
+    animate: true,
     width: o.state.width,
     height: o.state.height,
     transform: [{ scale: 0.7 }],
-    border: [o.state.borderWidth, 'solid', '#fff'],
-    backgroundColor:
+    borderColor: o.state.color,
+    borderWidth:
       (o.state.offset.top._value || o.state.offset.top) >= o.state.borderWidth ||
       (o.state.offset.left._value || o.state.offset.left) >= o.state.borderWidth
-        ? '#fff'
-        : 'transparent',
+        ? o.state.width
+        : o.state.borderWidth,
     ...o.state.shadowStyle,
   },
   shadow: {
@@ -182,7 +168,6 @@ const styles = StyleSheet.create((o) => ({
     opacity: o.state.opacity,
     top: o.state.offset.top,
     left: o.state.offset.left,
-    tintColor: o.state.color,
     transform: [{ scale: 1 / 0.7 }],
     overflow: 'visible',
     pointerEvents: 'none',

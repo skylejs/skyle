@@ -56,7 +56,7 @@ const styles = StyleSheet.create(() => ({
     margin: [100, 0],
     backgroundColor: 'white',
     boxShadow: '0px 0px 15px gray',
-    transition: [['width', 'boxShadow', 'borderRadius'], 800],
+    transition: [['width', 'boxShadow', 'borderRadius'], 500],
 
     '&:active': {
       width: 205,
