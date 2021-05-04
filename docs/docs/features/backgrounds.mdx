@@ -1,0 +1,70 @@
+---
+id: backgrounds
+title: Background Images & Gradients
+---
+
+You can use background-image properties to
+
+### Background Image
+
+> @see https://developer.mozilla.org/en-US/docs/Web/CSS/background
+
+Using the `background-image` property or the shorthand `background` property, you can easily set multiple `ImageBackground`s and gradients for components. Under the hood, gradients use [react-native-svg](https://github.com/react-native-svg/react-native-svg).
+
+The background images are drawn on stacking context layers on top of each other. The first layer specified is drawn as if it is closest to the user.
+
+#### Syntax
+
+```ts
+// Single external image.
+backgroundImage: 'url(./assets/image.png)',
+
+// Single local image.
+backgroundImage: `url(${require('./assets/image.jpg')})`,
+backgroundRepeat: 'no-repeat',
+
+// Shorthand
+background: 'background: left 5% / 15% 60% repeat-x url("../../media/image.png")',
+```
+
+:::info
+
+Depending on your setup, you might need to use `require('...').default` for local images instead.
+
+:::
+
+<br />
+<br />
+
+---
+
+### Linear Gradient
+
+> @see https://developer.mozilla.org/en-US/docs/Web/CSS/linear-gradient()
+
+```ts
+// Examples
+
+// Single
+backgroundImage: 'linear-gradient(#e66465, #9198e5)';
+
+// Multiple
+backgroundImage: `linear-gradient(217deg, rgba(255,0,0,.8), rgba(255,0,0,0) 70.71%),
+                  linear-gradient(127deg, rgba(0,255,0,.8), rgba(0,255,0,0) 70.71%),
+                  linear-gradient(336deg, rgba(0,0,255,.8), rgba(0,0,255,0) 70.71%)`;
+```
+
+### Radial Gradient
+
+> @see https://developer.mozilla.org/en-US/docs/Web/CSS/radial-gradient()
+
+```ts
+// Examples
+
+// Single
+backgroundImage: 'radial-gradient(#e66465, #9198e5)';
+
+// Multiple
+backgroundImage: `radial-gradient(ellipse at top, #e66465, transparent),
+                  radial-gradient(ellipse at bottom, #4d9f0c, transparent)`;
+```

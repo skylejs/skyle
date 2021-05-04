@@ -10,10 +10,11 @@ module.exports = {
       items: [
         'features/shorthands',
         'features/units',
+        'features/aliases',
         'features/theming',
         'features/variables',
         'features/functional-notations',
-        'features/aliases',
+        'features/backgrounds',
         'features/pointer-events',
         'features/spread-props',
         'features/media-queries',
