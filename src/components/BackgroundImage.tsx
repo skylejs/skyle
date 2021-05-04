@@ -41,7 +41,8 @@ class BackgroundImage extends PureComponent<BackgroundImageProps> {
 
     const backgrounds: BackgroundImageOptions[] = [];
 
-    [style.backgroundImage].flat()?.forEach((_val, i) => {
+    const images = [style.backgroundImage].flat();
+    images?.forEach((_val, i) => {
       const repeat = (style.backgroundRepeat as BackgroundRepeat[])?.[i] as string;
       const bgSize = style.backgroundSize as BackgroundSize[][];
       const size = bgSize?.[i]?.[0] || bgSize?.[i]?.[1];
@@ -81,6 +82,7 @@ class BackgroundImage extends PureComponent<BackgroundImageProps> {
           height: style.height,
           backgroundColor: style.backgroundColor,
           pointerEvents: 'none',
+          zIndex: images.length - i,
         },
       };
     });
