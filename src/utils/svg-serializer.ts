@@ -1,9 +1,10 @@
+import Color from 'color';
 import GradientParser from 'gradient-parser';
 import { toCamelCase } from './values';
 
 type Orientation = GradientParser.DirectionalNode | GradientParser.AngularNode;
 
-const positionsForOrientation = (orientation?: Orientation) => {
+const positionsForOrientation = (orientation: Orientation = { type: 'angular', value: '0' }) => {
   const positions = {
     x1: '0%',
     x2: '0%',
@@ -47,17 +48,17 @@ export default (css: string, props: any = {}) => {
 
   const getColorStops = (colorStop: GradientParser.ColorStop, index: number) => {
     const offset = (index / (colorStops.length - 1)) * 100 + '%';
-    let stopColor = 'rgb(0,0,0)';
+    let stopColor = 'rgb(0,0,0,0)';
     let stopOpacity = 1.0;
 
     switch (colorStop.type) {
       case 'rgb':
-        const [r1, g2, b2] = colorStop.value;
-        stopColor = `rgb(${r1},${g2},${b2})`;
+        const [r2, g2, b2] = colorStop.value;
+        stopColor = Color.rgb([+r2, +g2, +b2]).string();
         break;
       case 'rgba':
         const [r3, g3, b3, a3] = colorStop.value;
-        stopColor = `rgb(${r3},${g3},${b3})`;
+        stopColor = Color.rgb([+r3, +g3, +b3]).string();
         stopOpacity = +(a3 || 0);
         break;
       case 'hex':
