@@ -3,6 +3,7 @@ import type { Component, CSSProperties } from 'react';
 import type * as RN from 'react-native';
 import type { easingFunctions } from './easing';
 import type { breakpoints } from './hooks/useBreakpoint';
+import type { FONT_STYLE_KEYWORDS, FONT_VARIANT_KEYWORDS, FONT_WEIGHT_KEYWORDS } from './preprocessors/font';
 
 export type EnvVariables = { [key: string]: CSSProperty };
 
@@ -240,6 +241,12 @@ export type PointerEvents = 'auto' | 'none' | 'box-only' | 'box-none' | CSSPrope
 export type BoxShadow = [CSSProperty, CSSProperty, CSSProperty, CSSProperty?, CSSProperty?] | CSSProperty;
 export type TextShadow = [CSSProperty, CSSProperty, CSSProperty?, CSSProperty?] | CSSProperty;
 
+export type FontWeight = keyof typeof FONT_WEIGHT_KEYWORDS;
+export type FontVariant = keyof typeof FONT_VARIANT_KEYWORDS;
+export type FontStyle = keyof typeof FONT_STYLE_KEYWORDS;
+export type FontOptions = FontStyle | FontVariant | FontWeight;
+export type Font = (FontOptions | CSSProperty)[] | CSSProperty;
+
 export type AdjustedStyles = {
   position?: Position;
   padding?: Distance;
@@ -253,6 +260,8 @@ export type AdjustedStyles = {
 
   boxShadow?: BoxShadow;
   textShadow?: TextShadow;
+
+  font?: Font;
 
   /**
    *

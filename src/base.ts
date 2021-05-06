@@ -6,6 +6,7 @@ import { borderSideRadiusPreprocessor } from './preprocessors/border-side-radius
 import { boxShadowPreprocessor } from './preprocessors/box-shadow';
 import { colorPreprocessor } from './preprocessors/color';
 import { distancePreprocessor } from './preprocessors/distance';
+import { fontPreprocessor } from './preprocessors/font';
 import { keywordPreprocessor } from './preprocessors/keyword';
 import { numeralPreprocessor } from './preprocessors/numeral';
 import { placeContentPreprocessor } from './preprocessors/place-content';
@@ -44,11 +45,10 @@ const defaultPreprocessors = {
 
   boxShadow: boxShadowPreprocessor,
   textShadow: textShadowPreprocessor,
+  font: fontPreprocessor,
 
   background: backgroundPreprocessor,
-
   placeContent: placeContentPreprocessor,
-
   transition: transitionPreprocessor,
 };
 
