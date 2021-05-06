@@ -8,7 +8,6 @@ import type {
   Styles,
   StyleSheetStyles,
   TransitionDuration,
-  TransitionShorthand,
   TransitionTimingFunction,
 } from './types';
 import { Easing } from '.';
@@ -67,53 +66,32 @@ export function createComponent<T extends NativeComponents>(WrappedComponent: T)
     AnimatedComponent!: RN.Animated.AnimatedComponent<NativeComponents>;
     values: { [key: string]: RN.Animated.Value } = {};
 
-    getAnimatedStyle(style: Styles, e: StateCallbackType) {
-      // @ts-expect-error "_reactInternals" is a hack.
-      const internal = this._reactInternals || this._reactInternalFiber;
-      let pseudoStyles: Styles[] = [];
-      const pseudoKeys = Object.keys(style || {}) as (keyof Styles)[];
-      const pseudoClassKeys = pseudoKeys.filter((s) => s.startsWith('&:'));
-      pseudoClassKeys.map((selector) => {
-        const isValid = selector
-          .split(':')
-          .slice(1)
-          ?.every((pseudo) => isValidPseudoClass(pseudo, this._ref, this.props, internal, e));
-
-        if (isValid) {
-          const pseudoStyle = style?.[selector];
-          if (typeof pseudoStyle === 'object') {
-            pseudoStyles.push(pseudoStyle as Styles);
-          }
-        }
-      });
-
-      const currStyle = Object.assign({}, style, ...pseudoStyles);
-      const finish = flattenStyle(currStyle) as Styles;
+    getAnimatedStyle(style: Styles) {
+      const finish = flattenStyle(style) as Styles;
       const finishKeys = Object.keys(finish) as (keyof Styles)[];
 
       finishKeys.filter((key) => key.startsWith('&:')).forEach((key) => delete finish[key]);
 
-      const transitions = (typeof finish?.transition === 'string'
-        ? [finish?.transition.split(',')?.map((t) => t.split(' ').filter((x) => !!x)) ?? finish?.transition].flat()
-        : finish?.transition?.every((v) => Array.isArray(v))
-        ? finish?.transition
-        : [finish?.transition]) as TransitionShorthand[];
+      let transitionProperties = [finish?.transitionProperty || []]
+        .flat()
+        .map((x) => toCamelCase(x)) as (keyof Styles)[];
+
+      transitionProperties = getTransitionProperties(transitionProperties);
 
       let styles: {
         [key: string]: RN.Animated.Value | RN.Animated.AnimatedInterpolation;
       } = {};
-      transitions
-        .filter((t) => !!t)
-        .map((trans) => {
-          let transitionProperties = [trans?.[0] || finish?.transitionProperty || []]
-            .flat()
-            .map((x) => toCamelCase(x)) as (keyof Styles)[];
+      [transitionProperties]
+        .flat()
+        ?.filter((t) => !!t)
+        .map((_p, i) => {
+          const tdr = [finish?.transitionDuration].flat();
+          const ttf = [finish?.transitionTimingFunction].flat();
+          const tdy = [finish?.transitionDelay].flat();
 
-          transitionProperties = getTransitionProperties(transitionProperties);
-
-          const duration = (trans?.[1] || finish?.transitionDuration) as TransitionDuration;
-          const easing = (trans?.[2] || finish?.transitionTimingFunction) as TransitionTimingFunction;
-          const delay = (trans?.[3] || finish?.transitionDelay) as TransitionDuration;
+          const duration = (tdr?.[i] || tdr?.[0] || tdr) as TransitionDuration;
+          const easing = (ttf?.[i] || ttf?.[0] || ttf) as TransitionTimingFunction;
+          const delay = (tdy?.[i] || tdy?.[0] || tdy) as TransitionDuration;
 
           transitionProperties.map((property) => {
             const isColor = property.toLowerCase().indexOf('color') >= 0;
@@ -149,7 +127,7 @@ export function createComponent<T extends NativeComponents>(WrappedComponent: T)
       return wrapStyles(Object.assign({}, finish, styles));
     }
 
-    getStyleProps(e: StateCallbackType, hasWrapper = false, hasBackgroundImage = false) {
+    getStyleProps(e: StateCallbackType, hasWrapper = false, hasBackgroundImage = false, animate = true) {
       const props = this.props;
       const propKeys = Object.keys(this.props) as (keyof typeof props)[];
       const stylePropKeys = propKeys.filter((key) => key.toLowerCase().startsWith('style'));
@@ -165,7 +143,29 @@ export function createComponent<T extends NativeComponents>(WrappedComponent: T)
               return;
             }
 
-            let combinedStyles: Styles = Object.assign({}, style, this.getAnimatedStyle(style, e));
+            // @ts-expect-error "_reactInternals" is a hack.
+            const internal = this._reactInternals || this._reactInternalFiber;
+            let pseudoStyles: Styles[] = [];
+            const pseudoKeys = Object.keys(style || {}) as (keyof Styles)[];
+            const pseudoClassKeys = pseudoKeys.filter((s) => s.startsWith('&:'));
+            pseudoClassKeys.map((selector) => {
+              const isValid = selector
+                .split(':')
+                .slice(1)
+                ?.every((pseudo) => isValidPseudoClass(pseudo, this._ref, this.props, internal, e));
+
+              if (isValid) {
+                const pseudoStyle = style?.[selector];
+                if (typeof pseudoStyle === 'object') {
+                  pseudoStyles.push(pseudoStyle as Styles);
+                }
+              }
+            });
+
+            const currStyle = Object.assign({}, style, ...pseudoStyles);
+
+            const animatedStyle = animate ? this.getAnimatedStyle(currStyle) : {};
+            let combinedStyles: Styles = Object.assign({}, currStyle, animatedStyle);
 
             if (hasWrapper) {
               combinedStyles = removeInvalidStyles(combinedStyles);
@@ -310,7 +310,7 @@ export function createComponent<T extends NativeComponents>(WrappedComponent: T)
 
             {needsWrapper ? (
               <RelativeWrapper {...this.getStyleProps(e)}>
-                {hasBackgroundImage && <BackgroundImage {...this.getStyleProps(e)} />}
+                {hasBackgroundImage && <BackgroundImage {...this.getStyleProps(e, false, false, false)} />}
                 {mockShadow && <BoxShadow {...this.getStyleProps(e)} />}
 
                 {renderComponent(e)}

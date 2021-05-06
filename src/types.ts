@@ -230,7 +230,7 @@ export type BorderStyle = 'solid' | 'dotted' | 'dashed';
 
 export type BackgroundRepeat = 'repeat-x' | 'repeat-y' | 'repeat' | 'space' | 'round' | 'no-repeat' | CSSProperty;
 export type BackgroundPosition = 'top' | 'bottom' | 'left' | 'right' | 'center' | CSSProperty | CSSProperty[];
-export type BackgroundSize = 'cover' | 'contain' | CSSProperty | [CSSProperty, CSSProperty];
+export type BackgroundSize = 'cover' | 'contain' | CSSProperty | [CSSProperty?, CSSProperty?];
 export type BackgroundAttachment = 'scroll' | 'fixed' | 'local' | CSSProperty;
 export type BackgroundOrigin = 'border-box' | 'padding-box' | 'content-box' | CSSProperty;
 export type BackgroundClip = 'text' | BackgroundOrigin | CSSProperty;

@@ -12,6 +12,7 @@ const BackgroundsExampleScreen = () => {
       </View>
       <View style={s.view2} />
       <View style={s.view3} />
+      <View style={s.view4} />
     </ScrollView>
   );
 };
@@ -29,12 +30,11 @@ const styles = StyleSheet.create(() => ({
     height: 300,
     background: `url(https://facebook.github.io/react/logo-og.png) stretch rgba(255, 0, 0, 0.1)`,
     overflow: 'hidden',
-    transition: [['width', 'height', 'borderRadius'], 800, 'ease-in'],
+    transition: [['backgroundSize', 'backgroundPosition'], 800, Easing.elastic(1.2)],
 
     '&:active': {
-      width: 220,
-      height: 350,
-      borderRadius: 100,
+      backgroundSize: [150, 150],
+      backgroundPosition: ['top', '5%', 'left', '3%'],
     },
   },
   text1: {
@@ -69,6 +69,12 @@ const styles = StyleSheet.create(() => ({
       borderRadius: 100,
       transform: [{ scale: 0.7 }],
     },
+  },
+  view4: {
+    marginTop: 50,
+    width: 250,
+    height: 250,
+    background: 'linear-gradient(#e66465, #9198e5)',
   },
 }));
 

@@ -1,3 +1,4 @@
+import { isLength } from '../utils/values';
 import type {
   BackgroundAttachment,
   BackgroundClip,
@@ -29,6 +30,8 @@ const IMAGE_KEYWORDS = [
   'repeating-linear-gradient',
   'repeating-radial-gradient',
 ];
+const POSITION_KEYWORDS = ['top', 'right', 'bottom', 'left'];
+const SIZE_KEYWORDS = ['contain', 'cover', 'stretch'];
 const ATTACHMENT_KEYWORDS = ['scroll', 'fixed', 'local'];
 const ORIGIN_KEYWORDS = ['border-box', 'padding-box', 'content-box'];
 const CLIP_KEYWORDS = [...ORIGIN_KEYWORDS, 'text'];
@@ -115,18 +118,25 @@ export const backgroundPreprocessor = (key: string, value: any) => {
     });
 
     if (slashIndex > 0) {
-      const x = bgProps[slashIndex - 2];
-      const y = bgProps[slashIndex - 1];
-      const w = bgProps[slashIndex + 1];
-      const h = bgProps[slashIndex + 2];
+      const pos: BackgroundPosition = [];
+      const size: BackgroundSize = [];
 
-      bgProperties.backgroundPosition = [x || y, y];
-      bgProperties.backgroundSize = [w, h || w];
+      bgProps.forEach((v = '', i) => {
+        if (i < slashIndex && (isLength(v) || POSITION_KEYWORDS.includes(v))) {
+          pos.push(v);
+        } else if (i > slashIndex && (isLength(v) || SIZE_KEYWORDS.includes(v))) {
+          size.push(v);
+        }
+      });
+
+      bgProperties.backgroundPosition = pos;
+      bgProperties.backgroundSize = size;
     }
 
     const bgPropKeys = Object.keys(bgProperties) as BackgroundProperties[];
     bgPropKeys.forEach((property) => {
-      finalProperties[property] = [...(finalProperties[property] || []), bgProperties[property]];
+      const val = [...(finalProperties[property] || []), bgProperties[property]];
+      finalProperties[property] = !val.flat().length ? undefined : val;
     });
   });
 
@@ -134,7 +144,7 @@ export const backgroundPreprocessor = (key: string, value: any) => {
     return {
       [key]: undefined,
       backgroundColor,
-      ...Object.assign({}, INITIAL_PROPERTIES, finalProperties),
+      ...finalProperties,
     };
   }
 
