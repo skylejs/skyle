@@ -10,6 +10,7 @@ import { keywordPreprocessor } from './preprocessors/keyword';
 import { numeralPreprocessor } from './preprocessors/numeral';
 import { placeContentPreprocessor } from './preprocessors/place-content';
 import { textShadowPreprocessor } from './preprocessors/text-shadow';
+import { transitionPreprocessor } from './preprocessors/transition';
 import type { BaseOptions, Preprocessor, Alias, EnvVariables, BreakpointsKeyValue } from './types';
 
 const defaultEnvVariables: EnvVariables = {
@@ -47,6 +48,8 @@ const defaultPreprocessors = {
   background: backgroundPreprocessor,
 
   placeContent: placeContentPreprocessor,
+
+  transition: transitionPreprocessor,
 };
 
 const defaultAliases: Alias = {
