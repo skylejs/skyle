@@ -5,7 +5,8 @@ import { styled } from '../styled-decorator';
 import { deepEquals } from '../utils/values';
 import { SvgUri, SvgXml } from 'react-native-svg';
 import serializeSvg from '../utils/svg-serializer';
-import type { BackgroundRepeat, BackgroundSize } from '../types';
+import type { BackgroundPosition, BackgroundRepeat, BackgroundSize } from '../types';
+import { validStyles } from '../utils/valid-styles';
 
 interface BackgroundImageProps extends ViewProps {
   children?: React.ReactNode;
@@ -44,6 +45,7 @@ class BackgroundImage extends PureComponent<BackgroundImageProps> {
     const images = [style.backgroundImage].flat();
     images?.forEach((_val, i) => {
       const repeat = (style.backgroundRepeat as BackgroundRepeat[])?.[i] as string;
+      const bgPos = style.backgroundPosition as BackgroundPosition[][];
       const bgSize = style.backgroundSize as BackgroundSize[][];
       const size = bgSize?.[i]?.[0] || bgSize?.[i]?.[1];
 
@@ -78,8 +80,15 @@ class BackgroundImage extends PureComponent<BackgroundImageProps> {
         resizeMode,
         style: {
           ...StyleSheet.flatten(StyleSheet.absoluteFill),
-          width: style.width,
-          height: style.height,
+          ...this._getPositionStyle(bgPos?.[i]),
+          width:
+            (bgSize?.[i]?.[0] as number | string) ||
+            ((bgSize?.[i] as BackgroundSize) as number | string) ||
+            style.width,
+          height:
+            (bgSize?.[i]?.[1] as number | string) ||
+            ((bgSize?.[i] as BackgroundSize) as number | string) ||
+            style.height,
           backgroundColor: style.backgroundColor,
           pointerEvents: 'none',
           zIndex: -i,
@@ -89,6 +98,28 @@ class BackgroundImage extends PureComponent<BackgroundImageProps> {
 
     this.setState({ backgrounds });
   };
+
+  private _getPositionStyle(pos?: BackgroundPosition | BackgroundPosition[]) {
+    if (!pos) {
+      return {};
+    }
+    let positionStyle: any = {
+      top: pos,
+      left: pos,
+    };
+    pos = [pos].flat().filter((p) => !!p);
+    for (let i = 0; i <= pos.length; i++) {
+      if (typeof pos === 'string' && validStyles.includes(pos) && validStyles.includes(pos[i])) {
+        if (!validStyles.includes(pos[i + 1])) {
+          positionStyle[pos] = pos[i + 1];
+          i++;
+          continue;
+        }
+        positionStyle[pos] = 0;
+      }
+    }
+    return positionStyle;
+  }
 
   render() {
     const { backgrounds } = this.state;

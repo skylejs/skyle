@@ -286,7 +286,7 @@ export type AdjustedStyles = {
   backgroundRepeat?:
     | BackgroundRepeat
     | (BackgroundRepeat | [BackgroundRepeat, BackgroundRepeat] | Omit<CSSProperty, number>)[];
-  backgroundPosition?: BackgroundPosition;
+  backgroundPosition?: BackgroundPosition | BackgroundPosition[];
   backgroundSize?: BackgroundSize | (BackgroundSize | [BackgroundSize, BackgroundSize])[];
   backgroundAttachment?: BackgroundAttachment;
   backgroundOrigin?: BackgroundOrigin;
