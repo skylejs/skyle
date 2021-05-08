@@ -84,44 +84,44 @@ export function createComponent<T extends NativeComponents>(WrappedComponent: T)
       [transitionProperties]
         .flat()
         ?.filter((t) => !!t)
-        .map((_p, i) => {
+        .map((property, i) => {
           const tdr = [finish?.transitionDuration].flat();
           const ttf = [finish?.transitionTimingFunction].flat();
           const tdy = [finish?.transitionDelay].flat();
 
-          const duration = (tdr?.[i] || tdr?.[0] || tdr) as TransitionDuration;
-          const easing = (ttf?.[i] || ttf?.[0] || ttf) as TransitionTimingFunction;
-          const delay = (tdy?.[i] || tdy?.[0] || tdy) as TransitionDuration;
+          const duration = (tdr.length > 0 ? tdr?.[i] || tdr?.[0] : tdr) as TransitionDuration;
+          const easing = (ttf.length > 0 ? ttf?.[i] || ttf?.[0] : ttf) as TransitionTimingFunction;
+          const delay = (tdy.length > 0 ? tdy?.[i] || tdy?.[0] : tdy) as TransitionDuration;
 
-          transitionProperties.map((property) => {
-            const isColor = property.toLowerCase().indexOf('color') >= 0;
-            const value = (finish[property] || 1) as string | number;
-            this.values[property] =
-              this.values[property] ||
-              new RN.Animated.Value(+(isColor ? 0 : value || getDefaultStyleValue(property, finish)));
-            styles[property] = this.values[property];
+          const isColor = property.toLowerCase().indexOf('color') >= 0;
+          const value = finish[property] as string | number;
 
-            if (isColor) {
-              styles[property] = this.values[property].interpolate({
-                inputRange: [0, 1],
-                // @ts-expect-error
-                outputRange: [this.values[property]?._children[0]?.__getValue() || value, value],
-              });
-              this.values[property].setValue(0);
-            }
+          const animValue = this.values[property] || new RN.Animated.Value(isColor ? 0 : +(value || 1));
+          styles[property] = animValue;
 
-            const pDuration =
-              typeof duration === 'string' || typeof duration === 'number'
-                ? toDuration(duration)
-                : toDuration(duration?.[property]);
-            const pDelay =
-              typeof delay === 'string' || typeof delay === 'number'
-                ? toDuration(delay)
-                : toDuration(delay?.[property]);
-            const pEasing = typeof easing === 'string' ? toEasing(easing) : (easing as RN.EasingFunction);
+          if (isColor) {
+            // @ts-expect-error "_children" is private.
+            const currAnimValue = animValue?._children[0]?.__getValue();
+            const currValue =
+              typeof currAnimValue === 'string' ? currAnimValue : `${value || getDefaultStyleValue(property, finish)}`;
 
-            this.animate(this.values[property], isColor ? 1 : parseFloat(String(value)), pDuration, pEasing, pDelay);
-          });
+            styles[property] = animValue.interpolate({
+              inputRange: [0, 1],
+              outputRange: [currValue, `${value}`],
+            });
+            animValue.setValue(0);
+          }
+
+          const pDuration =
+            typeof duration === 'string' || typeof duration === 'number'
+              ? toDuration(duration)
+              : toDuration(duration?.[property]);
+          const pDelay =
+            typeof delay === 'string' || typeof delay === 'number' ? toDuration(delay) : toDuration(delay?.[property]);
+          const pEasing = typeof easing === 'string' ? toEasing(easing) : (easing as RN.EasingFunction);
+
+          this.values[property] = animValue;
+          this.animate(this.values[property], isColor ? 1 : parseFloat(String(value)) || 1, pDuration, pEasing, pDelay);
         });
 
       return wrapStyles(Object.assign({}, finish, styles));

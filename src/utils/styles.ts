@@ -45,13 +45,13 @@ const DIRECTIONAL_SUFFICES = Object.keys(DIRECTIONAL_FALLBACKS) as FallbackKeys[
 
 export const getDefaultStyleValue = (key: StyleKeys, flatStyle: Styles): string | number | object => {
   if (key === 'backgroundColor') {
-    return 'rgba(0,0,0,0)';
+    return 'rgba(0, 0, 0, 0)';
   }
   if (key === 'color' || key.indexOf('Color') !== -1) {
-    return 'rgba(0,0,0,1)';
+    return 'rgba(0, 0, 0, 1)';
   }
   if (key === 'shadowColor' || key === 'textShadowColor') {
-    return 'rgba(0,0,0,0)';
+    return 'rgba(0, 0, 0, 0)';
   }
   if (key.indexOf('rotate') === 0 || key.indexOf('skew') === 0) {
     return '0deg';

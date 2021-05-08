@@ -15,10 +15,10 @@ export const transitionPreprocessor = (key: string, value: TransitionShorthand) 
 
     return {
       [key]: undefined,
-      transitionProperty: property.length ? property : null,
-      transitionDuration: duration.length ? duration : null,
-      transitionTimingFunction: easing.length ? easing : null,
-      transitionDelay: delay.length ? delay : null,
+      transitionProperty: property.length ? property : undefined,
+      transitionDuration: duration.length ? duration : undefined,
+      transitionTimingFunction: easing.length ? easing : undefined,
+      transitionDelay: delay.length ? delay : undefined,
     };
   }
 
