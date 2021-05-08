@@ -3,10 +3,19 @@ import { Animated, Platform, View, ViewProps, ViewStyle } from 'react-native';
 import StyleSheet from '../StyleSheet';
 import { styled } from '../styled-decorator';
 import { deepEquals } from '../utils/values';
-import ViewShot from 'react-native-view-shot';
+import type ViewShotType from 'react-native-view-shot';
 import NoFlickerImage from './NoFlickerImage';
 
 const NATIVELY_SUPPORTED_PLATFORMS = ['ios', 'web'] as typeof Platform.OS[];
+const IS_NATIVELY_SUPPORTED = NATIVELY_SUPPORTED_PLATFORMS.includes(Platform.OS);
+
+let ViewShot: typeof ViewShotType;
+try {
+  if (IS_NATIVELY_SUPPORTED) {
+    throw Error();
+  }
+  ViewShot = require('react-native-view-shot').default;
+} catch (err) {}
 
 interface BoxShadowProps extends ViewProps {
   children?: React.ReactNode;
@@ -14,7 +23,7 @@ interface BoxShadowProps extends ViewProps {
 
 class BoxShadow extends PureComponent<BoxShadowProps> {
   static isNativelySupported() {
-    return NATIVELY_SUPPORTED_PLATFORMS.includes(Platform.OS);
+    return IS_NATIVELY_SUPPORTED;
   }
 
   styles = styles;
@@ -30,7 +39,7 @@ class BoxShadow extends PureComponent<BoxShadowProps> {
     borderWidth: 3,
     shadowStyle: {} as ViewStyle,
   };
-  private _viewRef = createRef<ViewShot>();
+  private _viewRef = createRef<ViewShotType>();
   private _isCapturing = false;
 
   componentDidMount() {
