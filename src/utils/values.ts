@@ -1,8 +1,7 @@
 import { Dimensions } from 'react-native';
-import { numeralPreprocessor } from '../preprocessors/numeral';
 import type { EasingNameCamel, EasingNameDashed } from '../types';
 import { Easing } from '..';
-import Base from '../base';
+import { functionalNotation } from './functional-notation';
 
 const RE_LENGTH_UNIT = /(cm|mm|Q|in|pt|pc|px|em|ex|ch|rem|lh|vw|vh|vmin|vmax)?\s*$/;
 const RE_RESOLUTION_UNIT = /(dpi|dpcm|dppx)?\s*$/;
@@ -10,11 +9,11 @@ const RE_RESOLUTION_UNIT = /(dpi|dpcm|dppx)?\s*$/;
 export function toDecimal(ratio: number | string, defaultRaw = false) {
   let decimal = +ratio;
 
-  if (!decimal) {
+  if (!isNaN(decimal)) {
     const numbers = `${ratio}`.match(/^(\d+)\s*\/\s*(\d+)$/) || [];
     decimal = +numbers[1] / +numbers[2];
+    return decimal;
   }
-
   return defaultRaw ? ratio : decimal;
 }
 
@@ -85,10 +84,11 @@ export function isLength(value: string | number) {
   return LENGTH.test(`${value}`) || ZERO.test(`${value}`);
 }
 
-export function toLength(value: string | number) {
-  const parsedValue = toPx(toDecimal(functionalNotation(`${value}`) || value, true), true);
+export function toLength(value: string | number): string | number {
+  const fnValue = functionalNotation(`${value}`);
+  const parsedValue = toPx(toDecimal(`${fnValue || value}`, true), true);
   const rawValue = (`${parsedValue}`.endsWith('%') ? parsedValue : parseFloat(`${parsedValue}`)) || undefined;
-  return rawValue;
+  return rawValue ?? fnValue ?? value;
 }
 
 export function toDuration(duration?: number | string) {
@@ -122,66 +122,4 @@ export function toCamelCase(str: string) {
 
 export function deepEquals(a: object, b: object) {
   return a === b || JSON.stringify(a) === JSON.stringify(b);
-}
-
-export function calc(equation = '') {
-  const splitValues = equation.split(/([+\-*/])/g);
-  const parsedEquation = splitValues
-    .map((v) => v.trim())
-    .map((v) => (v.match(/[+\-*/]/) ? v : numeralPreprocessor('x', v)?.x || v));
-
-  // eslint-disable-next-line no-eval
-  return eval(parsedEquation.join(''));
-}
-
-export function clamp(val: number, min = 0, max = Number.MAX_VALUE) {
-  return Math.min(Math.max(val, min), max);
-}
-
-export function env(v: string, fallback: string | number) {
-  return Base.envVariables[v.toLowerCase()] || fallback;
-}
-
-//
-type FunctionalNotation = (...args: any) => string | number;
-
-const functions: { [key: string]: FunctionalNotation } = {
-  calc: (e: string) => calc(e),
-  min: Math.min,
-  max: Math.max,
-  clamp: (min: number, val: number, max: number) => clamp(val, min, max),
-  env: (v: string, fallback: string | number) => env(v, fallback),
-};
-
-export function functionalNotation(value: string) {
-  if (typeof value === 'string') {
-    const funcName = value.split('(')[0];
-    if (Object.keys(functions).includes(funcName)) {
-      const values = value.substring(value.indexOf('(') + 1, value.lastIndexOf(')'));
-
-      if (!values) {
-        return null;
-      }
-
-      const isArgs = values?.includes(',');
-      const valueArgs =
-        values
-          ?.replace(/,\s*(?=[^)^)]*(?:\(|\(|$))/g, '##')
-          ?.split('##')
-          ?.map((v) => v.trim())
-          ?.map((v) => numeralPreprocessor('x', v)?.x || v) || [];
-
-      const func = functions?.[funcName as keyof typeof functions];
-
-      if (func.length > 0 && func.length !== valueArgs.length) {
-        console.error(
-          `Function "${funcName}" is missing arguments. Expected ${func.length} but received ${valueArgs.length}`,
-        );
-        return null;
-      }
-
-      return (isArgs ? func?.(...valueArgs) : func?.(values)) || value;
-    }
-  }
-  return value;
 }

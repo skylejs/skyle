@@ -1,4 +1,4 @@
-import type { Styles } from 'src/types';
+import type { Styles } from '../types';
 
 export const validStyles = [
   'display',

@@ -1,5 +1,5 @@
 import type { NativeComponents, AnimatableComponentProps } from '../Animated';
-import { calc } from './values';
+import { calcFn } from '../functional-notations/math';
 
 type StateCallbackType = Readonly<{
   focused: boolean;
@@ -62,7 +62,7 @@ export function isValidPseudoClass(
           .replace(/^n/g, '1')
           .replace(/n/g, '*1');
         const b = +(vals[1] || 0);
-        const num = (index + 1 - b) / calc(m);
+        const num = (index + 1 - b) / calcFn(m);
         return Number.isInteger(num) && num >= 0;
       }
       return index === +value - 1;
@@ -83,7 +83,7 @@ export function isValidPseudoClass(
           .replace(/^n/g, '1')
           .replace(/n/g, '*1');
         const b = +(vals[1] || 0);
-        const num = (rIndex + 1 - b) / calc(m);
+        const num = (rIndex + 1 - b) / calcFn(m);
         return Number.isInteger(num) && num >= 0;
       }
       return rIndex === +value - 1;
