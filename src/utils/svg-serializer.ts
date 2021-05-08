@@ -4,7 +4,7 @@ import { toCamelCase } from './values';
 
 type Orientation = GradientParser.DirectionalNode | GradientParser.AngularNode;
 
-const positionsForOrientation = (orientation: Orientation = { type: 'angular', value: '0' }) => {
+const positionsForOrientation = (orientation: Orientation = { type: 'angular', value: '180' }) => {
   const positions = {
     x1: '0%',
     x2: '0%',
