@@ -6,6 +6,7 @@ import type { Styles, StyleSheetStyles } from '../types';
 import { useTheme } from './useTheme';
 import { deepEquals } from '../utils/values';
 import { matchMedia } from '../media';
+import { safeAreaInsets } from '../context';
 
 export const useStyles = <T,>(styles: T, args?: any): T => {
   const [builtStyles, setBuiltStyles] = useState<StyleSheetStyles>({});
@@ -105,6 +106,8 @@ export function getMediaQueryProps() {
   return {
     screen: Dimensions.get('screen'),
     window: Dimensions.get('window'),
+
+    insets: safeAreaInsets,
 
     // Convert breakpoints to media queries.
     xs: `@media (max-width: ${Skyle.breakpoints.xs})`,

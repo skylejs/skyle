@@ -1,7 +1,17 @@
 import React, { useState } from 'react';
+import { StatusBar } from 'react-native';
+
 import configureFonts from './config/defaultFonts';
+import type * as SafeAreaContextType from 'react-native-safe-area-context';
 
 import type { RecursivePartial, Theme } from './types';
+
+let SafeAreaContext: typeof SafeAreaContextType;
+try {
+  SafeAreaContext = require('react-native-safe-area-context');
+} catch (err) {}
+
+export type InsetsType = SafeAreaContextType.EdgeInsets;
 
 export const defaultTheme = {
   colors: {
@@ -13,6 +23,13 @@ export const defaultTheme = {
     text: '#000',
   },
   fonts: configureFonts(),
+};
+
+export let safeAreaInsets: InsetsType = {
+  top: StatusBar.currentHeight || 0,
+  right: 0,
+  bottom: 0,
+  left: 0,
 };
 
 /**
@@ -47,9 +64,26 @@ export interface ProviderProps {
 export const Provider = (props: ProviderProps) => {
   const { value } = props;
   const [theme, setThemeState] = useState<RecursivePartial<Theme>>(value?.theme || defaultTheme);
+
   setTheme = (newTheme?: RecursivePartial<Theme>, merge = false) =>
     setThemeState(Object.assign({}, merge ? theme : {}, newTheme));
 
-  return <Context.Provider value={{ theme, setTheme }} {...props} />;
+  const SafeAreaProvider = SafeAreaContext?.SafeAreaProvider || React.Fragment;
+  const SafeAreaConsumer = SafeAreaContext?.SafeAreaInsetsContext?.Consumer || React.Fragment;
+
+  return (
+    <SafeAreaProvider>
+      <SafeAreaConsumer>
+        {(safeAreas) => {
+          if (safeAreas) {
+            safeAreaInsets = safeAreas;
+          }
+          return null;
+        }}
+      </SafeAreaConsumer>
+
+      <Context.Provider value={{ theme, setTheme }} {...props} />
+    </SafeAreaProvider>
+  );
 };
 export const Consumer = Context.Consumer;

@@ -1,11 +1,12 @@
 import type { Component, CSSProperties } from 'react';
 
 import type * as RN from 'react-native';
+import type { InsetsType } from './context';
 import type { easingFunctions } from './easing';
 import type { breakpoints } from './hooks/useBreakpoint';
 import type { FONT_STYLE_KEYWORDS, FONT_VARIANT_KEYWORDS, FONT_WEIGHT_KEYWORDS } from './preprocessors/font';
 
-export type EnvVariables = { [key: string]: CSSProperty };
+export type EnvVariables = { [key: string]: CSSProperty | (() => CSSProperty) };
 
 export type BreakpointKeys = typeof breakpoints[number];
 export type BreakpointsKeyValue = { [key in BreakpointKeys]: number };
@@ -78,6 +79,7 @@ export type StylesProps = {
   theme: Theme;
   screen: RN.ScaledSize;
   window: RN.ScaledSize;
+  insets: InsetsType;
 } & { [bp in BreakpointKeys]: Styles } & { [key: string]: any } & Component<any, any>;
 
 type TransformKeys =

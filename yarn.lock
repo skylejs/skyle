@@ -10374,6 +10374,16 @@ fsevents@^2.1.2:
   languageName: node
   linkType: hard
 
+"react-native-safe-area-context@npm:^3.2.0":
+  version: 3.2.0
+  resolution: "react-native-safe-area-context@npm:3.2.0"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: e0d89f305359506be594a1604ac980af3b3ad258acdd3043f8e2633ad1ea95575ef80b8313c411630a7b50e9a882a0ad8f0525f6545efc2652fad40d0c7f86a1
+  languageName: node
+  linkType: hard
+
 "react-native-svg@npm:^12.1.1":
   version: 12.1.1
   resolution: "react-native-svg@npm:12.1.1"
@@ -11395,6 +11405,7 @@ resolve@^2.0.0-next.3:
     react: ^17.0.2
     react-native: ^0.64.0
     react-native-builder-bob: ^0.18.1
+    react-native-safe-area-context: ^3.2.0
     react-native-svg: ^12.1.1
     react-native-view-shot: ^3.1.2
     release-it: ^14.6.1

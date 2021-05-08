@@ -1,4 +1,4 @@
-import { StatusBar } from 'react-native';
+import { safeAreaInsets } from './context';
 import { aliasPreprocessor } from './preprocessors/alias';
 import { backgroundPreprocessor } from './preprocessors/background';
 import { borderPreprocessor } from './preprocessors/border';
@@ -15,10 +15,10 @@ import { transitionPreprocessor } from './preprocessors/transition';
 import type { BaseOptions, Preprocessor, Alias, EnvVariables, BreakpointsKeyValue } from './types';
 
 const defaultEnvVariables: EnvVariables = {
-  'safe-area-inset-top': StatusBar.currentHeight || 0,
-  'safe-area-inset-right': 0,
-  'safe-area-inset-bottom': 0,
-  'safe-area-inset-left': 0,
+  'safe-area-inset-top': () => safeAreaInsets?.top,
+  'safe-area-inset-right': () => safeAreaInsets?.right,
+  'safe-area-inset-bottom': () => safeAreaInsets?.bottom,
+  'safe-area-inset-left': () => safeAreaInsets?.left,
 };
 
 const defaultBreakpoints: BreakpointsKeyValue = {
