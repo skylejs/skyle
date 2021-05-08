@@ -3,13 +3,13 @@ id: spread-props
 title: Spread Props
 ---
 
-Some components have multiple props used for styling. For example, `react-native-paper`'s Button component has a `style` prop, a `labelStyle` prop, a `color` prop, etc. This library allows you to style all of them at once as shown below.
+Some components have multiple props used for styling. For example, the `ScrollView` component has a `style` prop, a `contentContainerStyle` prop, an `indicatorStyle` prop, etc. This library allows you to style all of them at once as shown below.
 
 > @ref https://callstack.github.io/react-native-paper/button.html
 
 ```ts
 ...
-import { Button } from 'react-native-paper';
+import { ScrollView } from 'react-native';
 
 @styled
 class MyComponent extends Component {
@@ -18,22 +18,21 @@ class MyComponent extends Component {
   render() {
     return (
       // Spread the style!
-      <Button {...this.styles.button} />
+      <ScrollView {...this.styles.button} />
     );
   }
 }
 
 // Define props inside styles!
 const styles = StyleSheet((o) => {
-  button: {
+  scrollView: {
     style: {
       backgroundColor: 'orange',
     },
-    labelStyle: {
-      fontSize: 25,
-      fontWeight: 'bold',
+    contentContainerStyle: {
+      flex: 1,
+      alignItems: 'center',
     },
-    color: 'white',
   }
 });
 ```

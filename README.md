@@ -65,7 +65,7 @@ _Skyle_ aims to provide styling utilities and to fill in the missing features th
 
 and more!
 
-#### [View all available properties](https://skyle.js.org/docs/api/properties)
+#### [View all available properties](https://skyle.js.org/docs/properties)
 
 ---
 

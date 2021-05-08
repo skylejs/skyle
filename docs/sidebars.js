@@ -2,8 +2,12 @@ module.exports = {
   docs: [
     'index',
     'get-started',
-    'usage',
     'components',
+    {
+      type: 'category',
+      label: 'Usage',
+      items: ['usage/basics', 'usage/provider'],
+    },
     {
       type: 'category',
       label: 'Features',
@@ -13,13 +17,14 @@ module.exports = {
         'features/aliases',
         'features/theming',
         'features/variables',
+        'features/spread-props',
         'features/functional-notations',
         'features/backgrounds',
         'features/pointer-events',
-        'features/spread-props',
         'features/media-queries',
         'features/breakpoints',
         'features/transitions',
+        'features/safe-areas',
         'features/pseudos',
         'features/preprocessors',
       ],
@@ -42,9 +47,9 @@ module.exports = {
       label: 'API Reference',
       items: [
         'api/default',
+        'api/context',
         'api/decorator',
         'api/stylesheet',
-        'api/properties',
         'api/easing',
         'api/match-media',
         'api/use-styles',
@@ -53,5 +58,6 @@ module.exports = {
         'api/get-breakpoint',
       ],
     },
+    'properties',
   ],
 };

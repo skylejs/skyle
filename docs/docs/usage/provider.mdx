@@ -1,0 +1,24 @@
+---
+id: provider
+title: Provider
+---
+
+Some features rely on the use of Skyle's [Provider](api/context.mdx). Simply wrap your application as shown below.
+
+```tsx
+...
+import { Provider as StyleProvider } from 'skyle';
+
+// Your root component
+class App extends Component {
+  render() {
+    return (
+      <StyleProvider>
+        // your app's content
+      </StyleProvider>
+    )
+  }
+}
+```
+
+You can also pass configurations to the provider: [Theme](features/theming.mdx)

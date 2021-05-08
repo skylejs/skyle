@@ -1,0 +1,64 @@
+---
+id: safe-areas
+title: Safe Areas & Env Variables
+---
+
+In order to use safe areas, you will need to install the [react-native-safe-area-context](https://www.npmjs.com/package/react-native-safe-area-context) package by following the instructions.
+They also rely on wrapping your application in Skyle's [Provider](usage/provider.mdx).
+
+## Usage
+
+### StyleSheet Variables
+
+One way to access safe areas is by using the `insets` StyleSheet variable.
+[Learn more](features/variables.mdx)
+
+```ts
+StyleSheet.create((o) => ({
+  view: {
+    height: o.insets.top,
+    paddingBottom: o.insets.bottom,
+  },
+}));
+```
+
+### Env Variables
+
+> @see https://developer.mozilla.org/en-US/docs/Web/CSS/env()
+
+Safe areas can be accessed via the [`env()`](features/functional-notations.mdx#env) functional notation. You can also set custom env variables like so:
+
+```ts
+Skyle.configure({
+  env: {
+    'my-custom-variable': 23,
+    'somevariable': '30%',
+  },
+});
+
+// Usage inside of StyleSheet
+height: 'env(my-custom-variable)',
+
+width: 'env(somevariable, 100px)', // with fallback
+```
+
+:::info
+
+You can also pass functions to these variables.
+
+:::
+
+## Configure
+
+To set custom safe areas, override these env variables:
+
+```ts
+Skyle.configure({
+  env: {
+    'safe-area-inset-top': 25,
+    'safe-area-inset-right': 0,
+    'safe-area-inset-bottom': 0,
+    'safe-area-inset-left': 200,
+  },
+});
+```
