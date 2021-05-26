@@ -66,8 +66,8 @@ const styles = StyleSheet.create((o) => ({
     margin: [50, 0],
     width: 120,
     height: 120,
-    borderRadius: 100,
-    boxShadow: '0px 0px 20px #999',
+    overflow: 'visible',
+    boxShadow: '0px 0px 10px #aaa',
   },
   input: {
     backgroundColor: '#e9e9e9',

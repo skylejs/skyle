@@ -4,8 +4,8 @@ import isColor from '../utils/is-color';
 export const boxShadowPreprocessor = (key: string, value: any) => {
   const valuesArr = typeof value === 'string' ? value.split(' ') : Array.isArray(value) ? value : [];
 
-  const width = toLength(valuesArr[0]);
-  const height = toLength(valuesArr[1]);
+  const width = +(toLength(valuesArr[0]) || 0) || 0;
+  const height = +(toLength(valuesArr[1]) || 0) || 0;
 
   if (valuesArr.length) {
     return {

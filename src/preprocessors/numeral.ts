@@ -2,9 +2,9 @@ import { toLength } from '../utils/values';
 
 export const numeralPreprocessor = (key: string, value: any) => {
   if (typeof value === 'string') {
-    const parsedValue = toLength(value);
+    const parsedValue = toLength(value) || '';
 
-    if (!parsedValue) {
+    if (isNaN(+parsedValue)) {
       return null;
     }
 

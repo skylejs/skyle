@@ -1,4 +1,5 @@
 import React from 'react';
+import { LogBox } from 'react-native';
 import { Provider as StyleProvider } from 'skyle';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator, TransitionPresets } from '@react-navigation/stack';
@@ -11,7 +12,6 @@ import FormExampleScreen from './screens/FormExampleScreen';
 import TouchableExampleScreen from './screens/TouchableExampleScreen';
 import ThemeExampleScreen from './screens/ThemeExampleScreen';
 import ShadowsExampleScreen from './screens/ShadowsExampleScreen';
-import { LogBox } from 'react-native';
 import BackgroundsExampleScreen from './screens/BackgroundsExampleScreen';
 
 LogBox.ignoreAllLogs();

@@ -6,7 +6,10 @@ import { functionalNotation } from './functional-notation';
 const RE_LENGTH_UNIT = /(cm|mm|Q|in|pt|pc|px|em|ex|ch|rem|lh|vw|vh|vmin|vmax)?\s*$/;
 const RE_RESOLUTION_UNIT = /(dpi|dpcm|dppx)?\s*$/;
 
-export function toDecimal(ratio: number | string, defaultRaw = false) {
+export function toDecimal(ratio?: number | string, defaultRaw = false) {
+  if (!ratio) {
+    return ratio;
+  }
   let decimal = +ratio;
 
   if (!isNaN(decimal)) {
@@ -31,7 +34,10 @@ export function toDpi(resolution: number | string, defaultRaw = false) {
   }
 }
 
-export function toPx(length: number | string, defaultRaw = false) {
+export function toPx(length?: number | string, defaultRaw = false) {
+  if (!length) {
+    return length;
+  }
   const value = parseFloat(`${length}`);
   const units = `${length}`.match(RE_LENGTH_UNIT)?.[1];
   const dims = Dimensions.get('window');
@@ -84,9 +90,12 @@ export function isLength(value: string | number) {
   return LENGTH.test(`${value}`) || ZERO.test(`${value}`);
 }
 
-export function toLength(value: string | number): string | number {
+export function toLength(value?: string | number): string | number | undefined {
+  if (!value) {
+    return value;
+  }
   const fnValue = functionalNotation(`${value}`);
-  const parsedValue = toPx(toDecimal(`${fnValue || value}`, true), true);
+  const parsedValue = toPx(toDecimal(fnValue ?? value, true), true);
   const rawValue = (`${parsedValue}`.endsWith('%') ? parsedValue : parseFloat(`${parsedValue}`)) || undefined;
   return rawValue ?? fnValue ?? value;
 }

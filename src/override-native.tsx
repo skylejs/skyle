@@ -2,6 +2,7 @@ import React from 'react';
 import StyleSheet from './StyleSheet';
 import { createComponent } from './Animated';
 import BoxShadow from './components/BoxShadow';
+import { Platform } from 'react-native';
 
 export function overrideNative(nativeComp: any) {
   const NativeComp = Object.assign({}, nativeComp);
@@ -17,7 +18,8 @@ export function overrideNative(nativeComp: any) {
           !k.includes('backgroundImage') &&
           !k.includes('transition') &&
           !k.includes('&') &&
-          !(k.includes('shadow') && !BoxShadow.isNativelySupported()),
+          !(Platform.OS !== 'web' && k.includes('pointerEvents')) &&
+          !(k.includes('shadow') && !k.includes('elevation') && !BoxShadow.isNativelySupported()),
       )
     ) {
       return <NativeComp ref={ref} {...props} />;
