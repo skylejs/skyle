@@ -1,6 +1,6 @@
 import type { TransitionShorthand } from '../types';
 
-export const transitionPreprocessor = (key: string, value: TransitionShorthand) => {
+export const transitionPreprocessor = (key: string, value: TransitionShorthand): any => {
   if (value?.length) {
     let transitions = (typeof value === 'string'
       ? [value.split(',')?.map((t) => t.split(' ').filter((x) => !!x)) ?? value].flat()
