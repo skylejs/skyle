@@ -51,8 +51,8 @@ function matchQuery(mediaQuery: string, values: { [key: string]: string | number
         case 'height':
         case 'device-width':
         case 'device-height':
-          expValue = toPx(expValue);
-          value = toPx(`${value}`);
+          expValue = toPx(expValue) ?? expValue;
+          value = toPx(`${value}`) ?? value;
           break;
 
         case 'resolution':
@@ -62,8 +62,8 @@ function matchQuery(mediaQuery: string, values: { [key: string]: string | number
 
         case 'aspect-ratio':
         case 'device-aspect-ratio':
-          expValue = toDecimal(expValue);
-          value = toDecimal(`${value}`);
+          expValue = toDecimal(expValue) ?? expValue;
+          value = toDecimal(`${value}`) ?? value;
           break;
 
         case 'grid':
