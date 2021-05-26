@@ -1,3 +1,21 @@
+# [0.4.0](https://github.com/skylejs/skyle/compare/v0.3.1...v0.4.0) (2021-05-26)
+
+
+### Bug Fixes
+
+* remove viewshot warning ([0a09ecd](https://github.com/skylejs/skyle/commit/0a09ecd751990f45c4551a3b7d21ac87c2488e1e))
+* theme passing, allow access to component ([634493b](https://github.com/skylejs/skyle/commit/634493b2b0bb094902769025759f29986bce322c))
+* **types:** add generics for better autocomplete ([fa751c7](https://github.com/skylejs/skyle/commit/fa751c7819c04f4fdd537eed234dc1c7e65ec1c1))
+* shadow z-index ([9bfa8e2](https://github.com/skylejs/skyle/commit/9bfa8e231d1b7914dcff64088aeb93d4526a6e54))
+
+
+### Features
+
+* background transitions ([d4e4d96](https://github.com/skylejs/skyle/commit/d4e4d96fe2279d013b96ad63b1386c20d7e8659b))
+* background-image ([b543689](https://github.com/skylejs/skyle/commit/b543689429c3e7810b406b0b1cfcd4b21ff838ec))
+* font property ([d54f661](https://github.com/skylejs/skyle/commit/d54f661fd49e0325ff8638c72ea807ba7c11d482))
+* safe-areas ([3bb1b44](https://github.com/skylejs/skyle/commit/3bb1b441a7c2b8f57a1cd1b4c69617651c3527b3))
+
 ## [0.3.1](https://github.com/skylejs/skyle/compare/v0.3.0...v0.3.1) (2021-04-30)
 
 
